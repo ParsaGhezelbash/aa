@@ -1,1 +1,3 @@
+fx:controller="view.LoginMenu"
+fx:controller="view.SignUpMenu"
 ice mode different phases

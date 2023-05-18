@@ -14,8 +14,9 @@ public class SignUpMenuController {
         if (controller.getGame().getUserByUsername(username) != null)
             return "User with username " + username + " already exists!";
 
-        if (avatar.length == 1) controller.getGame().addUser(new User(username, password));
-        else controller.getGame().addUser(new User(username, password, avatar[0]));
+        User user = (avatar.length == 1) ? new User(username, password) : new User(username, password, avatar[0]);
+        controller.getGame().addUser(user);
+        controller.getGame().setCurrentUser(user);
         return "User " + username + " created successfully!";
     }
 

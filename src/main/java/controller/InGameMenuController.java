@@ -1,8 +1,5 @@
 package controller;
 
-import java.sql.Time;
-import java.util.Timer;
-
 public class InGameMenuController {
 private final Controller controller;
 
@@ -11,5 +8,7 @@ private final Controller controller;
     }
 
     public String resumeGame() {
+        // TODO Auto-generated method
+        return null;
     }
 }
