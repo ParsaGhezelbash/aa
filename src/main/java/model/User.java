@@ -2,16 +2,17 @@ package model;
 
 
 import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
 
 public class User {
     private String username;
     private String password;
-    private Image avatar;
+    private ImagePattern avatar;
     private Level lastLevel;
     private int highScore;
 
 
-    public User(String username, String password, Image avatar) {
+    public User(String username, String password, ImagePattern avatar) {
         this.username = username;
         this.password = password;
         this.avatar = avatar;
@@ -40,11 +41,11 @@ public class User {
         this.password = password;
     }
 
-    public Image getAvatar() {
+    public ImagePattern getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(Image avatar) {
+    public void setAvatar(ImagePattern avatar) {
         this.avatar = avatar;
     }
 

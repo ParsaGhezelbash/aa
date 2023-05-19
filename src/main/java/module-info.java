@@ -3,6 +3,7 @@ module Graphic.HomeWork {
     requires javafx.fxml;
     requires javafx.media;
 
+    exports controller;
     exports view;
     opens view to javafx.fxml;
 }

@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 import model.Game;
 import model.ProfilePicture;
@@ -22,7 +23,7 @@ import java.util.Objects;
 public class MainMenu extends Application {
     private Controller controller;
     private Button startButton, scoreBoardButton, profileButton, exitButton;
-    private URL profilePictureURL = new URL(Objects.requireNonNull(Game.class.getResource("/profile pictures/3.jpg")).toExternalForm());
+    private ImagePattern profileImagePattern;
     private Stage stage;
 
     public MainMenu() throws MalformedURLException {
@@ -49,13 +50,13 @@ public class MainMenu extends Application {
         for (Node child : vBox.getChildren()) {
             if (child instanceof Pane) profilePane = (Pane) child;
         }
-        profilePane.getChildren().add(new ProfilePicture(profilePane.getPrefWidth() / 2, profilePane.getPrefHeight() / 2, profilePictureURL));
+        profilePane.getChildren().add(new ProfilePicture(profilePane.getPrefWidth() / 2, profilePane.getPrefHeight() / 2, controller.getGame().getCurrentUser().getAvatar()));
         Scene scene = new Scene(mainMenuPane);
         stage.setScene(scene);
         stage.show();
     }
 
-    public void setProfilePictureURL(URL profilePictureURL) {
-        this.profilePictureURL = profilePictureURL;
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 }

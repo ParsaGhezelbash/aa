@@ -1,84 +1,131 @@
 package view;
 
 import controller.Controller;
+import controller.LoginMenuController;
 import controller.SignUpMenuController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 import model.Game;
 import model.ProfilePicture;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
 
 public class SignUpMenu extends Application {
-//    private final Controller controller;
-    private Label label1, label2;
+    private Controller controller;
+    private Label label;
     private TextField username;
     private PasswordField password;
     private ProfilePicture profilePicture;
+
     private Stage stage;
-
-//    public SignUpMenu(Controller controller) {
-//        this.controller = controller;
-//    }
-
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
-        Pane signUpPane = FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/SignUpMenu.fxml")).toExternalForm()));
+        AnchorPane signUpPane = FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/SignUpMenu.fxml")).toExternalForm()));
 
         File profileDirectory = new File(new URL(Objects.requireNonNull(Game.class.getResource("/profile pictures")).toExternalForm()).toURI());
-        int defaultProfilesCount = Objects.requireNonNull(profileDirectory.listFiles()).length;
+        int defaultProfilesCount = Objects.requireNonNull(profileDirectory.listFiles()).length - 3;
 
-        VBox vBox = null;
-        for (Node child : signUpPane.getChildren()) {
-            if (child instanceof VBox) vBox = (VBox) child;
-        }
-        ScrollPane scrollPane = null;
-        for (Node child : vBox.getChildren()) {
-            if (child instanceof ScrollPane) scrollPane = (ScrollPane) child;
-        }
-        AnchorPane anchorPane = new AnchorPane();
+        VBox vBox = (VBox) signUpPane.getChildren().get(0);
+        ScrollPane scrollPane = (ScrollPane) vBox.getChildren().get(1);
+        addProfilePictures(scrollPane, defaultProfilesCount);
 
-        for (int i = 0; i < defaultProfilesCount; i++) {
-            ProfilePicture profile = new ProfilePicture( 40 + i * 70, 40, new URL(Objects.requireNonNull(Game.class.getResource("/profile pictures/" + i + ".jpg")).toExternalForm()));
-            anchorPane.getChildren().add(profile);
-            profile.setOnMouseClicked(event -> {
-                if (profilePicture != null) profilePicture.setStroke(Color.BLACK);
-                profilePicture = profile;
-                profilePicture.setStroke(Color.GREEN);
-            });
-        }
+        username = (TextField) vBox.getChildren().get(2);
 
-        scrollPane.setContent(anchorPane);
+        password = (PasswordField) vBox.getChildren().get(3);
+
+        label = (Label) vBox.getChildren().get(4);
+
+        Button signUpButton = (Button) vBox.getChildren().get(5);
+        signUpButton.setOnMouseClicked(event -> {
+            try {
+                createAccount(event);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        Hyperlink hyperlink = (Hyperlink) vBox.getChildren().get(6);
+        hyperlink.setOnMouseClicked(event -> {
+            try {
+                controller.getLoginMenuController().getLoginMenu().start(stage);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        Button enterAsGuestButton = (Button) vBox.getChildren().get(7);
 
         Scene scene = new Scene(signUpPane);
         stage.setScene(scene);
         stage.show();
     }
 
-//    public void createAccount(MouseEvent mouseEvent) throws Exception {
-//        String result = controller.getSignUpMenuController().signUp(username.getText(), password.getText());
-//        if (result.endsWith("already exists!")) {
-//            label2.setText(result);
-//        } else {
-//        }
-//    }
+    private void addProfilePictures(ScrollPane scrollPane, int profilesCount) {
+        ArrayList<ProfilePicture> profilePictures = new ArrayList<>();
+        AnchorPane anchorPane = new AnchorPane();
+        ImagePattern imagePattern = new ImagePattern(new Image(Objects.requireNonNull(Game.class.getResource("/profile pictures/0.jpg").toExternalForm())));
+        profilePicture = new ProfilePicture( 40 + 70, 40, imagePattern);
+        for (int i = 0; i < profilesCount; i++) {
+            imagePattern = new ImagePattern(new Image(Objects.requireNonNull(Game.class.getResource("/profile pictures/" + (i + 1) + ".jpg").toExternalForm())));
+            ProfilePicture profile = new ProfilePicture( 40 + i * 70, 40, imagePattern);
+            profile.setOnMouseClicked(event -> {
+                profilePicture.setStroke(Color.BLACK);
+                profilePicture = profile;
+                profilePicture.setStroke(Color.GREEN);
+            });
+            profilePictures.add(profile);
+            anchorPane.getChildren().add(profile);
+        }
+        imagePattern = new ImagePattern(new Image(Objects.requireNonNull(Game.class.getResource("/profile pictures/Random.jpg").toExternalForm())));
+        ProfilePicture profile = new ProfilePicture( 40 + profilesCount * 70, 40, imagePattern);
+        profile.setOnMouseClicked(event -> {
+            profilePicture.setStroke(Color.BLACK);
+            profilePicture = profilePictures.get(new Random().nextInt(profilePictures.size()));
+            profilePicture.setStroke(Color.GREEN);
+        });
+        anchorPane.getChildren().add(profile);
+
+        imagePattern = new ImagePattern(new Image(Objects.requireNonNull(Game.class.getResource("/profile pictures/Custom.jpg").toExternalForm())));
+        profile = new ProfilePicture( 40 + (profilesCount + 1) * 70, 40, imagePattern);
+        profile.setOnMouseClicked(event -> {
+            // TODO
+        });
+
+        anchorPane.getChildren().add(profile);
+        scrollPane.setContent(anchorPane);
+    }
+
+    public void createAccount(MouseEvent mouseEvent) throws Exception {
+        String result = controller.getSignUpMenuController().signUp(username.getText(), password.getText(), profilePicture.getImagePattern());
+        if (result.endsWith("already exists!")) {
+            label.setText(result);
+        } else {
+            controller.getMainMenuController().getMainMenu().start(stage);
+        }
+    }
 
     public void enterAsGuest(MouseEvent mouseEvent) throws Exception {
         // TODO Auto-generated
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 }

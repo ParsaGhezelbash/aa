@@ -2,7 +2,10 @@ package controller;
 
 import model.Game;
 
+import java.net.MalformedURLException;
+
 public class Controller {
+    public static Controller controller;
     private final LoginMenuController loginMenuController;
     private final SignUpMenuController signUpMenuController;
     private final MainMenuController mainMenuController;
@@ -12,7 +15,7 @@ public class Controller {
     private final SettingsMenuController settingsMenuController;
     private final Game game;
 
-    public Controller() {
+    public Controller() throws MalformedURLException {
         loginMenuController = new LoginMenuController(this);
         signUpMenuController = new SignUpMenuController(this);
         mainMenuController = new MainMenuController(this);
@@ -21,6 +24,7 @@ public class Controller {
         scoreBoardMenuController = new ScoreBoardMenuController(this);
         settingsMenuController = new SettingsMenuController(this);
         game = new Game();
+        controller = this;
     }
 
     public LoginMenuController getLoginMenuController() {

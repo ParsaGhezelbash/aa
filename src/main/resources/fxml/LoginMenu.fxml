@@ -12,7 +12,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.LoginMenu">
    <children>
-      <VBox layoutX="198.0" layoutY="123.0" prefHeight="154.0" prefWidth="204.0">
+      <VBox layoutX="200.0" layoutY="120.0" prefHeight="160.0" prefWidth="200.0">
          <children>
             <Label alignment="CENTER" prefHeight="35.0" prefWidth="227.0" text="Log In">
                <font>

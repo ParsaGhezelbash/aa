@@ -6,10 +6,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 import model.Game;
 import model.ProfilePicture;
@@ -40,10 +42,11 @@ public class ProfileMenu extends Application {
         int eachRowCapacity = (int) (scrollPane.getPrefWidth() / 40);
         ProfilePicture profile = null;
         for (int i = 0; i < defaultProfilesCount; i++) {
+            ImagePattern imagePattern = new ImagePattern(new Image(Objects.requireNonNull(Game.class.getResource("/profile pictures/" + i + ".jpg").toExternalForm())));
             if (i + 1 <= eachRowCapacity) {
-                profile = new ProfilePicture( 40 + i * 70, 40, new URL(Objects.requireNonNull(Game.class.getResource("/profile pictures/" + i + ".jpg")).toExternalForm()));
+                profile = new ProfilePicture( 40 + i * 70, 40, imagePattern);
             } else {
-                profile = new ProfilePicture( 40 + (i - eachRowCapacity) * 70, 110, new URL(Objects.requireNonNull(Game.class.getResource("/profile pictures/" + i + ".jpg")).toExternalForm()));
+                profile = new ProfilePicture( 40 + (i - eachRowCapacity) * 70, 110, imagePattern);
             }
             anchorPane.getChildren().add(profile);
             ProfilePicture finalProfile = profile;
@@ -59,5 +62,9 @@ public class ProfileMenu extends Application {
         Scene scene = new Scene(profileMenuPane);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 }

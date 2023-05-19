@@ -1,10 +1,15 @@
 package controller;
 
+import view.SettingsMenu;
+
 public class SettingsMenuController {
     private final Controller controller;
+    private final SettingsMenu settingsMenu;
 
     public SettingsMenuController(Controller controller) {
         this.controller = controller;
+        this.settingsMenu = new SettingsMenu();
+        this.settingsMenu.setController(controller);
     }
 
     public String setDifficulty(int difficulty) {

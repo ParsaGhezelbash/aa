@@ -4,31 +4,34 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c25c76ce-c857-4f26-9ac7-05ca9fd0b092" name="Changes" comment="first day">
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/ProfilePicture.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/view/ProfileMenu.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/view/SignUpMenu.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fxml/LoginMenu.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fxml/MainMenu.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fxml/ProfileMenu.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fxml/SignUpMenu.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/profile pictures/0.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/profile pictures/1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/profile pictures/2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/profile pictures/3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/profile pictures/4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/profile pictures/5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/profile pictures/6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/profile pictures/7.jpg" afterDir="false" />
+    <list default="true" id="c25c76ce-c857-4f26-9ac7-05ca9fd0b092" name="Changes" comment="second day">
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/ScoreBoardMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/SettingsMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/Start.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fxml/ScoreBoardMenu.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fxml/SettingsMenu.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/profile pictures/Random.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/profile pictures/random-3811.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/sound/Mute.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/sound/Unmute.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Important.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Important.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/InGameMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/InGameMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/LoginMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/LoginMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/MainMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/MainMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/ProfileMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/ProfileMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/ScoreBoardMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/ScoreBoardMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/SettingsMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/SettingsMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/SignUpMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/SignUpMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/ProfilePicture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/ProfilePicture.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/ProfileMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ProfileMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/SignUpMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/SignUpMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/LoginMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/LoginMenu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/ProfileMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/ProfileMenu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/SignUpMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/SignUpMenu.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,9 +80,9 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.ProfileMenu">
-    <configuration name="MainMenu" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="view.MainMenu" />
+  <component name="RunManager" selected="Application.StartingMenu">
+    <configuration name="LoginMenu" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="view.LoginMenu" />
       <module name="Graphic HomeWork" />
       <extension name="coverage">
         <pattern>
@@ -91,8 +94,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ProfileMenu" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="view.ProfileMenu" />
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="controller.Main" />
+      <module name="Graphic HomeWork" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ScoreBoardMenu" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="view.ScoreBoardMenu" />
       <module name="Graphic HomeWork" />
       <extension name="coverage">
         <pattern>
@@ -117,11 +133,26 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Start" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="view.Start" />
+      <module name="Graphic HomeWork" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="view.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.ProfileMenu" />
+        <item itemvalue="Application.StartingMenu" />
         <item itemvalue="Application.SignUpMenu" />
-        <item itemvalue="Application.MainMenu" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.ScoreBoardMenu" />
+        <item itemvalue="Application.LoginMenu" />
       </list>
     </recent_temporary>
   </component>
@@ -137,7 +168,10 @@
       <workItem from="1684338575434" duration="10144000" />
       <workItem from="1684393290233" duration="144000" />
       <workItem from="1684393444694" duration="15909000" />
-      <workItem from="1684433869939" duration="4823000" />
+      <workItem from="1684433869939" duration="5049000" />
+      <workItem from="1684471799935" duration="2588000" />
+      <workItem from="1684498479839" duration="2525000" />
+      <workItem from="1684520896482" duration="4966000" />
     </task>
     <task id="LOCAL-00001" summary="first day">
       <created>1684355122724</created>
@@ -153,7 +187,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684355350609</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="second day">
+      <created>1684440520819</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1684440520819</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -173,7 +214,8 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="first day" />
-    <option name="LAST_COMMIT_MESSAGE" value="first day" />
+    <MESSAGE value="second day" />
+    <option name="LAST_COMMIT_MESSAGE" value="second day" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -29,11 +29,7 @@
                   <PasswordField alignment="CENTER" prefHeight="30.0" prefWidth="300.0" promptText="New Password" />
                </children>
             </VBox>
-            <HBox prefHeight="400.0" prefWidth="0.0">
-               <children>
-                  <Separator maxWidth="0.0" orientation="VERTICAL" prefHeight="200.0" />
-               </children>
-            </HBox>
+            <Separator maxWidth="0.0" orientation="VERTICAL" prefHeight="200.0" />
             <VBox prefHeight="400.0" prefWidth="300.0">
                <children>
                   <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" vbarPolicy="ALWAYS" />

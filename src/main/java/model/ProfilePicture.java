@@ -8,16 +8,17 @@ import javafx.scene.shape.Circle;
 import java.net.URL;
 
 public class ProfilePicture extends Circle {
-    private URL imageUrl;
+    private final ImagePattern imagePattern;
 
-    public ProfilePicture(double v, double v1, URL imageUrl) {
+    public ProfilePicture(double v, double v1, ImagePattern imagePattern) {
         super(v, v1, 30);
-        this.setFill(new ImagePattern(new Image(imageUrl.toExternalForm())));
+        this.imagePattern = imagePattern;
+        this.setFill(imagePattern);
         this.setStroke(Color.BLACK);
         this.setStrokeWidth(3);
     }
 
-    public URL getImageUrl() {
-        return imageUrl;
+    public ImagePattern getImagePattern() {
+        return imagePattern;
     }
 }
