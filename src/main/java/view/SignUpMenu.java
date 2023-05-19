@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Game;
 import model.ProfilePicture;
@@ -104,11 +105,27 @@ public class SignUpMenu extends Application {
 
         imagePattern = new ImagePattern(new Image(Objects.requireNonNull(Game.class.getResource("/profile pictures/Custom.jpg").toExternalForm())));
         profile = new ProfilePicture( 40 + (profilesCount + 1) * 70, 40, imagePattern);
+        ProfilePicture finalProfile = profile;
         profile.setOnMouseClicked(event -> {
-            // TODO
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Choose Profile Picture");
+            File file = fileChooser.showOpenDialog(stage);
+            if (file != null && file.getPath().endsWith(".jpg")) {
+                ProfilePicture selectedProfilePicture = new ProfilePicture(finalProfile.getCenterX(), 40, new ImagePattern(new Image(file.toURI().toString())));
+                anchorPane.getChildren().remove(finalProfile);
+                finalProfile.setCenterX(finalProfile.getCenterX() + 70);
+                anchorPane.getChildren().add(finalProfile);
+                profilePicture.setStroke(Color.BLACK);
+                profilePicture = selectedProfilePicture;
+                profilePicture.setStroke(Color.GREEN);
+                anchorPane.getChildren().add(selectedProfilePicture);
+            }
+            else {
+                label.setText("Invalid file format!");
+            }
         });
-
         anchorPane.getChildren().add(profile);
+
         scrollPane.setContent(anchorPane);
     }
 
