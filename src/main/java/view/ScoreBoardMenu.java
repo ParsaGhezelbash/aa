@@ -22,11 +22,8 @@ import java.util.Objects;
 public class ScoreBoardMenu extends Application {
     private Controller controller;
 
-    private Stage stage;
-
     @Override
     public void start(Stage stage) throws Exception {
-        this.stage = stage;
         AnchorPane scoreBoardMenuPane = FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/ScoreBoardMenu.fxml")).toExternalForm()));
         HBox hBox = (HBox) scoreBoardMenuPane.getChildren().get(0);
 

@@ -54,27 +54,23 @@ public class SignUpMenu extends Application {
 
 
         Button signUpButton = (Button) vBox.getChildren().get(5);
-        EventHandler<Event> signUpButtonEvent = event -> {
+        signUpButton.setOnMouseClicked(event -> {
             try {
                 errorLabel.setVisible(false);
                 createAccount();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-        };
-        signUpButton.setOnKeyPressed(signUpButtonEvent);
-        signUpButton.setOnMouseClicked(signUpButtonEvent);
+        });
 
         Hyperlink hyperlink = (Hyperlink) vBox.getChildren().get(6);
-        EventHandler<Event> hyperlinkEvent = event -> {
+        hyperlink.setOnMouseClicked(event -> {
             try {
                 controller.getLoginMenuController().getLoginMenu().start(stage);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-        };
-        hyperlink.setOnMouseClicked(hyperlinkEvent);
-        hyperlink.setOnKeyPressed(hyperlinkEvent);
+        });
 
         Button enterAsGuestButton = (Button) vBox.getChildren().get(7);
         enterAsGuestButton.setOnMouseClicked(event -> {
