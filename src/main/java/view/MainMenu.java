@@ -65,7 +65,7 @@ public class MainMenu extends Application {
         profileButton.setOnMouseClicked(profileButtonEvent);
         profileButton.setOnKeyPressed(profileButtonEvent);
 
-        Button exitButton = (Button) vBox.getChildren().get(7);
+        Button exitButton = (Button) vBox.getChildren().get(8);
         exitButton.setOnMouseClicked(event -> {
             try {
                 controller.getGame().setCurrentUser(null);

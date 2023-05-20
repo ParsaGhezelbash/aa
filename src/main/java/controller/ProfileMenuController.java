@@ -15,6 +15,8 @@ public class ProfileMenuController {
     }
 
     public String changeUsername(String newUsername) {
+        if (newUsername.equals(""))
+            return "Username can't be empty!";
         if (controller.getGame().getUserByUsername(newUsername) != null)
             return "User with username " + newUsername + " already exists!";
 
@@ -22,7 +24,11 @@ public class ProfileMenuController {
         return "Username changed successfully!";
     }
 
-    public String changePassword(String newPassword) {
+    public String changePassword(String oldPassword, String newPassword) {
+        if (!controller.getGame().getCurrentUser().isPasswordCorrect(oldPassword))
+            return "Old password is incorrect!";
+        if (newPassword.equals(""))
+            return "Password can't be empty!";
         controller.getGame().getCurrentUser().setPassword(newPassword);
         return "Password changed successfully!";
     }

@@ -18,22 +18,22 @@
          <children>
             <VBox prefHeight="400.0" prefWidth="300.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="300.0" text="Username :" />
-                  <Separator prefHeight="20.0" prefWidth="300.0" />
-                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="300.0" text="High Score :" />
-                  <Separator prefHeight="20.0" prefWidth="300.0" />
-                  <Label alignment="CENTER" prefHeight="20.0" prefWidth="300.0" text="Username :" />
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="300.0" />
+                  <Separator prefHeight="10.0" prefWidth="300.0" />
+                  <Label alignment="CENTER" prefHeight="60.0" prefWidth="300.0" />
                   <TextField alignment="CENTER" prefHeight="30.0" prefWidth="300.0" promptText="New Username" />
                   <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="300.0" text="Set Username" />
-                  <Separator prefHeight="20.0" prefWidth="300.0" />
-                  <Label alignment="CENTER" prefHeight="20.0" prefWidth="300.0" text="Password :" />
+                  <Label alignment="CENTER" prefHeight="20.0" prefWidth="300.0" textFill="RED" />
+                  <Separator prefHeight="10.0" prefWidth="300.0" />
+                  <Label alignment="CENTER" prefHeight="60.0" prefWidth="300.0" />
                   <PasswordField alignment="CENTER" prefHeight="30.0" prefWidth="300.0" promptText="Old Password" />
                   <PasswordField alignment="CENTER" prefHeight="30.0" prefWidth="300.0" promptText="New Password" />
                   <Button mnemonicParsing="false" prefWidth="300.0" text="Set Password" />
+                  <Separator prefHeight="10.0" prefWidth="200.0" />
                   <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="300.0" text="Back" />
                </children>
             </VBox>
-            <Separator maxWidth="0.0" orientation="VERTICAL" prefHeight="200.0" />
+            <Separator orientation="VERTICAL" prefHeight="200.0" prefWidth="0.0" />
             <VBox prefHeight="400.0" prefWidth="300.0">
                <children>
                   <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="300.0" vbarPolicy="ALWAYS" />
@@ -43,7 +43,7 @@
                         <Insets />
                      </VBox.margin>
                   </Button>
-                  <Label alignment="CENTER" prefWidth="300.0" text="Label" textFill="RED" />
+                  <Label alignment="CENTER" prefHeight="20.0" prefWidth="300.0" textFill="RED" />
                </children>
             </VBox>
          </children>
