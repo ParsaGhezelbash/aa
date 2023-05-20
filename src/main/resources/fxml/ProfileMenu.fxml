@@ -30,7 +30,7 @@
                   <PasswordField alignment="CENTER" prefHeight="30.0" prefWidth="300.0" promptText="Old Password" />
                   <PasswordField alignment="CENTER" prefHeight="30.0" prefWidth="300.0" promptText="New Password" />
                   <Button mnemonicParsing="false" prefWidth="300.0" text="Set Password" />
-                  <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="300.0" text="Button" />
+                  <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="300.0" text="Back" />
                </children>
             </VBox>
             <Separator maxWidth="0.0" orientation="VERTICAL" prefHeight="200.0" />
