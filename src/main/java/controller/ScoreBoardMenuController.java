@@ -11,4 +11,8 @@ public class ScoreBoardMenuController {
         this.scoreBoardMenu = new ScoreBoardMenu();
         this.scoreBoardMenu.setController(controller);
     }
+
+    public ScoreBoardMenu getScoreBoardMenu() {
+        return scoreBoardMenu;
+    }
 }

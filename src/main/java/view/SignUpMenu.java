@@ -1,27 +1,25 @@
 package view;
 
 import controller.Controller;
-import controller.LoginMenuController;
-import controller.SignUpMenuController;
 import javafx.application.Application;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Game;
 import model.ProfilePicture;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -29,7 +27,7 @@ import java.util.Random;
 
 public class SignUpMenu extends Application {
     private Controller controller;
-    private Label label;
+    private Label errorLabel;
     private TextField username;
     private PasswordField password;
     private ProfilePicture profilePicture;
@@ -51,27 +49,44 @@ public class SignUpMenu extends Application {
 
         password = (PasswordField) vBox.getChildren().get(3);
 
-        label = (Label) vBox.getChildren().get(4);
+        errorLabel = (Label) vBox.getChildren().get(4);
+        errorLabel.setWrapText(true);
+        errorLabel.setTextAlignment(TextAlignment.CENTER);
+
 
         Button signUpButton = (Button) vBox.getChildren().get(5);
-        signUpButton.setOnMouseClicked(event -> {
+        EventHandler<Event> signUpButtonEvent = event -> {
             try {
+                errorLabel.setVisible(false);
                 createAccount(event);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-        });
+        };
+        signUpButton.setOnKeyPressed(signUpButtonEvent);
+        signUpButton.setOnMouseClicked(signUpButtonEvent);
 
         Hyperlink hyperlink = (Hyperlink) vBox.getChildren().get(6);
-        hyperlink.setOnMouseClicked(event -> {
+        EventHandler<Event> hyperlinkEvent = event -> {
             try {
                 controller.getLoginMenuController().getLoginMenu().start(stage);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-        });
+        };
+        hyperlink.setOnMouseClicked(hyperlinkEvent);
+        hyperlink.setOnKeyPressed(hyperlinkEvent);
 
         Button enterAsGuestButton = (Button) vBox.getChildren().get(7);
+        enterAsGuestButton.setOnMouseClicked(event -> {
+            try {
+                errorLabel.setVisible(false);
+                controller.getSignUpMenuController().enterAsGuest(profilePicture.getImagePattern());
+                controller.getMainMenuController().getMainMenu().start(stage);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         Scene scene = new Scene(signUpPane);
         stage.setScene(scene);
@@ -121,7 +136,8 @@ public class SignUpMenu extends Application {
                 anchorPane.getChildren().add(selectedProfilePicture);
             }
             else {
-                label.setText("Invalid file format!");
+                errorLabel.setText("Invalid file format!");
+                errorLabel.setVisible(true);
             }
         });
         anchorPane.getChildren().add(profile);
@@ -129,17 +145,18 @@ public class SignUpMenu extends Application {
         scrollPane.setContent(anchorPane);
     }
 
-    public void createAccount(MouseEvent mouseEvent) throws Exception {
+    public void createAccount(Event event) throws Exception {
         String result = controller.getSignUpMenuController().signUp(username.getText(), password.getText(), profilePicture.getImagePattern());
         if (result.endsWith("already exists!")) {
-            label.setText(result);
+            errorLabel.setText(result);
+            errorLabel.setVisible(true);
         } else {
             controller.getMainMenuController().getMainMenu().start(stage);
         }
     }
 
     public void enterAsGuest(MouseEvent mouseEvent) throws Exception {
-        // TODO Auto-generated
+
     }
 
     public void setController(Controller controller) {

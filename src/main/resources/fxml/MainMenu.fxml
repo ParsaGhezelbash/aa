@@ -20,8 +20,14 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Pane prefHeight="100.0" prefWidth="200.0" />
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="247.0" text="Start" />
+                  <Pane prefHeight="60.0" prefWidth="200.0" />
+                  <Label alignment="CENTER" prefHeight="40.0" prefWidth="200.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="247.0" text="Single Player" />
+                  <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="200.0" text="Multi Player" />
                   <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="248.0" text="ScoreBoard" />
                   <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="243.0" text="Profile" />
                   <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="257.0" text="Quit" />

@@ -21,7 +21,7 @@
             </Label>
             <TextField alignment="CENTER" prefHeight="0.0" prefWidth="219.0" promptText="username" />
             <PasswordField alignment="CENTER" promptText="password" />
-            <Label alignment="CENTER" prefHeight="17.0" prefWidth="222.0" textFill="RED" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="200.0" textFill="RED" visible="false" />
             <Button mnemonicParsing="false" text="Log In">
                <VBox.margin>
                   <Insets left="75.0" />

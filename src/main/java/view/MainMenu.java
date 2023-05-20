@@ -22,7 +22,6 @@ import java.util.Objects;
 
 public class MainMenu extends Application {
     private Controller controller;
-    private Button startButton, scoreBoardButton, profileButton, exitButton;
     private ImagePattern profileImagePattern;
     private Stage stage;
 
@@ -34,23 +33,37 @@ public class MainMenu extends Application {
         this.stage = stage;
         AnchorPane mainMenuPane = FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/MainMenu.fxml")).toExternalForm()));
 
-        HBox hBox = (HBox) mainMenuPane.getChildren().get(0);
-        VBox vBox = null;
-        outer:
-        for (Node child : hBox.getChildren()) {
-            if (child instanceof VBox) {
-                vBox = (VBox) child;
-                for (Node vBoxChild : vBox.getChildren()) {
-                    if (vBoxChild instanceof Label) break outer;
-                }
-            }
-        }
+        VBox vBox = (VBox) ((HBox) mainMenuPane.getChildren().get(0)).getChildren().get(1);
 
-        Pane profilePane = null;
-        for (Node child : vBox.getChildren()) {
-            if (child instanceof Pane) profilePane = (Pane) child;
-        }
+        Pane profilePane = (Pane) vBox.getChildren().get(1);
         profilePane.getChildren().add(new ProfilePicture(profilePane.getPrefWidth() / 2, profilePane.getPrefHeight() / 2, controller.getGame().getCurrentUser().getAvatar()));
+
+        ((Label) vBox.getChildren().get(2)).setText(controller.getGame().getCurrentUser().getUsername());
+
+
+        Button singlePlayerButton = (Button) vBox.getChildren().get(3); // TODO Auto-generated
+        Button multiPlayerButton = (Button) vBox.getChildren().get(4); // TODO Auto-generated
+
+        Button scoreBoardButton = (Button) vBox.getChildren().get(5);
+        scoreBoardButton.setOnMouseClicked(event -> {
+            try {
+                controller.getScoreBoardMenuController().getScoreBoardMenu().start(stage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        Button profileButton = (Button) vBox.getChildren().get(6);
+        Button exitButton = (Button) vBox.getChildren().get(7);
+        exitButton.setOnMouseClicked(event -> {
+            try {
+                controller.getGame().setCurrentUser(null);
+                controller.getSignUpMenuController().getSignUpMenu().start(stage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
         Scene scene = new Scene(mainMenuPane);
         stage.setScene(scene);
         stage.show();

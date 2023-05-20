@@ -23,7 +23,7 @@
             <ScrollPane hbarPolicy="ALWAYS" prefHeight="100.0" prefWidth="10.0" vbarPolicy="NEVER" />
             <TextField alignment="CENTER" prefHeight="0.0" prefWidth="219.0" promptText="username" />
             <PasswordField alignment="CENTER" promptText="password" />
-            <Label alignment="CENTER" prefHeight="17.0" prefWidth="222.0" textFill="RED" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="200.0" textFill="RED" visible="false" />
             <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="68.0" text="Sign Up">
                <VBox.margin>
                   <Insets left="68.0" />

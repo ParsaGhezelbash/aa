@@ -26,9 +26,9 @@ public class SignUpMenuController {
         return "User " + username + " created successfully!";
     }
 
-    public String enterAsGuest() {
-        // TODO Auto-generated method
-        return null;
+    public void enterAsGuest(ImagePattern avatar) {
+        User guest = new User("Guest", "0", avatar);
+        controller.getGame().setCurrentUser(guest);
     }
 
     public SignUpMenu getSignUpMenu() {

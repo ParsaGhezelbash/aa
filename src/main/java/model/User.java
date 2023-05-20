@@ -16,7 +16,8 @@ public class User {
         this.username = username;
         this.password = password;
         this.avatar = avatar;
-        lastLevel = null;
+        this.lastLevel = null;
+        this.highScore = 0;
     }
 
     public User(String username, String password) {
@@ -55,5 +56,9 @@ public class User {
 
     public void setLastLevel(Level lastLevel) {
         this.lastLevel = lastLevel;
+    }
+
+    public int getHighScore() {
+        return highScore;
     }
 }
