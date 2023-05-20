@@ -2,6 +2,8 @@ package view;
 
 import controller.Controller;
 import javafx.application.Application;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -25,9 +27,6 @@ public class MainMenu extends Application {
     private ImagePattern profileImagePattern;
     private Stage stage;
 
-    public MainMenu() throws MalformedURLException {
-    }
-
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
@@ -45,15 +44,27 @@ public class MainMenu extends Application {
         Button multiPlayerButton = (Button) vBox.getChildren().get(4); // TODO Auto-generated
 
         Button scoreBoardButton = (Button) vBox.getChildren().get(5);
-        scoreBoardButton.setOnMouseClicked(event -> {
+        EventHandler<Event> scoreBoardButtonEvent = event -> {
             try {
                 controller.getScoreBoardMenuController().getScoreBoardMenu().start(stage);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        });
+        };
+        scoreBoardButton.setOnMouseClicked(scoreBoardButtonEvent);
+        scoreBoardButton.setOnKeyPressed(scoreBoardButtonEvent);
 
         Button profileButton = (Button) vBox.getChildren().get(6);
+        EventHandler<Event> profileButtonEvent = event -> {
+            try {
+                controller.getProfileMenuController().getProfileMenu().start(stage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        };
+        profileButton.setOnMouseClicked(profileButtonEvent);
+        profileButton.setOnKeyPressed(profileButtonEvent);
+
         Button exitButton = (Button) vBox.getChildren().get(7);
         exitButton.setOnMouseClicked(event -> {
             try {

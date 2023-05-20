@@ -8,7 +8,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -30,7 +29,7 @@ public class SignUpMenu extends Application {
     private Label errorLabel;
     private TextField username;
     private PasswordField password;
-    private ProfilePicture profilePicture;
+    private ProfilePicture selectedProfilePicture;
 
     private Stage stage;
     @Override
@@ -58,7 +57,7 @@ public class SignUpMenu extends Application {
         EventHandler<Event> signUpButtonEvent = event -> {
             try {
                 errorLabel.setVisible(false);
-                createAccount(event);
+                createAccount();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -81,7 +80,7 @@ public class SignUpMenu extends Application {
         enterAsGuestButton.setOnMouseClicked(event -> {
             try {
                 errorLabel.setVisible(false);
-                controller.getSignUpMenuController().enterAsGuest(profilePicture.getImagePattern());
+                controller.getSignUpMenuController().enterAsGuest(selectedProfilePicture.getImagePattern());
                 controller.getMainMenuController().getMainMenu().start(stage);
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -97,24 +96,25 @@ public class SignUpMenu extends Application {
         ArrayList<ProfilePicture> profilePictures = new ArrayList<>();
         AnchorPane anchorPane = new AnchorPane();
         ImagePattern imagePattern = new ImagePattern(new Image(Objects.requireNonNull(Game.class.getResource("/profile pictures/0.jpg").toExternalForm())));
-        profilePicture = new ProfilePicture( 40 + 70, 40, imagePattern);
+        selectedProfilePicture = new ProfilePicture( 40 + 70, 40, imagePattern);
         for (int i = 0; i < profilesCount; i++) {
             imagePattern = new ImagePattern(new Image(Objects.requireNonNull(Game.class.getResource("/profile pictures/" + (i + 1) + ".jpg").toExternalForm())));
             ProfilePicture profile = new ProfilePicture( 40 + i * 70, 40, imagePattern);
             profile.setOnMouseClicked(event -> {
-                profilePicture.setStroke(Color.BLACK);
-                profilePicture = profile;
-                profilePicture.setStroke(Color.GREEN);
+                selectedProfilePicture.setStroke(Color.BLACK);
+                selectedProfilePicture = profile;
+                selectedProfilePicture.setStroke(Color.GREEN);
             });
             profilePictures.add(profile);
             anchorPane.getChildren().add(profile);
         }
+
         imagePattern = new ImagePattern(new Image(Objects.requireNonNull(Game.class.getResource("/profile pictures/Random.jpg").toExternalForm())));
         ProfilePicture profile = new ProfilePicture( 40 + profilesCount * 70, 40, imagePattern);
         profile.setOnMouseClicked(event -> {
-            profilePicture.setStroke(Color.BLACK);
-            profilePicture = profilePictures.get(new Random().nextInt(profilePictures.size()));
-            profilePicture.setStroke(Color.GREEN);
+            selectedProfilePicture.setStroke(Color.BLACK);
+            selectedProfilePicture = profilePictures.get(new Random().nextInt(profilePictures.size()));
+            selectedProfilePicture.setStroke(Color.GREEN);
         });
         anchorPane.getChildren().add(profile);
 
@@ -130,9 +130,9 @@ public class SignUpMenu extends Application {
                 anchorPane.getChildren().remove(finalProfile);
                 finalProfile.setCenterX(finalProfile.getCenterX() + 70);
                 anchorPane.getChildren().add(finalProfile);
-                profilePicture.setStroke(Color.BLACK);
-                profilePicture = selectedProfilePicture;
-                profilePicture.setStroke(Color.GREEN);
+                this.selectedProfilePicture.setStroke(Color.BLACK);
+                this.selectedProfilePicture = selectedProfilePicture;
+                this.selectedProfilePicture.setStroke(Color.GREEN);
                 anchorPane.getChildren().add(selectedProfilePicture);
             }
             else {
@@ -145,18 +145,14 @@ public class SignUpMenu extends Application {
         scrollPane.setContent(anchorPane);
     }
 
-    public void createAccount(Event event) throws Exception {
-        String result = controller.getSignUpMenuController().signUp(username.getText(), password.getText(), profilePicture.getImagePattern());
+    public void createAccount() throws Exception {
+        String result = controller.getSignUpMenuController().signUp(username.getText(), password.getText(), selectedProfilePicture.getImagePattern());
         if (result.endsWith("already exists!")) {
             errorLabel.setText(result);
             errorLabel.setVisible(true);
         } else {
             controller.getMainMenuController().getMainMenu().start(stage);
         }
-    }
-
-    public void enterAsGuest(MouseEvent mouseEvent) throws Exception {
-
     }
 
     public void setController(Controller controller) {

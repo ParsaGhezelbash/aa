@@ -31,4 +31,8 @@ public class ProfileMenuController {
         controller.getGame().getCurrentUser().setAvatar(avatar);
         return "Avatar changed successfully!";
     }
+
+    public ProfileMenu getProfileMenu() {
+        return profileMenu;
+    }
 }

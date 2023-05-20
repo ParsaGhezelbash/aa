@@ -67,7 +67,6 @@ public class ScoreBoardMenu extends Application {
         for (int i = 0; i < scoreBoardSize; i++) {
             tableView.getItems().add(topUsers.get(i));
         }
-        System.out.println(tableView.getColumns().size());
     }
 
     public void setController(Controller controller) {
