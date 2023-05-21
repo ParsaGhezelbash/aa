@@ -39,8 +39,15 @@ public class MainMenu extends Application {
 
         ((Label) vBox.getChildren().get(2)).setText(controller.getGame().getCurrentUser().getUsername());
 
-
         Button singlePlayerButton = (Button) vBox.getChildren().get(3); // TODO Auto-generated
+        singlePlayerButton.setOnMouseClicked(event -> {
+            try {
+                controller.getInGameMenuController().getInGameMenu().start(stage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
         Button multiPlayerButton = (Button) vBox.getChildren().get(4); // TODO Auto-generated
 
         Button scoreBoardButton = (Button) vBox.getChildren().get(5);

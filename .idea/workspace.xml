@@ -5,9 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c25c76ce-c857-4f26-9ac7-05ca9fd0b092" name="Changes" comment="4th day">
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Stick.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/InGameMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/ShootingAnimation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fxml/InGameMenu.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/ScoreBoardMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ScoreBoardMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/SignUpMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/SignUpMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/InGameMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/InGameMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Ball.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Level.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/Start.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/Start.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,7 +136,7 @@
     </configuration>
     <configuration name="Start" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="view.Start" />
-      <module name="Graphic HomeWork" />
+      <module name="GHW" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="view.*" />
@@ -173,6 +180,8 @@
       <workItem from="1684590657137" duration="2455000" />
       <workItem from="1684598217403" duration="7462000" />
       <workItem from="1684612914470" duration="11000" />
+      <workItem from="1684688957192" duration="16000" />
+      <workItem from="1684689001026" duration="2567000" />
     </task>
     <task id="LOCAL-00001" summary="first day">
       <created>1684355122724</created>
