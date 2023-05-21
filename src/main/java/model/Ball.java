@@ -25,6 +25,7 @@ public class Ball extends Circle {
         this.numberLabel.setFont(new Font(numberLabel.getFont().getName(), 18));
         this.numberLabel.setPrefWidth(Ball.RADIUS * 1.6);
         this.numberLabel.setPrefHeight(Ball.RADIUS * 1.6);
+        numberLabel.setTranslateX();
         this.numberLabel.setLayoutX(this.getCenterX() - numberLabel.getPrefWidth() / 2);
         this.numberLabel.setLayoutY(this.getCenterY() - numberLabel.getPrefHeight() / 2);
     }
