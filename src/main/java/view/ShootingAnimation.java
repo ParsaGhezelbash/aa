@@ -1,42 +1,51 @@
 package view;
 
 import javafx.animation.Transition;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import model.Stick;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
+import model.Ball;
 
 import java.util.ArrayList;
 
 public class ShootingAnimation extends Transition {
-    private Pane pane;
-    private final Circle mainCircle;
-    private final ArrayList<Stick> connectedSticks;
-    private final Stick stick;
+    private final AnchorPane anchorPane;
+    private final Circle invisibleCircle;
+    private final ArrayList<Ball> connectedBalls;
+    private final Ball ball;
 
-    public ShootingAnimation(Stick stick, Circle mainCircle, ArrayList<Stick> connectedSticks) {
-        this.stick = stick;
-        this.mainCircle = mainCircle;
-        this.connectedSticks = connectedSticks;
+    public ShootingAnimation(AnchorPane anchorPane, Ball ball, Circle mainCircle, ArrayList<Ball> connectedBalls) {
+        this.anchorPane = anchorPane;
+        this.ball = ball;
+        this.invisibleCircle = mainCircle;
+        this.connectedBalls = connectedBalls;;
+        this.setCycleDuration(Duration.millis(1000));
+        this.setCycleCount(-1);
     }
 
     @Override
     protected void interpolate(double v) {
-        double y = stick.getY() - 10;
+        double y = ball.getCenterY() - 10;
 
-        if (isConnectedToMainBall()) {
-            stick.connect();
+        if (isConnectedToMainBall() && !isConnectedToBalls(connectedBalls)) {
+            Rectangle stick = new Rectangle(invisibleCircle.getLayoutX() - (double) (Ball.STICK_WIDTH / 2), invisibleCircle.getLayoutY(), Ball.STICK_WIDTH, Ball.STICK_HEIGHT);
+            stick.setFill(Color.BLACK);
+            anchorPane.getChildren().add(stick);
             this.stop();
         }
-            stick.setY(y);
+            ball.setCenterY(y);
     }
 
     private boolean isConnectedToMainBall() {
-        return mainCircle.getBoundsInParent().intersects(stick.getRectangle().getBoundsInParent());
+        return invisibleCircle.getBoundsInParent().intersects(ball.getBoundsInParent());
     }
 
-    private boolean isConnectedToStick(ArrayList<Stick> connectedSticks) {
-        for (Stick connectedStick : connectedSticks) {
-            if (connectedStick.getBoundsInParent().intersects(connectedStick.getRectangle().getBoundsInParent())) {
+    private boolean isConnectedToBalls(ArrayList<Ball> connectedBalls) {
+        for (Ball connectedBall : connectedBalls) {
+            if (connectedBall.getBoundsInParent().intersects(connectedBall.getBoundsInParent())) {
                 return true;
             }
         }

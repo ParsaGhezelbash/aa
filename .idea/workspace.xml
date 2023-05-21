@@ -5,16 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c25c76ce-c857-4f26-9ac7-05ca9fd0b092" name="Changes" comment="4th day">
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/Stick.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/view/InGameMenu.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/view/ShootingAnimation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fxml/InGameMenu.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Ball.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/BallRotation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/InGameMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/InGameMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Ball.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Level.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/Start.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/Start.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Stick.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/InGameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/InGameMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/ShootingAnimation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ShootingAnimation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/InGameMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/InGameMenu.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +133,7 @@
     </configuration>
     <configuration name="Start" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="view.Start" />
-      <module name="GHW" />
+      <module name="Graphic HomeWork" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="view.*" />

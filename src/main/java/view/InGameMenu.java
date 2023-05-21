@@ -2,15 +2,18 @@ package view;
 
 import controller.Controller;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import model.Ball;
 import model.Game;
 import model.Level;
-import model.Stick;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -19,42 +22,46 @@ import java.util.Objects;
 public class InGameMenu extends Application {
     private Controller controller;
     private Level level;
-    private Stick currentStick;
-    private Circle mainCircle;
+    private Ball currentBall;
+    private Circle mainCircle, invisibleCircle;
 
     @Override
     public void start(Stage stage) throws Exception {
-        ArrayList<Stick> primarySticks = new ArrayList<>();
-        ArrayList<Stick> connectedSticks = new ArrayList<>();
+        ArrayList<Ball> primaryBalls = new ArrayList<>();
+        ArrayList<Ball> connectedBalls = new ArrayList<>();
         AnchorPane inGameMenuPane = FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/InGameMenu.fxml")).toExternalForm()));
-        mainCircle = (Circle) inGameMenuPane.getChildren().get(0);
+        invisibleCircle = (Circle) inGameMenuPane.getChildren().get(0);
+        mainCircle = (Circle) inGameMenuPane.getChildren().get(1);
 
-        currentStick = createStick(inGameMenuPane, 1);
-//        currentStick.setOnKeyPressed(event -> {
-//            if (event.getCode().getName().equals("Space")) {
-//                shoot(connectedSticks);
-//                currentStick = createStick(inGameMenuPane, currentStick.getNumber() + 1);
-//            }
-//        });
+        currentBall = createBall(inGameMenuPane, connectedBalls, 1);
 
         Scene scene = new Scene(inGameMenuPane);
         stage.setScene(scene);
         stage.show();
     }
 
-    private void shoot(ArrayList<Stick> connectedSticks) {
-        ShootingAnimation shootingAnimation = new ShootingAnimation(currentStick, mainCircle, connectedSticks);
+    private void shoot(AnchorPane anchorPane, ArrayList<Ball> connectedSticks) {
+        ShootingAnimation shootingAnimation = new ShootingAnimation(anchorPane, currentBall, invisibleCircle, connectedSticks);
         shootingAnimation.play();
     }
 
-    private Stick createStick(AnchorPane anchorPane, int number) {
-        Stick stick = new Stick(number);
-        anchorPane.getChildren().add(stick);
-        stick.getCircle().setCenterX(300);
-        stick.getCircle().setCenterY(500);
-        stick.getRectangle().setX(300 - 3);
-        stick.getRectangle().setY(500 - 70 - stick.getCircle().getRadius());
-        return stick;
+    private Ball createBall(AnchorPane anchorPane, ArrayList<Ball> connectedBalls, int number) {
+        Ball ball = new Ball(anchorPane.getPrefWidth() / 2, anchorPane.getPrefHeight() - 2 * Ball.RADIUS - 20, number);
+        anchorPane.getChildren().add(ball);
+        ball.setOnMouseClicked(event -> {
+            shoot(anchorPane, connectedBalls);
+            currentBall = createBall(anchorPane, connectedBalls, ball.getNumber() + 1);
+        });
+        ball.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                System.out.println(currentBall.getNumber());
+                shoot(anchorPane, connectedBalls);
+                currentBall = createBall(anchorPane, connectedBalls, ball.getNumber() + 1);
+                System.out.println(currentBall.getNumber());
+            }
+        });
+        return ball;
     }
 
     public Level getLevel() {
