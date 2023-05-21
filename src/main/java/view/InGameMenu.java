@@ -37,28 +37,27 @@ public class InGameMenu extends Application {
 
         Scene scene = new Scene(inGameMenuPane);
         stage.setScene(scene);
+        currentBall.requestFocus();
         stage.show();
     }
 
-    private void shoot(AnchorPane anchorPane, ArrayList<Ball> connectedSticks) {
-        ShootingAnimation shootingAnimation = new ShootingAnimation(anchorPane, currentBall, invisibleCircle, connectedSticks);
+    private void shoot(AnchorPane anchorPane, ArrayList<Ball> connectedBalls) {
+        ShootingAnimation shootingAnimation = new ShootingAnimation(anchorPane, currentBall, invisibleCircle, connectedBalls);
         shootingAnimation.play();
+        currentBall = createBall(anchorPane, connectedBalls, currentBall.getNumber() + 1);
     }
 
     private Ball createBall(AnchorPane anchorPane, ArrayList<Ball> connectedBalls, int number) {
         Ball ball = new Ball(anchorPane.getPrefWidth() / 2, anchorPane.getPrefHeight() - 2 * Ball.RADIUS - 20, number);
         anchorPane.getChildren().add(ball);
+        ball.requestFocus();
         ball.setOnMouseClicked(event -> {
             shoot(anchorPane, connectedBalls);
-            currentBall = createBall(anchorPane, connectedBalls, ball.getNumber() + 1);
         });
         ball.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
-                System.out.println(currentBall.getNumber());
-                shoot(anchorPane, connectedBalls);
-                currentBall = createBall(anchorPane, connectedBalls, ball.getNumber() + 1);
-                System.out.println(currentBall.getNumber());
+                if (keyEvent.getCode().equals(KeyCode.SPACE)) shoot(anchorPane, connectedBalls);
             }
         });
         return ball;

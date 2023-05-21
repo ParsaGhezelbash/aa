@@ -1,10 +1,7 @@
 package view;
 
 import javafx.animation.Transition;
+import javafx.scene.transform.Rotate;
 
-public class BallRotation extends Transition {
-    @Override
-    protected void interpolate(double v) {
-
-    }
+public class BallRotation extends Rotate {
 }

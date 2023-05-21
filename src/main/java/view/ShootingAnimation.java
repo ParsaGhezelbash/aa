@@ -34,6 +34,8 @@ public class ShootingAnimation extends Transition {
             Rectangle stick = new Rectangle(invisibleCircle.getLayoutX() - (double) (Ball.STICK_WIDTH / 2), invisibleCircle.getLayoutY(), Ball.STICK_WIDTH, Ball.STICK_HEIGHT);
             stick.setFill(Color.BLACK);
             anchorPane.getChildren().add(stick);
+            ball.setStick(stick);
+            connectedBalls.add(ball);
             this.stop();
         }
             ball.setCenterY(y);

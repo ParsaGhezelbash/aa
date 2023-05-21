@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c25c76ce-c857-4f26-9ac7-05ca9fd0b092" name="Changes" comment="4th day">
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/Ball.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/view/BallRotation.java" afterDir="false" />
+    <list default="true" id="c25c76ce-c857-4f26-9ac7-05ca9fd0b092" name="Changes" comment="5th day">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Stick.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Ball.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Ball.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/InGameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/InGameMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/ShootingAnimation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ShootingAnimation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/InGameMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/InGameMenu.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,7 +226,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684615630908</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="5th day">
+      <created>1684700027666</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1684700027666</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -252,7 +256,8 @@
     <MESSAGE value="second day" />
     <MESSAGE value="third day" />
     <MESSAGE value="4th day" />
-    <option name="LAST_COMMIT_MESSAGE" value="4th day" />
+    <MESSAGE value="5th day" />
+    <option name="LAST_COMMIT_MESSAGE" value="5th day" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
