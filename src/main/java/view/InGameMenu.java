@@ -50,6 +50,7 @@ public class InGameMenu extends Application {
     private Ball createBall(AnchorPane anchorPane, ArrayList<Ball> connectedBalls, int number) {
         Ball ball = new Ball(anchorPane.getPrefWidth() / 2, anchorPane.getPrefHeight() - 2 * Ball.RADIUS - 20, number);
         anchorPane.getChildren().add(ball);
+        anchorPane.getChildren().add(ball.getNumberLabel());
         ball.requestFocus();
         ball.setOnMouseClicked(event -> {
             shoot(anchorPane, connectedBalls);

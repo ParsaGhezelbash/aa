@@ -21,14 +21,15 @@ public class ShootingAnimation extends Transition {
         this.anchorPane = anchorPane;
         this.ball = ball;
         this.invisibleCircle = mainCircle;
-        this.connectedBalls = connectedBalls;;
+        this.connectedBalls = connectedBalls;
+        ;
         this.setCycleDuration(Duration.millis(1000));
         this.setCycleCount(-1);
     }
 
     @Override
     protected void interpolate(double v) {
-        double y = ball.getCenterY() - 10;
+        double y = ball.getCenterY() - 20;
 
         if (isConnectedToMainBall() && !isConnectedToBalls(connectedBalls)) {
             Rectangle stick = new Rectangle(invisibleCircle.getLayoutX() - (double) (Ball.STICK_WIDTH / 2), invisibleCircle.getLayoutY(), Ball.STICK_WIDTH, Ball.STICK_HEIGHT);
@@ -38,7 +39,8 @@ public class ShootingAnimation extends Transition {
             connectedBalls.add(ball);
             this.stop();
         }
-            ball.setCenterY(y);
+        ball.setCenterY(y);
+        ball.getNumberLabel().setLayoutY(y);
     }
 
     private boolean isConnectedToMainBall() {
