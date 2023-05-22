@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 import model.Game;
+import model.Level;
 import model.ProfilePicture;
 
 import java.net.MalformedURLException;
@@ -42,7 +43,11 @@ public class MainMenu extends Application {
         Button singlePlayerButton = (Button) vBox.getChildren().get(3); // TODO Auto-generated
         singlePlayerButton.setOnMouseClicked(event -> {
             try {
-                controller.getInGameMenuController().getInGameMenu().start(stage);
+                Game game = controller.getGame();
+                InGameMenu inGameMenu = controller.getInGameMenuController().getInGameMenu();
+                inGameMenu.setLevel(new Level(game.getDifficulty(), game.getNumberOfBalls(), game.getNumberOfPrimaryBalls(),
+                        game.getMapNumber()));
+                inGameMenu.start(stage);
             } catch (Exception e) {
                 e.printStackTrace();
             }

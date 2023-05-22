@@ -7,16 +7,55 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class Game {
+    private int difficulty;
+    private int numberOfBalls;
+    private int numberOfPrimaryBalls;
+    private int mapNumber;
     private final ArrayList<User> users;
     private final LinkedList<User> scoreBoard;
     private User currentUser;
-
     private boolean isSoundMuted = false;
+
 
     public Game() {
         this.users = new ArrayList<>();
-        scoreBoard = new LinkedList<>();
+        this.scoreBoard = new LinkedList<>();
         this.currentUser = null;
+        this.difficulty = 2;
+        this.numberOfBalls = 5;
+        this.numberOfPrimaryBalls = 0;
+    }
+
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public int getNumberOfBalls() {
+        return numberOfBalls;
+    }
+
+    public void setNumberOfBalls(int numberOfBalls) {
+        this.numberOfBalls = numberOfBalls;
+    }
+
+    public int getNumberOfPrimaryBalls() {
+        return numberOfPrimaryBalls;
+    }
+
+    public void setNumberOfPrimaryBalls(int numberOfPrimaryBalls) {
+        this.numberOfPrimaryBalls = numberOfPrimaryBalls;
+    }
+
+    public int getMapNumber() {
+        return mapNumber;
+    }
+
+    public void setMapNumber(int mapNumber) {
+        this.mapNumber = mapNumber;
     }
 
     public User getUserByUsername(String username) {

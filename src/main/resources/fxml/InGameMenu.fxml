@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Circle?>
 
 <AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.InGameMenu">
    <children>
-      <Circle fill="#f4f4f4" layoutX="300.0" layoutY="239.0" radius="180.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-      <Circle layoutX="300.0" layoutY="239.0" radius="60.0" stroke="BLACK" strokeType="INSIDE" />
-      <Label alignment="CENTER" prefHeight="100.0" prefWidth="100.0" />
+      <Label alignment="CENTER" prefHeight="30.0" prefWidth="100.0" textAlignment="CENTER" />
+      <Label alignment="CENTER" layoutY="30.0" prefHeight="30.0" prefWidth="100.0" textAlignment="CENTER" />
+      <Label alignment="CENTER" layoutY="60.0" prefHeight="30.0" prefWidth="100.0" textAlignment="CENTER" />
+      <Label alignment="CENTER" layoutY="90.0" prefHeight="30.0" prefWidth="100.0" textAlignment="CENTER" />
+      <Label alignment="CENTER" layoutY="120.0" prefHeight="30.0" prefWidth="100.0" textAlignment="CENTER" />
+      <Button layoutX="500.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Pause" />
    </children>
 </AnchorPane>

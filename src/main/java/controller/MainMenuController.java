@@ -9,7 +9,6 @@ public class MainMenuController {
     private final MainMenu mainMenu;
 
 
-
     public MainMenuController(Controller controller) throws MalformedURLException {
         this.controller = controller;
         this.mainMenu = new MainMenu();
