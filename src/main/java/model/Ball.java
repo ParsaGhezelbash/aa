@@ -4,30 +4,28 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.text.*;
 
 public class Ball extends Circle {
     public static final int RADIUS = 20;
     public static final int STICK_WIDTH = 4;
-    public static final int STICK_HEIGHT = 180;
+    public static final int STICK_HEIGHT = 180 - RADIUS;
     private final int number;
-    private Label numberLabel;
+    private Text numberText;
     private Rectangle stick;
 
     public Ball(double x, double y, int number) {
         super(x, y, RADIUS);
         this.fillProperty().setValue(Color.BLACK);
         this.number = number;
-        this.numberLabel = new Label(String.valueOf(number));
-        this.numberLabel.setTextFill(Color.WHITE);
-        this.numberLabel.setTextAlignment(TextAlignment.CENTER);
-        this.numberLabel.setFont(new Font(numberLabel.getFont().getName(), 18));
-        this.numberLabel.setPrefWidth(Ball.RADIUS * 1.6);
-        this.numberLabel.setPrefHeight(Ball.RADIUS * 1.6);
-        numberLabel.setTranslateX();
-        this.numberLabel.setLayoutX(this.getCenterX() - numberLabel.getPrefWidth() / 2);
-        this.numberLabel.setLayoutY(this.getCenterY() - numberLabel.getPrefHeight() / 2);
+        this.numberText = new Text(String.valueOf(number));
+        this.numberText.setFont(Font.font(numberText.getFont().getName(), FontWeight.BOLD, FontPosture.REGULAR, 18));
+        this.numberText.setFill(Color.WHITE);
+        this.numberText.setWrappingWidth(Ball.RADIUS * 2);
+        this.numberText.prefHeight(Ball.RADIUS * 2);
+        this.numberText.setX(this.getCenterX() - Ball.RADIUS);
+        this.numberText.setY(this.getCenterY() + 5);
+        this.numberText.setTextAlignment(TextAlignment.CENTER);
     }
 
     public Ball(double x, double y) {
@@ -48,7 +46,7 @@ public class Ball extends Circle {
         this.stick = stick;
     }
 
-    public Label getNumberLabel() {
-        return numberLabel;
+    public Text getNumberText() {
+        return numberText;
     }
 }
