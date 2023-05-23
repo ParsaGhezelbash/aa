@@ -8,7 +8,7 @@ public class Level {
     public final static double LEVEL_Y = 300;
     private final int difficulty;
     private final int numberOfBalls;
-    private final int numberOfConnectedBalls;
+    private int numberOfConnectedBalls;
     private final int numberOfPrimaryBalls;
     private final int mapNumber;
     private int icingMode;
@@ -41,6 +41,10 @@ public class Level {
 
     public int getNumberOfConnectedBalls() {
         return numberOfConnectedBalls;
+    }
+
+    public void setNumberOfConnectedBalls(int numberOfConnectedBalls) {
+        this.numberOfConnectedBalls = numberOfConnectedBalls;
     }
 
     public int getNumberOfPrimaryBalls() {
@@ -96,6 +100,7 @@ public class Level {
     }
 
     public void increaseScore() {
-        this.score += score;
+        // TODO
+        this.score += 10;
     }
 }

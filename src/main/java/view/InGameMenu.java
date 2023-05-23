@@ -1,6 +1,8 @@
 package view;
 
 import controller.Controller;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.animation.Transition;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -17,9 +19,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.Ball;
 import model.Game;
 import model.Level;
@@ -42,7 +48,6 @@ public class InGameMenu extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
-        int[] sec = {0}, min = {0};
         ArrayList<Ball> primaryBalls = new ArrayList<>();
         ArrayList<Ball> connectedBalls = new ArrayList<>();
         ArrayList<Transition> allAnimations = new ArrayList<>();
@@ -57,46 +62,24 @@ public class InGameMenu extends Application {
         setCircles(inGameMenuPane);
 
         usernameLabel = (Label) inGameMenuPane.getChildren().get(3);
-        usernameLabel.setText(controller.getGame().getCurrentUser().getUsername());
+        usernameLabel.setText("Username : " + controller.getGame().getCurrentUser().getUsername());
 
         scoreLabel = (Label) inGameMenuPane.getChildren().get(4);
-        scoreLabel.textProperty().addListener((observable, oldText, newText)->{
-            scoreLabel.setText("Score : " + level.getScore());
-        });
+        scoreLabel.setText("Score : " + level.getScore());
 
         ballCountLabel1 = (Label) inGameMenuPane.getChildren().get(5);
-        ballCountLabel1.textProperty().addListener((observable, oldText, newText)->{
-            ballCountLabel1.setText("Ball Count : " + (level.getNumberOfBalls() - level.getNumberOfConnectedBalls()));
-        });
+        ballCountLabel1.setText("Ball Count : " + (level.getNumberOfBalls() - level.getNumberOfConnectedBalls()));
 
         timerLabel = (Label) inGameMenuPane.getChildren().get(6);
-        timerLabel.textProperty().addListener((observable, oldText, newText)->{
-            timerLabel.setText((Level.GAME_TIME - level.getMinutes()) + " : " + (60 - level.getSeconds()));
-        });
-        Timer timer = new Timer();
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                sec[0]++;
-                if (sec[0] == 60) {
-                    sec[0] = 0;
-                    min[0]++;
-                }
-                level.setMinutes(min[0]);
-                level.setSeconds(sec[0]);
-            }
-        };
-        timer.scheduleAtFixedRate(timerTask, 0, 1000);
+        setTimerLabel();
 
         difficultyLabel = (Label) inGameMenuPane.getChildren().get(7);
         difficultyLabel.setText("Difficulty : " + level.getDifficulty());
 
-//        ballCountLabel2 = (Label) inGameMenuPane.getChildren().get(8);
-//        ballCountLabel2.textProperty().addListener((observable, oldText, newText)->{
-//            ballCountLabel2.setText(String.valueOf((level.getNumberOfBalls() - level.getNumberOfConnectedBalls())));
-//        });
+        setMainCircleCounter(inGameMenuPane);
 
-        Button pauseButton = (Button) inGameMenuPane.getChildren().get(8);
+        Button pauseButton = (Button) inGameMenuPane.getChildren().get(9);
+        setPauseButton(pauseMenuPane, pauseButton, allAnimations);
 
         currentBall = createBall(inGameMenuPane, connectedBalls, allAnimations, 1);
 
@@ -151,17 +134,47 @@ public class InGameMenu extends Application {
         });
     }
 
-    private void pauseMenu(AnchorPane pauseMenuPane, Button pauseButton, Timer timer) {
+    private void setMainCircleCounter(AnchorPane inGameMenuPane) {
+        ballCountLabel2 = new Label();
+        ballCountLabel2.setPrefWidth(100);
+        ballCountLabel2.setPrefHeight(30);
+        ballCountLabel2.setLayoutX(mainCircle.getX() - ballCountLabel2.getPrefWidth() / 2 + 42);
+        ballCountLabel2.setLayoutY(mainCircle.getY() - ballCountLabel2.getPrefHeight() / 2 - 8);
+        ballCountLabel2.setTextAlignment(TextAlignment.CENTER);
+        ballCountLabel2.setFont(Font.font(ballCountLabel2.getFont().getName(), FontWeight.BOLD, FontPosture.REGULAR, 32));
+        ballCountLabel2.setTextFill(Color.WHITE);
+        ballCountLabel2.setText(String.valueOf((level.getNumberOfBalls() - level.getNumberOfConnectedBalls())));
+        inGameMenuPane.getChildren().add(8, ballCountLabel2);
+    }
+
+    private void setPauseButton(AnchorPane pauseMenuPane, Button pauseButton, ArrayList<Transition> allAnimations) {
         pauseButton.setOnAction(actionEvent -> {
-            timer.cancel();
+            for (Transition allAnimation : allAnimations) {
+                allAnimation.stop();
+            }
             pauseMenuPane.setVisible(true);
             pauseMenuPane.toFront();
             pauseMenuPane.requestFocus();
         });
     }
 
+    private void setTimerLabel() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000),
+                actionEvent -> {
+                    if (level.getSeconds() == 59) {
+                        level.setSeconds(0);
+                        level.setMinutes(level.getMinutes() + 1);
+                    } else {
+                        level.setSeconds(level.getSeconds() + 1);
+                    }
+                    timerLabel.setText((Level.GAME_TIME - level.getMinutes()) + " : " + (60 - level.getSeconds()));
+                }));
+        timeline.setCycleCount(-1);
+        timeline.play();
+    }
+
     private void shoot(AnchorPane anchorPane, ArrayList<Ball> connectedBalls, ArrayList<Transition> allAnimations) {
-        ShootingAnimation shootingAnimation = new ShootingAnimation(anchorPane, currentBall, invisibleCircle, connectedBalls, allAnimations);
+        ShootingAnimation shootingAnimation = new ShootingAnimation(anchorPane, level, currentBall, invisibleCircle, mainCircle, connectedBalls, allAnimations, ballCountLabel1, ballCountLabel2, scoreLabel);
         allAnimations.add(shootingAnimation);
         shootingAnimation.play();
         currentBall = createBall(anchorPane, connectedBalls, allAnimations, currentBall.getNumber() + 1);

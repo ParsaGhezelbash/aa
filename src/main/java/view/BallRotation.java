@@ -7,13 +7,11 @@ import javafx.util.Duration;
 import model.Ball;
 
 public class BallRotation extends Transition {
-    private Ball invisibleCircle;
-    private int speed;
-    private Ball ball;
-    private Rotate rotate;
+    private final int speed;
+    private final Ball ball;
+    private final Rotate rotate;
 
     public BallRotation(Ball invisibleCircle, int speed, Ball ball) {
-        this.invisibleCircle = invisibleCircle;
         this.speed = speed;
         this.ball = ball;
         this.rotate = new Rotate(speed * 5, invisibleCircle.getX(), invisibleCircle.getY());

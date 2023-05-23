@@ -7,6 +7,9 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class Game {
+    private final int[] rotationSpeed = {5, 10, 15};
+    private final double[] windSpeed = {1.2, 1.5, 1.8};
+    private final int[] icingTime = {7, 5, 3};
     private int difficulty;
     private int numberOfBalls;
     private int numberOfPrimaryBalls;
