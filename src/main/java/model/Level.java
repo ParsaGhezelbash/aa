@@ -17,6 +17,8 @@ public class Level {
     private int minutes;
     private int seconds;
     private int score;
+    private boolean isFinished;
+    private boolean isWinner;
 
     public Level(int difficulty, int numberOfBalls, int numberOfPrimaryBalls, int mapNumber) {
         this.difficulty = difficulty;
@@ -29,6 +31,8 @@ public class Level {
         this.minutes = 0;
         this.seconds = 0;
         this.score = 0;
+        this.isFinished = false;
+        this.isWinner = false;
     }
 
     public int getDifficulty() {
@@ -102,5 +106,21 @@ public class Level {
     public void increaseScore() {
         // TODO
         this.score += 10;
+    }
+
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(boolean finished) {
+        isFinished = finished;
+    }
+
+    public boolean isWinner() {
+        return isWinner;
+    }
+
+    public void setWinner(boolean winner) {
+        isWinner = winner;
     }
 }

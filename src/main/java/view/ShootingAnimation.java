@@ -1,5 +1,6 @@
 package view;
 
+import javafx.animation.Timeline;
 import javafx.animation.Transition;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -27,8 +28,9 @@ public class ShootingAnimation extends Transition {
     private final ArrayList<Transition> allAnimations;
     private final Ball ball;
     private final Label label1, label2, scoreLabel;
+    private final Timeline timeline;
 
-    public ShootingAnimation(AnchorPane anchorPane, Level level, Ball ball, Ball invisibleCircle, Ball mainCircle, ArrayList<Ball> connectedBalls, ArrayList<Transition> allAnimations, Label label1, Label label2, Label scoreLabel) {
+    public ShootingAnimation(AnchorPane anchorPane, Level level, Ball ball, Ball invisibleCircle, Ball mainCircle, ArrayList<Ball> connectedBalls, ArrayList<Transition> allAnimations, Label label1, Label label2, Label scoreLabel, Timeline timeline) {
         this.anchorPane = anchorPane;
         this.level = level;
         this.ball = ball;
@@ -39,6 +41,7 @@ public class ShootingAnimation extends Transition {
         this.label1 = label1;
         this.label2 = label2;
         this.scoreLabel = scoreLabel;
+        this.timeline = timeline;
         this.setCycleDuration(Duration.millis(1000));
         this.setCycleCount(-1);
     }
@@ -46,27 +49,42 @@ public class ShootingAnimation extends Transition {
     @Override
     protected void interpolate(double v) {
         double y = ball.getY() - 20;
-        boolean lost = isConnectedToBalls(connectedBalls);
+        boolean failed = isConnectedToBalls(connectedBalls);
+        boolean isFinished = failed || (level.getNumberOfConnectedBalls() == level.getNumberOfBalls()) || (level.getMinutes() == Level.GAME_TIME);
+        boolean lost = failed || (level.getMinutes() == Level.GAME_TIME);
 
-        if (isConnectedToMainBall() && !lost) {
+        if (isConnectedToMainBall() && !failed) {
+            level.setNumberOfConnectedBalls(level.getNumberOfConnectedBalls() + 1);
+            label1.setText("Ball Count : " + (level.getNumberOfBalls() - level.getNumberOfConnectedBalls()));
+            label2.setText(String.valueOf(level.getNumberOfBalls() - level.getNumberOfConnectedBalls()));
+            isFinished = failed || (level.getNumberOfConnectedBalls() == level.getNumberOfBalls()) || (level.getMinutes() == Level.GAME_TIME);
+            connectedBalls.add(ball);
+
             Rectangle stick = new Rectangle(invisibleCircle.getX() - (double) (Ball.STICK_WIDTH / 2), mainCircle.getY() + mainCircle.getRadius(), Ball.STICK_WIDTH, ball.getY() - ball.getRadius() - mainCircle.getY() - mainCircle.getRadius() - 14);
-            System.out.println(stick.getX() + " " + stick.getY() + " " + stick.getWidth() + " " + stick.getHeight() + " " + ball.getY());
             stick.setFill(Color.BLACK);
             anchorPane.getChildren().add(stick);
             ball.setStick(stick);
-            connectedBalls.add(ball);
 
-            BallRotation ballRotation = new BallRotation(invisibleCircle, 1, ball);
+            BallRotation ballRotation = new BallRotation(invisibleCircle, 1, ball); // TODO
             allAnimations.add(ballRotation);
             ballRotation.play();
             this.stop();
         }
-
-        else if (lost) {
-            anchorPane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-            invisibleCircle.setFill(Color.RED);
+        if (isFinished) {
+            level.setFinished(true);
+            level.setWinner(!failed);
+            timeline.stop();
             for (Transition allAnimation : allAnimations) {
                 allAnimation.stop();
+            }
+            if (lost) {
+                anchorPane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+                invisibleCircle.setFill(Color.RED);
+
+            } else {
+                anchorPane.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+                invisibleCircle.setFill(Color.GREEN);
+
             }
         }
 

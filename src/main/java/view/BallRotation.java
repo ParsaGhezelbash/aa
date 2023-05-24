@@ -21,7 +21,7 @@ public class BallRotation extends Transition {
 
     @Override
     protected void interpolate(double v) {
-        ball.getTransforms().add(new Rotate(speed * 5, 300, 300));
+        ball.getTransforms().add(rotate);
         ball.getStick().getTransforms().add(rotate);
         ball.getNumberText().getTransforms().add(rotate);
     }

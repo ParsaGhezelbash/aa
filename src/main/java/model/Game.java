@@ -25,7 +25,7 @@ public class Game {
         this.scoreBoard = new LinkedList<>();
         this.currentUser = null;
         this.difficulty = 2;
-        this.numberOfBalls = 5;
+        this.numberOfBalls = 10;
         this.numberOfPrimaryBalls = 0;
     }
 

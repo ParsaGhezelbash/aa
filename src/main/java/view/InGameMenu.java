@@ -42,6 +42,7 @@ public class InGameMenu extends Application {
     private Ball currentBall;
     private Ball mainCircle, invisibleCircle;
     private Label usernameLabel, scoreLabel, ballCountLabel1, ballCountLabel2, timerLabel, difficultyLabel;
+    private Timeline timeline;
     private ProgressBar icingModeProgressBar;
 
     private Stage stage;
@@ -138,12 +139,12 @@ public class InGameMenu extends Application {
         ballCountLabel2 = new Label();
         ballCountLabel2.setPrefWidth(100);
         ballCountLabel2.setPrefHeight(30);
-        ballCountLabel2.setLayoutX(mainCircle.getX() - ballCountLabel2.getPrefWidth() / 2 + 42);
-        ballCountLabel2.setLayoutY(mainCircle.getY() - ballCountLabel2.getPrefHeight() / 2 - 8);
-        ballCountLabel2.setTextAlignment(TextAlignment.CENTER);
+        ballCountLabel2.setLayoutX(mainCircle.getX() - ballCountLabel2.getPrefWidth() / 2);
+        ballCountLabel2.setLayoutY(mainCircle.getY() - ballCountLabel2.getPrefHeight() / 2);
         ballCountLabel2.setFont(Font.font(ballCountLabel2.getFont().getName(), FontWeight.BOLD, FontPosture.REGULAR, 32));
         ballCountLabel2.setTextFill(Color.WHITE);
         ballCountLabel2.setText(String.valueOf((level.getNumberOfBalls() - level.getNumberOfConnectedBalls())));
+        ballCountLabel2.setTextAlignment(TextAlignment.LEFT);
         inGameMenuPane.getChildren().add(8, ballCountLabel2);
     }
 
@@ -159,7 +160,7 @@ public class InGameMenu extends Application {
     }
 
     private void setTimerLabel() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000),
+        timeline = new Timeline(new KeyFrame(Duration.millis(1000),
                 actionEvent -> {
                     if (level.getSeconds() == 59) {
                         level.setSeconds(0);
@@ -174,7 +175,7 @@ public class InGameMenu extends Application {
     }
 
     private void shoot(AnchorPane anchorPane, ArrayList<Ball> connectedBalls, ArrayList<Transition> allAnimations) {
-        ShootingAnimation shootingAnimation = new ShootingAnimation(anchorPane, level, currentBall, invisibleCircle, mainCircle, connectedBalls, allAnimations, ballCountLabel1, ballCountLabel2, scoreLabel);
+        ShootingAnimation shootingAnimation = new ShootingAnimation(anchorPane, level, currentBall, invisibleCircle, mainCircle, connectedBalls, allAnimations, ballCountLabel1, ballCountLabel2, scoreLabel, timeline);
         allAnimations.add(shootingAnimation);
         shootingAnimation.play();
         currentBall = createBall(anchorPane, connectedBalls, allAnimations, currentBall.getNumber() + 1);
