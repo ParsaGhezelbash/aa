@@ -7,7 +7,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import model.Game;
@@ -27,6 +29,7 @@ public class LoginMenu extends Application {
     public void start(Stage stage) throws Exception {
         this.stage = stage;
         AnchorPane loginMenuPane = FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/LoginMenu.fxml")).toExternalForm()));
+        loginMenuPane.setBackground(Background.fill(Color.WHITE));
         VBox vBox = (VBox) loginMenuPane.getChildren().get(0);
 
         username = (TextField) vBox.getChildren().get(1);

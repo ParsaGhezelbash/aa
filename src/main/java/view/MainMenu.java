@@ -9,10 +9,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 import model.Game;
@@ -32,6 +30,7 @@ public class MainMenu extends Application {
     public void start(Stage stage) throws Exception {
         this.stage = stage;
         AnchorPane mainMenuPane = FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/MainMenu.fxml")).toExternalForm()));
+        mainMenuPane.setBackground(Background.fill(Color.WHITE));
 
         VBox vBox = (VBox) ((HBox) mainMenuPane.getChildren().get(0)).getChildren().get(1);
 

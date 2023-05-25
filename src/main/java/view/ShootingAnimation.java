@@ -18,20 +18,24 @@ import model.Level;
 import java.util.ArrayList;
 import java.util.zip.ZipFile;
 
+import static model.Ball.RADIUS;
 import static model.Ball.STICK_WIDTH;
 
 public class ShootingAnimation extends Transition {
-    private final AnchorPane anchorPane;
+    private final AnchorPane anchorPane, resultMenuPane;
     private final Level level;
     private final Ball invisibleCircle, mainCircle;
     private final ArrayList<Ball> connectedBalls;
     private final ArrayList<Transition> allAnimations;
     private final Ball ball;
-    private final Label label1, label2, scoreLabel;
+    private final Label label1, label2, scoreLabel, resultLabel, resultScoreLabel, resultTimeLabel;
     private final Timeline timeline;
 
-    public ShootingAnimation(AnchorPane anchorPane, Level level, Ball ball, Ball invisibleCircle, Ball mainCircle, ArrayList<Ball> connectedBalls, ArrayList<Transition> allAnimations, Label label1, Label label2, Label scoreLabel, Timeline timeline) {
+    public ShootingAnimation(AnchorPane anchorPane, AnchorPane resultMenuPane, Level level, Ball ball, Ball invisibleCircle, Ball mainCircle,
+                             ArrayList<Ball> connectedBalls, ArrayList<Transition> allAnimations, Label label1, Label label2,
+                             Label scoreLabel, Timeline timeline, Label resultLabel, Label resultScoreLabel, Label resultTimeLabel) {
         this.anchorPane = anchorPane;
+        this.resultMenuPane = resultMenuPane;
         this.level = level;
         this.ball = ball;
         this.invisibleCircle = invisibleCircle;
@@ -42,6 +46,9 @@ public class ShootingAnimation extends Transition {
         this.label2 = label2;
         this.scoreLabel = scoreLabel;
         this.timeline = timeline;
+        this.resultLabel = resultLabel;
+        this.resultScoreLabel = resultScoreLabel;
+        this.resultTimeLabel = resultTimeLabel;
         this.setCycleDuration(Duration.millis(1000));
         this.setCycleCount(-1);
     }
@@ -57,7 +64,7 @@ public class ShootingAnimation extends Transition {
             level.setNumberOfConnectedBalls(level.getNumberOfConnectedBalls() + 1);
             label1.setText("Ball Count : " + (level.getNumberOfBalls() - level.getNumberOfConnectedBalls()));
             label2.setText(String.valueOf(level.getNumberOfBalls() - level.getNumberOfConnectedBalls()));
-            isFinished = failed || (level.getNumberOfConnectedBalls() == level.getNumberOfBalls()) || (level.getMinutes() == Level.GAME_TIME);
+            isFinished = (level.getNumberOfConnectedBalls() == level.getNumberOfBalls()) || (level.getMinutes() == Level.GAME_TIME);
             connectedBalls.add(ball);
 
             Rectangle stick = new Rectangle(invisibleCircle.getX() - (double) (Ball.STICK_WIDTH / 2), mainCircle.getY() + mainCircle.getRadius(), Ball.STICK_WIDTH, ball.getY() - ball.getRadius() - mainCircle.getY() - mainCircle.getRadius() - 14);
@@ -68,9 +75,11 @@ public class ShootingAnimation extends Transition {
             BallRotation ballRotation = new BallRotation(invisibleCircle, 1, ball); // TODO
             allAnimations.add(ballRotation);
             ballRotation.play();
+            allAnimations.remove(this);
             this.stop();
         }
         if (isFinished) {
+            System.out.println("Finished");
             level.setFinished(true);
             level.setWinner(!failed);
             timeline.stop();
@@ -80,16 +89,23 @@ public class ShootingAnimation extends Transition {
             if (lost) {
                 anchorPane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
                 invisibleCircle.setFill(Color.RED);
-
+                resultLabel.setText("You Lost!");
+                resultLabel.setTextFill(Color.RED);
             } else {
                 anchorPane.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
                 invisibleCircle.setFill(Color.GREEN);
-
+                resultLabel.setText("You Won!");
+                resultLabel.setTextFill(Color.GREEN);
             }
+            resultScoreLabel.setText("Score : " + level.getScore());
+            resultTimeLabel.setText("Time : " + level.getMinutes() + " : " + level.getSeconds());
+            resultMenuPane.setVisible(true);
+            resultMenuPane.toFront();
+            resultMenuPane.requestFocus();
         }
 
         ball.setY(y);
-        ball.getNumberText().setY(y + 5);
+        ball.getNumberText().setY(y + ball.getNumberText().getLayoutBounds().getHeight() / 4);
     }
 
     private void setLabels() {

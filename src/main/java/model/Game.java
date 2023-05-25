@@ -1,10 +1,9 @@
 package model;
 
-import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Random;
 
 public class Game {
     private final int[] rotationSpeed = {5, 10, 15};
@@ -18,6 +17,7 @@ public class Game {
     private final LinkedList<User> scoreBoard;
     private User currentUser;
     private boolean isSoundMuted = false;
+    private KeyCode firstPlayerShoot, secondPlayerShoot, freezeMode, moveRight, moveLeft;
 
 
     public Game() {
@@ -27,6 +27,11 @@ public class Game {
         this.difficulty = 2;
         this.numberOfBalls = 10;
         this.numberOfPrimaryBalls = 0;
+        this.firstPlayerShoot = KeyCode.SPACE;
+        this.secondPlayerShoot = KeyCode.ENTER;
+        this.freezeMode = KeyCode.TAB;
+        this.moveRight = KeyCode.RIGHT;
+        this.moveLeft = KeyCode.LEFT;
     }
 
     public int getDifficulty() {
@@ -108,5 +113,45 @@ public class Game {
 
     public void setSoundMuted(boolean soundMuted) {
         isSoundMuted = soundMuted;
+    }
+
+    public KeyCode getFirstPlayerShoot() {
+        return firstPlayerShoot;
+    }
+
+    public void setFirstPlayerShoot(KeyCode firstPlayerShoot) {
+        this.firstPlayerShoot = firstPlayerShoot;
+    }
+
+    public KeyCode getSecondPlayerShoot() {
+        return secondPlayerShoot;
+    }
+
+    public void setSecondPlayerShoot(KeyCode secondPlayerShoot) {
+        this.secondPlayerShoot = secondPlayerShoot;
+    }
+
+    public KeyCode getFreezeMode() {
+        return freezeMode;
+    }
+
+    public void setFreezeMode(KeyCode freezeMode) {
+        this.freezeMode = freezeMode;
+    }
+
+    public KeyCode getMoveRight() {
+        return moveRight;
+    }
+
+    public void setMoveRight(KeyCode moveRight) {
+        this.moveRight = moveRight;
+    }
+
+    public KeyCode getMoveLeft() {
+        return moveLeft;
+    }
+
+    public void setMoveLeft(KeyCode moveLeft) {
+        this.moveLeft = moveLeft;
     }
 }

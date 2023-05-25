@@ -1,5 +1,6 @@
 package model;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -20,11 +21,9 @@ public class Ball extends Circle {
         this.number = number;
         this.numberText = new Text(String.valueOf(number));
         this.numberText.setFont(Font.font(numberText.getFont().getName(), FontWeight.BOLD, FontPosture.REGULAR, 18));
+        this.numberText.setX(x - numberText.getLayoutBounds().getWidth() / 2);
+        this.numberText.setY(y + numberText.getLayoutBounds().getHeight() / 4);
         this.numberText.setFill(Color.WHITE);
-        this.numberText.setWrappingWidth(Ball.RADIUS * 2);
-        this.numberText.prefHeight(Ball.RADIUS * 2);
-        this.numberText.setX(this.getX() - Ball.RADIUS);
-        this.numberText.setY(this.getY() + 8);
         this.numberText.setTextAlignment(TextAlignment.CENTER);
     }
 

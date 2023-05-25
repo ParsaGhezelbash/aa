@@ -9,10 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.stage.FileChooser;
@@ -40,6 +37,7 @@ public class ProfileMenu extends Application {
     public void start(Stage stage) throws Exception {
         this.stage = stage;
         AnchorPane profileMenuPane = FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/ProfileMenu.fxml")).toExternalForm()));
+        profileMenuPane.setBackground(Background.fill(Color.WHITE));
         HBox hBox = (HBox) profileMenuPane.getChildren().get(0);
         VBox rightVBox = (VBox) hBox.getChildren().get(2);
         VBox leftVBox = (VBox) hBox.getChildren().get(0);

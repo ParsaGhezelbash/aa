@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -36,6 +37,7 @@ public class SignUpMenu extends Application {
     public void start(Stage stage) throws Exception {
         this.stage = stage;
         AnchorPane signUpPane = FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/SignUpMenu.fxml")).toExternalForm()));
+        signUpPane.setBackground(Background.fill(Color.WHITE));
 
         File profileDirectory = new File(new URL(Objects.requireNonNull(Game.class.getResource("/profile pictures")).toExternalForm()).toURI());
         int defaultProfilesCount = Objects.requireNonNull(profileDirectory.listFiles()).length - 3;

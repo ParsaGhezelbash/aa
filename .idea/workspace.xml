@@ -4,13 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c25c76ce-c857-4f26-9ac7-05ca9fd0b092" name="Changes" comment="6th day">
+    <list default="true" id="c25c76ce-c857-4f26-9ac7-05ca9fd0b092" name="Changes" comment="nth day">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fxml/KeyBoardMenu.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fxml/MusicMenu.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fxml/ResultMenu.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/sound/Mute.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/sound/Unmute.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Ball.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Ball.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Level.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/BallRotation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/BallRotation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/InGameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/InGameMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/ProfileMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ProfileMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/ScoreBoardMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ScoreBoardMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/SettingsMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/SettingsMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/ShootingAnimation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ShootingAnimation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/SignUpMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/SignUpMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/PauseMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/PauseMenu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sound/Mute.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sound/Unmute.jpg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -181,7 +194,9 @@
       <workItem from="1684732951673" duration="7485000" />
       <workItem from="1684773504122" duration="22520000" />
       <workItem from="1684850124887" duration="522000" />
-      <workItem from="1684963772039" duration="2806000" />
+      <workItem from="1684963772039" duration="3092000" />
+      <workItem from="1684968268187" duration="1017000" />
+      <workItem from="1684998945386" duration="14038000" />
     </task>
     <task id="LOCAL-00001" summary="first day">
       <created>1684355122724</created>
@@ -274,7 +289,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684800883681</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="nth day">
+      <created>1684967359016</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1684967359016</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -299,7 +321,8 @@
     <MESSAGE value="4th day" />
     <MESSAGE value="5th day" />
     <MESSAGE value="6th day" />
-    <option name="LAST_COMMIT_MESSAGE" value="6th day" />
+    <MESSAGE value="nth day" />
+    <option name="LAST_COMMIT_MESSAGE" value="nth day" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

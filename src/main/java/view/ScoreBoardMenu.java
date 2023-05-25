@@ -9,8 +9,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.Game;
 import model.User;
@@ -25,6 +27,7 @@ public class ScoreBoardMenu extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         AnchorPane scoreBoardMenuPane = FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/ScoreBoardMenu.fxml")).toExternalForm()));
+        scoreBoardMenuPane.setBackground(Background.fill(Color.WHITE));
         HBox hBox = (HBox) scoreBoardMenuPane.getChildren().get(0);
 
         TableView<User> tableView = new TableView<>();
