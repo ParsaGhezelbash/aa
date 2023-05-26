@@ -1,7 +1,6 @@
 package view;
 
 import javafx.animation.Transition;
-import javafx.scene.shape.Circle;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import model.Ball;

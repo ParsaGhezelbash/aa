@@ -393,8 +393,8 @@ public class InGameMenu extends Application {
 
     private Ball createBall(int playerNumber, AnchorPane anchorPane, AnchorPane resultMenuPane, ArrayList<Ball> connectedBalls,
                             ArrayList<Transition> allAnimations, int number) {
-        Ball ball = new Ball(anchorPane.getPrefWidth() / 2, playerNumber != 2 ?
-                anchorPane.getPrefHeight() - 2 * Ball.RADIUS - 20 : 2 * Ball.RADIUS + 20 , number, playerNumber);
+        Ball ball = new Ball(anchorPane.getPrefWidth() / 2, playerNumber != 2 ? (anchorPane.getPrefHeight() - 2 * Ball.RADIUS - 20) : (2 * Ball.RADIUS + 20) ,
+                                number, playerNumber);
         anchorPane.getChildren().add(ball);
         anchorPane.getChildren().add(ball.getNumberText());
 //        ball.requestFocus();
