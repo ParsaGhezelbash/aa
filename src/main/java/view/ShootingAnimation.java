@@ -9,17 +9,12 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import model.Ball;
 import model.Level;
 
 import java.util.ArrayList;
-import java.util.zip.ZipFile;
-
-import static model.Ball.RADIUS;
-import static model.Ball.STICK_WIDTH;
 
 public class ShootingAnimation extends Transition {
     private final AnchorPane anchorPane, resultMenuPane;
@@ -55,20 +50,33 @@ public class ShootingAnimation extends Transition {
 
     @Override
     protected void interpolate(double v) {
-        double y = ball.getY() - 20;
+        double y = ball.getY() + ((ball.getPlayerNumber() != 2) ? -1 : 1) * 20;
         boolean failed = isConnectedToBalls(connectedBalls);
-        boolean isFinished = failed || (level.getNumberOfConnectedBalls() == level.getNumberOfBalls()) || (level.getMinutes() == Level.GAME_TIME);
+        boolean isFinished = failed || (level.getNumberOfConnectedBalls1() == level.getNumberOfBalls()) || // (level.getNumberOfConnectedBalls2() == level.getNumberOfBalls() && !level.isSinglePlayer())
+                (level.getMinutes() == Level.GAME_TIME);
         boolean lost = failed || (level.getMinutes() == Level.GAME_TIME);
-
+        System.out.println(failed);
         if (isConnectedToMainBall() && !failed) {
-            level.setNumberOfConnectedBalls(level.getNumberOfConnectedBalls() + 1);
-            label1.setText("Ball Count : " + (level.getNumberOfBalls() - level.getNumberOfConnectedBalls()));
-            label2.setText(String.valueOf(level.getNumberOfBalls() - level.getNumberOfConnectedBalls()));
-            isFinished = (level.getNumberOfConnectedBalls() == level.getNumberOfBalls()) || (level.getMinutes() == Level.GAME_TIME);
+            if (ball.getPlayerNumber() != 2) {
+                level.setNumberOfConnectedBalls1(level.getNumberOfConnectedBalls1() + 1);
+            }else {
+                level.setNumberOfConnectedBalls2(level.getNumberOfConnectedBalls2() + 1);
+            }
+
+            if (level.isSinglePlayer()) {
+                label1.setText("Ball Count : " + (level.getNumberOfBalls() - level.getNumberOfConnectedBalls1()));
+                label2.setText(String.valueOf(level.getNumberOfBalls() - level.getNumberOfConnectedBalls1()));
+            } else {
+                label1.setText("Ball Count 1: " + (level.getNumberOfBalls() - level.getNumberOfConnectedBalls1()) +
+                               "\nBall Count 2: " + (level.getNumberOfBalls() - level.getNumberOfConnectedBalls2()));
+            }
+            System.out.println(level.getNumberOfConnectedBalls1() + " " + level.getNumberOfConnectedBalls2() + " " + level.getNumberOfBalls());
+
+            isFinished = (level.getNumberOfConnectedBalls1() == level.getNumberOfBalls()) || (level.getMinutes() == Level.GAME_TIME);
             connectedBalls.add(ball);
 
             Rectangle stick = new Rectangle(invisibleCircle.getX() - (double) (Ball.STICK_WIDTH / 2), mainCircle.getY() + mainCircle.getRadius(), Ball.STICK_WIDTH, ball.getY() - ball.getRadius() - mainCircle.getY() - mainCircle.getRadius() - 14);
-            stick.setFill(Color.BLACK);
+            stick.setFill(ball.getFill());
             anchorPane.getChildren().add(stick);
             ball.setStick(stick);
 
@@ -78,6 +86,7 @@ public class ShootingAnimation extends Transition {
             allAnimations.remove(this);
             this.stop();
         }
+
         if (isFinished) {
             System.out.println("Finished");
             level.setFinished(true);
@@ -109,10 +118,10 @@ public class ShootingAnimation extends Transition {
     }
 
     private void setLabels() {
-        level.setNumberOfConnectedBalls(level.getNumberOfConnectedBalls() + 1);
+        level.setNumberOfConnectedBalls1(level.getNumberOfConnectedBalls1() + 1);
         level.increaseScore();
-        label1.setText("Ball Count : " + (level.getNumberOfBalls() - level.getNumberOfConnectedBalls()));
-        label2.setText(String.valueOf(level.getNumberOfBalls() - level.getNumberOfConnectedBalls()));
+        label1.setText("Ball Count : " + (level.getNumberOfBalls() - level.getNumberOfConnectedBalls1()));
+        label2.setText(String.valueOf(level.getNumberOfBalls() - level.getNumberOfConnectedBalls1()));
         scoreLabel.setText("Score : " + level.getScore());
     }
 
@@ -121,8 +130,11 @@ public class ShootingAnimation extends Transition {
     }
 
     private boolean isConnectedToBalls(ArrayList<Ball> connectedBalls) {
+        System.out.println("aaa " + connectedBalls.size());
         for (Ball connectedBall : connectedBalls) {
-            if (connectedBall.getBoundsInParent().intersects(ball.getBoundsInParent())) {
+            if (ball.getBoundsInParent().intersects(connectedBall.getBoundsInParent())) {
+                System.out.println(ball.getCenterX() + " " + ball.getCenterY() + " " + connectedBall.getCenterX() + " " + connectedBall.getCenterY());
+                System.out.println(connectedBall.getNumber());
                 return true;
             }
         }

@@ -24,4 +24,8 @@ public class SettingsMenuController {
     public void unmute() {
         controller.getGame().setSoundMuted(false);
     }
+
+    public SettingsMenu getSettingsMenu() {
+        return settingsMenu;
+    }
 }

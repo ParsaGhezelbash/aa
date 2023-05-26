@@ -6,7 +6,6 @@ import javafx.animation.Timeline;
 import javafx.animation.Transition;
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,9 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -25,8 +22,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Ball;
@@ -34,17 +29,14 @@ import model.Game;
 import model.Level;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class InGameMenu extends Application {
     private Controller controller;
     private Level level;
-    private Ball currentBall;
+    private Ball currentBall1, currentBall2;
     private Ball mainCircle, invisibleCircle;
     private Label usernameLabel, scoreLabel, ballCountLabel1, ballCountLabel2, timerLabel, difficultyLabel;
     private Label resultLabel, resultTimeLabel, resultScoreLabel;
@@ -56,16 +48,17 @@ public class InGameMenu extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
-        ArrayList<Ball> primaryBalls = new ArrayList<>();
-        ArrayList<Ball> connectedBalls = new ArrayList<>();
-        ArrayList<Transition> allAnimations = new ArrayList<>();
-        AnchorPane inGameMenuPane = FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/InGameMenu.fxml")).toExternalForm()));
+//        ArrayList<Ball> primaryBalls = new ArrayList<>();
+        ArrayList<Ball> connectedBalls = level.getLastGamePane() != null ? level.getConnectedBalls() : new ArrayList<>();
+        ArrayList<Transition> allAnimations = level.getLastGamePane() != null ? level.getAllAnimations() : new ArrayList<>();
+        for (Transition animation : allAnimations) {
+            animation.play();
+        }
+        AnchorPane inGameMenuPane = level.getLastGamePane() != null ? level.getLastGamePane() : FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/InGameMenu.fxml")).toExternalForm()));
         inGameMenuPane.setBackground(Background.fill(Color.WHITE));
-        AnchorPane pauseMenuPane = FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/PauseMenu.fxml")).toExternalForm()));
-        AnchorPane resultMenuPane = FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/ResultMenu.fxml")).toExternalForm()));
 
-        setPauseMenuPane(inGameMenuPane, pauseMenuPane, allAnimations);
-        setResultMenuPane(inGameMenuPane, resultMenuPane);
+        AnchorPane resultMenuPane = setResultMenuPane(inGameMenuPane);
+        AnchorPane pauseMenuPane = setPauseMenuPane(inGameMenuPane, resultMenuPane, allAnimations, connectedBalls);
 
         setCircles(inGameMenuPane);
 
@@ -76,7 +69,12 @@ public class InGameMenu extends Application {
         scoreLabel.setText("Score : " + level.getScore());
 
         ballCountLabel1 = (Label) inGameMenuPane.getChildren().get(6);
-        ballCountLabel1.setText("Ball Count : " + (level.getNumberOfBalls() - level.getNumberOfConnectedBalls()));
+        if (level.isSinglePlayer()) {
+            ballCountLabel1.setText("Ball Count : " + (level.getNumberOfBalls() - level.getNumberOfConnectedBalls1()));
+        } else {
+            ballCountLabel1.setText("Ball Count 1: " + (level.getNumberOfBalls() - level.getNumberOfConnectedBalls1()) +
+                    "\nBall Count 2: " + (level.getNumberOfBalls() - level.getNumberOfConnectedBalls2()));
+        }
 
         timerLabel = (Label) inGameMenuPane.getChildren().get(7);
         setTimerLabel(inGameMenuPane, resultMenuPane, allAnimations);
@@ -89,36 +87,72 @@ public class InGameMenu extends Application {
         Button pauseButton = (Button) inGameMenuPane.getChildren().get(10);
         setPauseButton(pauseMenuPane, pauseButton, allAnimations);
 
-        currentBall = createBall(inGameMenuPane, resultMenuPane, connectedBalls, allAnimations, 1);
+        if (level.isSinglePlayer()) {
+            currentBall1 = createBall(0, inGameMenuPane, resultMenuPane, connectedBalls, allAnimations, 1);
+        } else {
+            currentBall1 = createBall(1, inGameMenuPane, resultMenuPane, connectedBalls, allAnimations, 1);
+            currentBall2 = createBall(2, inGameMenuPane, resultMenuPane, connectedBalls, allAnimations, 1);
+        }
 
-        Scene scene = new Scene(inGameMenuPane);
+        Scene scene = level.getLastGamePane() != null ? level.getLastScene() : new Scene(inGameMenuPane);
         stage.setScene(scene);
-        currentBall.requestFocus();
+        currentBall1.requestFocus();
         stage.show();
     }
 
     private void setCircles(AnchorPane inGameMenuPane) {
-        invisibleCircle = new Ball(Level.LEVEL_X, Level.LEVEL_Y);
+        invisibleCircle = level.getLastGamePane() != null ? (Ball) level.getLastGamePane().getChildren().get(2) :
+                new Ball(Level.LEVEL_X, Level.LEVEL_Y);
         invisibleCircle.setRadius(180);
         invisibleCircle.setFill(Color.WHITE);
         invisibleCircle.setStroke(null);
-        inGameMenuPane.getChildren().add(2, invisibleCircle);
-        mainCircle = new Ball(Level.LEVEL_X, Level.LEVEL_Y);
+        mainCircle = level.getLastGamePane() != null ? (Ball) level.getLastGamePane().getChildren().get(3) :
+                new Ball(Level.LEVEL_X, Level.LEVEL_Y);
         mainCircle.setRadius(40);
         mainCircle.setFill(Color.BLACK);
         mainCircle.setStroke(null);
-        inGameMenuPane.getChildren().add(3, mainCircle);
+        if (level.getLastGamePane() == null) {
+            inGameMenuPane.getChildren().add(2, invisibleCircle);
+            inGameMenuPane.getChildren().add(3, mainCircle);
+        }
     }
 
-    private void setPauseMenuPane(AnchorPane inGameMenuPane, AnchorPane pauseMenuPane, ArrayList<Transition> allAnimations) throws IOException {
-        addPaneToPane(inGameMenuPane, pauseMenuPane, 0);
-        AnchorPane keyboardMenuPane = FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/KeyboardMenu.fxml")).toExternalForm()));
-        keyboardMenuPane.setBackground(Background.fill(Color.WHITE));
-        AnchorPane musicMenuPane = FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/MusicMenu.fxml")).toExternalForm()));
-        musicMenuPane.setBackground(Background.fill(Color.WHITE));
+    private AnchorPane setResultMenuPane(AnchorPane inGameMenuPane) throws IOException {
+        AnchorPane resultMenuPane = level.getLastGamePane() != null ? (AnchorPane) level.getLastGamePane().getChildren().get(level.getResultIndex()) :
+                FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/ResultMenu.fxml")).toExternalForm()));
 
-        setKeyboardMenuPane(pauseMenuPane, keyboardMenuPane);
-        setMusicMenuPane(pauseMenuPane, musicMenuPane);
+        inGameMenuPane.getChildren().remove(resultMenuPane);
+        addPaneToPane(inGameMenuPane, resultMenuPane, 0);
+
+        resultLabel = (Label) resultMenuPane.getChildren().get(0);
+        resultLabel.setBackground(Background.fill(Color.WHITE));
+        resultTimeLabel = (Label) resultMenuPane.getChildren().get(1);
+        resultTimeLabel.setBackground(Background.fill(Color.WHITE));
+        resultScoreLabel = (Label) resultMenuPane.getChildren().get(2);
+        resultScoreLabel.setBackground(Background.fill(Color.WHITE));
+        Button enterMainMenu = (Button) resultMenuPane.getChildren().get(3);
+        enterMainMenu.setOnMouseClicked(mouseEvent -> {
+            try {
+                controller.getGame().getCurrentUser().setLastLevel(null);
+                controller.getMainMenuController().getMainMenu().start(stage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        return resultMenuPane;
+    }
+
+    private AnchorPane setPauseMenuPane(AnchorPane inGameMenuPane, AnchorPane resultMenuPane, ArrayList<Transition> allAnimations, ArrayList<Ball> connectedBalls) throws IOException {
+        AnchorPane pauseMenuPane = level.getLastGamePane() != null ? (AnchorPane) level.getLastGamePane().getChildren().get(level.getPauseIndex()) :
+                FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/PauseMenu.fxml")).toExternalForm()));
+
+        inGameMenuPane.getChildren().remove(pauseMenuPane);
+        addPaneToPane(inGameMenuPane, pauseMenuPane, 1);
+
+        AnchorPane keyboardMenuPane = setKeyboardMenuPane(pauseMenuPane);
+
+        AnchorPane musicMenuPane = setMusicMenuPane(pauseMenuPane);
 
         Button resumeButton = (Button) pauseMenuPane.getChildren().get(2);
         resumeButton.setOnMouseClicked(mouseEvent -> {
@@ -127,7 +161,7 @@ public class InGameMenu extends Application {
                 animation.play();
             }
             timeline.play();
-            currentBall.requestFocus();
+            currentBall1.requestFocus();
         });
 
         Button keyboardButton = (Button) pauseMenuPane.getChildren().get(3);
@@ -144,6 +178,14 @@ public class InGameMenu extends Application {
 
         Button saveButton = (Button) pauseMenuPane.getChildren().get(5);
         saveButton.setOnMouseClicked(mouseEvent -> {
+            level.setLastScene(stage.getScene());
+            level.setAllAnimations(allAnimations);
+            level.setConnectedBalls(connectedBalls);
+            level.setLastGamePane(inGameMenuPane);
+            level.setResultIndex(inGameMenuPane.getChildren().indexOf(resultMenuPane));
+            level.setPauseIndex(inGameMenuPane.getChildren().indexOf(pauseMenuPane));
+            level.setKeyboardIndex(pauseMenuPane.getChildren().indexOf(keyboardMenuPane));
+            level.setMusicIndex(pauseMenuPane.getChildren().indexOf(musicMenuPane));
             controller.getGame().getCurrentUser().setLastLevel(level);
         });
 
@@ -151,7 +193,7 @@ public class InGameMenu extends Application {
         restartButton.setOnMouseClicked(mouseEvent -> {
             try {
                 this.setLevel(new Level(controller.getGame().getDifficulty(), controller.getGame().getNumberOfBalls(), controller.getGame().getNumberOfPrimaryBalls(),
-                        controller.getGame().getMapNumber()));
+                        controller.getGame().getMapNumber(), level.isSinglePlayer()));
                 this.start(stage);
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -171,61 +213,92 @@ public class InGameMenu extends Application {
                 new ImagePattern(new Image(new URL(Game.class.getResource("/sound/Mute.png").toExternalForm()).toExternalForm())));
         Circle unMutedCircle = new Circle(pauseMenuPane.getPrefWidth() - 30, pauseMenuPane.getPrefHeight() - 30, 30,
                 new ImagePattern(new Image(new URL(Game.class.getResource("/sound/Unmute.png").toExternalForm()).toExternalForm())));
-        pauseMenuPane.getChildren().add(mutedCircle);
+        if (controller.getMusicController().getMediaPlayer().isMute()) {
+            pauseMenuPane.getChildren().add(mutedCircle);
+        } else {
+            pauseMenuPane.getChildren().add(unMutedCircle);
+        }
         mutedCircle.setOnMouseClicked(event -> {
             pauseMenuPane.getChildren().remove(mutedCircle);
             pauseMenuPane.getChildren().add(unMutedCircle);
+            controller.getMusicController().getMediaPlayer().setMute(false);
         });
         unMutedCircle.setOnMouseClicked(event -> {
             pauseMenuPane.getChildren().remove(unMutedCircle);
             pauseMenuPane.getChildren().add(mutedCircle);
+            controller.getMusicController().getMediaPlayer().setMute(true);
         });
+
+        return pauseMenuPane;
     }
 
-    private void setKeyboardMenuPane(AnchorPane pauseMenuPane, AnchorPane keyboardMenuPane) {
+    private AnchorPane setKeyboardMenuPane(AnchorPane pauseMenuPane) throws IOException {
+        System.out.println(pauseMenuPane.getChildren().size());
+        AnchorPane keyboardMenuPane = level.getLastGamePane() != null ? (AnchorPane) pauseMenuPane.getChildren().get(level.getKeyboardIndex()) :
+                FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/KeyboardMenu.fxml")).toExternalForm()));
+
+        pauseMenuPane.getChildren().remove(keyboardMenuPane);
         addPaneToPane(pauseMenuPane, keyboardMenuPane, 0);
 
         Label firstPlayerShootLabel, secondPlayerShootLabel, freezeMode, moveRightLabel, moveLeftLabel;
         firstPlayerShootLabel = (Label) keyboardMenuPane.getChildren().get(0);
         firstPlayerShootLabel.setText("First Player Shoot : " + controller.getGame().getFirstPlayerShoot().getName());
+        firstPlayerShootLabel.setBackground(Background.fill(Color.WHITE));
+
         secondPlayerShootLabel = (Label) keyboardMenuPane.getChildren().get(1);
         secondPlayerShootLabel.setText("Second Player Shoot : " + controller.getGame().getSecondPlayerShoot().getName());
+        secondPlayerShootLabel.setBackground(Background.fill(Color.WHITE));
+
         freezeMode = (Label) keyboardMenuPane.getChildren().get(2);
         freezeMode.setText("Freeze Mode : " + controller.getGame().getFreezeMode().getName());
+        freezeMode.setBackground(Background.fill(Color.WHITE));
+
         moveRightLabel = (Label) keyboardMenuPane.getChildren().get(3);
         moveRightLabel.setText("Move Right : " + controller.getGame().getMoveRight().getName());
+        moveRightLabel.setBackground(Background.fill(Color.WHITE));
+
         moveLeftLabel = (Label) keyboardMenuPane.getChildren().get(4);
         moveLeftLabel.setText("Move Left : " + controller.getGame().getMoveLeft().getName());
+        moveLeftLabel.setBackground(Background.fill(Color.WHITE));
+
         Button backButton = (Button) keyboardMenuPane.getChildren().get(5);
         backButton.setOnMouseClicked(mouseEvent -> {
             keyboardMenuPane.setVisible(false);
         });
+
+        return keyboardMenuPane;
     }
 
-    private void setMusicMenuPane(AnchorPane pauseMenuPane, AnchorPane musicMenuPane) {
+    private AnchorPane setMusicMenuPane(AnchorPane pauseMenuPane) throws IOException {
+        AnchorPane musicMenuPane = level.getLastGamePane() != null ? (AnchorPane) pauseMenuPane.getChildren().get(level.getMusicIndex()) :
+                FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/MusicMenu.fxml")).toExternalForm()));
+
+        pauseMenuPane.getChildren().remove(musicMenuPane);
         addPaneToPane(pauseMenuPane, musicMenuPane, 1);
-    }
-
-    private void setResultMenuPane(AnchorPane inGameMenuPane, AnchorPane resultMenuPane) {
-        resultMenuPane.setLayoutX(inGameMenuPane.getPrefWidth() / 2 - resultMenuPane.getPrefWidth() / 2);
-        resultMenuPane.setLayoutY(inGameMenuPane.getPrefHeight() / 2 - resultMenuPane.getPrefHeight() / 2);
-        resultMenuPane.setVisible(false);
-        inGameMenuPane.getChildren().add(1, resultMenuPane);
-
-        resultLabel = (Label) resultMenuPane.getChildren().get(0);
-        resultLabel.setBackground(Background.fill(Color.WHITE));
-        resultTimeLabel = (Label) resultMenuPane.getChildren().get(1);
-        resultTimeLabel.setBackground(Background.fill(Color.WHITE));
-        resultScoreLabel = (Label) resultMenuPane.getChildren().get(2);
-        resultScoreLabel.setBackground(Background.fill(Color.WHITE));
-        Button enterMainMenu = (Button) resultMenuPane.getChildren().get(3);
-        enterMainMenu.setOnMouseClicked(mouseEvent -> {
-            try {
-                controller.getMainMenuController().getMainMenu().start(stage);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        Button musicButton1 = (Button) musicMenuPane.getChildren().get(0);
+        musicButton1.setOnMouseClicked(mouseEvent -> {
+            controller.getMusicController().getMediaPlayer().stop();
+            controller.getMusicController().setMediaPlayer(1);
+            controller.getMusicController().getMediaPlayer().play();
         });
+        Button musicButton2 = (Button) musicMenuPane.getChildren().get(1);
+        musicButton2.setOnMouseClicked(mouseEvent -> {
+            controller.getMusicController().getMediaPlayer().stop();
+            controller.getMusicController().setMediaPlayer(2);
+            controller.getMusicController().getMediaPlayer().play();
+        });
+        Button musicButton3 = (Button) musicMenuPane.getChildren().get(2);
+        musicButton3.setOnMouseClicked(mouseEvent -> {
+            controller.getMusicController().getMediaPlayer().stop();
+            controller.getMusicController().setMediaPlayer(3);
+            controller.getMusicController().getMediaPlayer().play();
+        });
+        Button backButton = (Button) musicMenuPane.getChildren().get(3);
+        backButton.setOnMouseClicked(mouseEvent -> {
+            musicMenuPane.setVisible(false);
+        });
+
+        return musicMenuPane;
     }
 
     private void addPaneToPane(Pane pane, Pane paneToAdd, int index) {
@@ -236,17 +309,22 @@ public class InGameMenu extends Application {
     }
 
     private void setMainCircleCounter(AnchorPane inGameMenuPane) {
-        ballCountLabel2 = new Label();
+        ballCountLabel2 = level.getLastGamePane() != null ? (Label) level.getLastGamePane().getChildren().get(9) : new Label();
         ballCountLabel2.setPrefWidth(60);
         ballCountLabel2.setPrefHeight(60);
         ballCountLabel2.setLayoutX(mainCircle.getX() - ballCountLabel2.getPrefWidth() / 2);
         ballCountLabel2.setLayoutY(mainCircle.getY() - ballCountLabel2.getPrefHeight() / 2);
         ballCountLabel2.setFont(Font.font(ballCountLabel2.getFont().getName(), FontWeight.BOLD, FontPosture.REGULAR, 32));
         ballCountLabel2.setTextFill(Color.WHITE);
-        ballCountLabel2.setText(String.valueOf((level.getNumberOfBalls() - level.getNumberOfConnectedBalls())));
+        if (level.isSinglePlayer()) {
+            ballCountLabel2.setText(String.valueOf((level.getNumberOfBalls() - level.getNumberOfConnectedBalls1())));
+        } else {
+
+            ballCountLabel2.setText((level.getNumberOfBalls() - level.getNumberOfConnectedBalls1()) +
+                            " | " + (level.getNumberOfBalls() - level.getNumberOfConnectedBalls2()));
+        }
         ballCountLabel2.setAlignment(Pos.CENTER);
-//        ballCountLabel2.setTextAlignment(TextAlignment.CENTER);
-        inGameMenuPane.getChildren().add(9, ballCountLabel2);
+        if (level.getLastGamePane() == null) inGameMenuPane.getChildren().add(9, ballCountLabel2);
     }
 
     private void setPauseButton(AnchorPane pauseMenuPane, Button pauseButton, ArrayList<Transition> allAnimations) {
@@ -297,24 +375,35 @@ public class InGameMenu extends Application {
         timeline.play();
     }
 
-    private void shoot(AnchorPane anchorPane, AnchorPane resultMenuPane, ArrayList<Ball> connectedBalls, ArrayList<Transition> allAnimations) {
-        ShootingAnimation shootingAnimation = new ShootingAnimation(anchorPane, resultMenuPane, level, currentBall, invisibleCircle, mainCircle,
-                connectedBalls, allAnimations, ballCountLabel1, ballCountLabel2, scoreLabel, timeline, resultLabel, resultTimeLabel, resultScoreLabel);
+    private void shoot(AnchorPane anchorPane, AnchorPane resultMenuPane, Ball shootingBall, ArrayList<Ball> connectedBalls,
+                       ArrayList<Transition> allAnimations) {
+        ShootingAnimation shootingAnimation = new ShootingAnimation(anchorPane, resultMenuPane, level, shootingBall,
+                invisibleCircle, mainCircle, connectedBalls, allAnimations, ballCountLabel1, ballCountLabel2, scoreLabel,
+                timeline, resultLabel, resultTimeLabel, resultScoreLabel);
         allAnimations.add(shootingAnimation);
         shootingAnimation.play();
-        currentBall = createBall(anchorPane, resultMenuPane, connectedBalls, allAnimations, currentBall.getNumber() + 1);
+        if (shootingBall.getPlayerNumber() != 2) {
+            currentBall1 = createBall(shootingBall.getPlayerNumber(), anchorPane, resultMenuPane, connectedBalls, allAnimations,
+                    shootingBall.getNumber() + 1);
+        } else {
+            currentBall2 = createBall(shootingBall.getPlayerNumber(), anchorPane, resultMenuPane, connectedBalls, allAnimations,
+                    shootingBall.getNumber() + 1);
+        }
     }
 
-    private Ball createBall(AnchorPane anchorPane, AnchorPane resultMenuPane, ArrayList<Ball> connectedBalls, ArrayList<Transition> allAnimations, int number) {
-        Ball ball = new Ball(anchorPane.getPrefWidth() / 2, anchorPane.getPrefHeight() - 2 * Ball.RADIUS - 20, number);
+    private Ball createBall(int playerNumber, AnchorPane anchorPane, AnchorPane resultMenuPane, ArrayList<Ball> connectedBalls,
+                            ArrayList<Transition> allAnimations, int number) {
+        Ball ball = new Ball(anchorPane.getPrefWidth() / 2, playerNumber != 2 ?
+                anchorPane.getPrefHeight() - 2 * Ball.RADIUS - 20 : 2 * Ball.RADIUS + 20 , number, playerNumber);
         anchorPane.getChildren().add(ball);
         anchorPane.getChildren().add(ball.getNumberText());
-        ball.requestFocus();
+//        ball.requestFocus();
         ball.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
-                if (keyEvent.getCode().equals(KeyCode.SPACE))
-                    shoot(anchorPane, resultMenuPane, connectedBalls, allAnimations);
+                if (keyEvent.getCode().equals(playerNumber != 2 ? controller.getGame().getFirstPlayerShoot() :
+                        controller.getGame().getSecondPlayerShoot()))
+                    shoot(anchorPane, resultMenuPane, ball, connectedBalls, allAnimations);
             }
         });
         return ball;

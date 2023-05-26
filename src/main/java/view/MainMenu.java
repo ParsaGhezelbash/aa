@@ -39,24 +39,54 @@ public class MainMenu extends Application {
 
         ((Label) vBox.getChildren().get(2)).setText(controller.getGame().getCurrentUser().getUsername());
 
-        Button singlePlayerButton = (Button) vBox.getChildren().get(3); // TODO Auto-generated
+        Button resumeButton = (Button) vBox.getChildren().get(3);
+        EventHandler<Event> resumeButtonEvent = event -> {
+            try {
+                if (controller.getGame().getCurrentUser().getLastLevel() != null) {
+                    InGameMenu inGameMenu = controller.getInGameMenuController().getInGameMenu();
+                    inGameMenu.setLevel(controller.getGame().getCurrentUser().getLastLevel());
+                    this.stop();
+                    inGameMenu.start(stage);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        };
+        resumeButton.setOnMouseClicked(resumeButtonEvent);
+        resumeButton.setOnKeyPressed(resumeButtonEvent);
+
+        Button singlePlayerButton = (Button) vBox.getChildren().get(4);
         singlePlayerButton.setOnMouseClicked(event -> {
             try {
                 Game game = controller.getGame();
                 InGameMenu inGameMenu = controller.getInGameMenuController().getInGameMenu();
                 inGameMenu.setLevel(new Level(game.getDifficulty(), game.getNumberOfBalls(), game.getNumberOfPrimaryBalls(),
-                        game.getMapNumber()));
+                        game.getMapNumber(), true));
+                this.stop();
                 inGameMenu.start(stage);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
 
-        Button multiPlayerButton = (Button) vBox.getChildren().get(4); // TODO Auto-generated
+        Button multiPlayerButton = (Button) vBox.getChildren().get(5);
+        multiPlayerButton.setOnMouseClicked(event -> {
+            try {
+                Game game = controller.getGame();
+                InGameMenu inGameMenu = controller.getInGameMenuController().getInGameMenu();
+                inGameMenu.setLevel(new Level(game.getDifficulty(), game.getNumberOfBalls(), game.getNumberOfPrimaryBalls(),
+                        game.getMapNumber(), false));
+                this.stop();
+                inGameMenu.start(stage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 
-        Button scoreBoardButton = (Button) vBox.getChildren().get(5);
+        Button scoreBoardButton = (Button) vBox.getChildren().get(6);
         EventHandler<Event> scoreBoardButtonEvent = event -> {
             try {
+                this.stop();
                 controller.getScoreBoardMenuController().getScoreBoardMenu().start(stage);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -65,9 +95,10 @@ public class MainMenu extends Application {
         scoreBoardButton.setOnMouseClicked(scoreBoardButtonEvent);
         scoreBoardButton.setOnKeyPressed(scoreBoardButtonEvent);
 
-        Button profileButton = (Button) vBox.getChildren().get(6);
+        Button profileButton = (Button) vBox.getChildren().get(7);
         EventHandler<Event> profileButtonEvent = event -> {
             try {
+                this.stop();
                 controller.getProfileMenuController().getProfileMenu().start(stage);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -76,10 +107,24 @@ public class MainMenu extends Application {
         profileButton.setOnMouseClicked(profileButtonEvent);
         profileButton.setOnKeyPressed(profileButtonEvent);
 
-        Button exitButton = (Button) vBox.getChildren().get(8);
+        Button settingsButton = (Button) vBox.getChildren().get(8);
+        EventHandler<Event> settingsButtonEvent = event -> {
+            try {
+                this.stop();
+                controller.getSettingsMenuController().getSettingsMenu().start(stage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        };
+        settingsButton.setOnMouseClicked(settingsButtonEvent);
+        settingsButton.setOnKeyPressed(settingsButtonEvent);
+
+
+        Button exitButton = (Button) vBox.getChildren().get(9);
         exitButton.setOnMouseClicked(event -> {
             try {
                 controller.getGame().setCurrentUser(null);
+                this.stop();
                 controller.getSignUpMenuController().getSignUpMenu().start(stage);
             } catch (Exception e) {
                 e.printStackTrace();

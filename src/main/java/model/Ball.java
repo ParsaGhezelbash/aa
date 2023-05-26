@@ -8,17 +8,20 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.*;
 
 public class Ball extends Circle {
+    public static final Color[] COLORS = {Color.BLACK, Color.BROWN, Color.KHAKI};
     public static final int RADIUS = 16;
     public static final int STICK_WIDTH = 4;
     public static final int STICK_HEIGHT = 180 - RADIUS;
     private final int number;
+    private final int playerNumber;
     private Text numberText;
     private Rectangle stick;
 
-    public Ball(double x, double y, int number) {
+    public Ball(double x, double y, int number, int playerNumber) {
         super(x, y, RADIUS);
-        this.setFill(Color.BLACK);
+        this.setFill(COLORS[playerNumber]);
         this.number = number;
+        this.playerNumber = playerNumber;
         this.numberText = new Text(String.valueOf(number));
         this.numberText.setFont(Font.font(numberText.getFont().getName(), FontWeight.BOLD, FontPosture.REGULAR, 18));
         this.numberText.setX(x - numberText.getLayoutBounds().getWidth() / 2);
@@ -31,10 +34,15 @@ public class Ball extends Circle {
         super(x, y, RADIUS);
         this.setFill(Color.BLACK);
         this.number = -1;
+        this.playerNumber = -1;
     }
 
     public int getNumber() {
         return number;
+    }
+
+    public int getPlayerNumber() {
+        return playerNumber;
     }
 
     public Rectangle getStick() {

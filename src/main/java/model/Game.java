@@ -1,6 +1,8 @@
 package model;
 
 import javafx.scene.input.KeyCode;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -18,6 +20,7 @@ public class Game {
     private User currentUser;
     private boolean isSoundMuted = false;
     private KeyCode firstPlayerShoot, secondPlayerShoot, freezeMode, moveRight, moveLeft;
+    private final MediaPlayer music1, music2, music3;
 
 
     public Game() {
@@ -32,6 +35,15 @@ public class Game {
         this.freezeMode = KeyCode.TAB;
         this.moveRight = KeyCode.RIGHT;
         this.moveLeft = KeyCode.LEFT;
+        this.music1 = new MediaPlayer(new Media(getClass().getResource("/sound/Music1.mp3").toString()));
+        music1.setCycleCount(MediaPlayer.INDEFINITE);
+        music1.setVolume(0.1);
+        this.music2 = new MediaPlayer(new Media(getClass().getResource("/sound/Music2.mp3").toString()));
+        music2.setCycleCount(MediaPlayer.INDEFINITE);
+        music2.setVolume(0.1);
+        this.music3 = new MediaPlayer(new Media(getClass().getResource("/sound/Music3.mp3").toString()));
+        music3.setCycleCount(MediaPlayer.INDEFINITE);
+        music3.setVolume(0.1);
     }
 
     public int getDifficulty() {
@@ -153,5 +165,17 @@ public class Game {
 
     public void setMoveLeft(KeyCode moveLeft) {
         this.moveLeft = moveLeft;
+    }
+
+    public MediaPlayer getMusic1() {
+        return music1;
+    }
+
+    public MediaPlayer getMusic2() {
+        return music2;
+    }
+
+    public MediaPlayer getMusic3() {
+        return music3;
     }
 }

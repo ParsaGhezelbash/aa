@@ -11,6 +11,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.TextAlignment;
@@ -36,6 +38,7 @@ public class SignUpMenu extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
+
         AnchorPane signUpPane = FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/SignUpMenu.fxml")).toExternalForm()));
         signUpPane.setBackground(Background.fill(Color.WHITE));
 

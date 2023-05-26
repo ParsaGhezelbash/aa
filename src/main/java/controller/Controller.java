@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.scene.media.MediaPlayer;
 import model.Game;
 
 import java.net.MalformedURLException;
@@ -13,9 +14,12 @@ public class Controller {
     private final InGameMenuController inGameMenuController;
     private final ScoreBoardMenuController scoreBoardMenuController;
     private final SettingsMenuController settingsMenuController;
+    private final MusicController musicController;
+
     private final Game game;
 
     public Controller() throws MalformedURLException {
+        game = new Game();
         loginMenuController = new LoginMenuController(this);
         signUpMenuController = new SignUpMenuController(this);
         mainMenuController = new MainMenuController(this);
@@ -23,7 +27,7 @@ public class Controller {
         inGameMenuController = new InGameMenuController(this);
         scoreBoardMenuController = new ScoreBoardMenuController(this);
         settingsMenuController = new SettingsMenuController(this);
-        game = new Game();
+        musicController = new MusicController(this);
         controller = this;
     }
 
@@ -53,6 +57,10 @@ public class Controller {
 
     public SettingsMenuController getSettingsMenuController() {
         return settingsMenuController;
+    }
+
+    public MusicController getMusicController() {
+        return musicController;
     }
 
     public Game getGame() {
