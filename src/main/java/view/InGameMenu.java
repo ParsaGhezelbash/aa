@@ -143,7 +143,8 @@ public class InGameMenu extends Application {
         return resultMenuPane;
     }
 
-    private AnchorPane setPauseMenuPane(AnchorPane inGameMenuPane, AnchorPane resultMenuPane, ArrayList<Transition> allAnimations, ArrayList<Ball> connectedBalls) throws IOException {
+    private AnchorPane setPauseMenuPane(AnchorPane inGameMenuPane, AnchorPane resultMenuPane,
+                                        ArrayList<Transition> allAnimations, ArrayList<Ball> connectedBalls) throws IOException {
         AnchorPane pauseMenuPane = level.getLastGamePane() != null ? (AnchorPane) level.getLastGamePane().getChildren().get(level.getPauseIndex()) :
                 FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/PauseMenu.fxml")).toExternalForm()));
 
@@ -193,7 +194,7 @@ public class InGameMenu extends Application {
         restartButton.setOnMouseClicked(mouseEvent -> {
             try {
                 this.setLevel(new Level(controller.getGame().getDifficulty(), controller.getGame().getNumberOfBalls(), controller.getGame().getNumberOfPrimaryBalls(),
-                        controller.getGame().getMapNumber(), level.isSinglePlayer()));
+                        controller.getGame().getMapNumber(), level.isSinglePlayer(), mainCircle.getCenterX(), mainCircle.getCenterY()));
                 this.start(stage);
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -314,12 +315,11 @@ public class InGameMenu extends Application {
         ballCountLabel2.setPrefHeight(60);
         ballCountLabel2.setLayoutX(mainCircle.getX() - ballCountLabel2.getPrefWidth() / 2);
         ballCountLabel2.setLayoutY(mainCircle.getY() - ballCountLabel2.getPrefHeight() / 2);
-        ballCountLabel2.setFont(Font.font(ballCountLabel2.getFont().getName(), FontWeight.BOLD, FontPosture.REGULAR, 32));
+        ballCountLabel2.setFont(Font.font(ballCountLabel2.getFont().getName(), FontWeight.BOLD, FontPosture.REGULAR, level.isSinglePlayer() ? 32 : 16));
         ballCountLabel2.setTextFill(Color.WHITE);
         if (level.isSinglePlayer()) {
             ballCountLabel2.setText(String.valueOf((level.getNumberOfBalls() - level.getNumberOfConnectedBalls1())));
         } else {
-
             ballCountLabel2.setText((level.getNumberOfBalls() - level.getNumberOfConnectedBalls1()) +
                             " | " + (level.getNumberOfBalls() - level.getNumberOfConnectedBalls2()));
         }
@@ -393,17 +393,17 @@ public class InGameMenu extends Application {
 
     private Ball createBall(int playerNumber, AnchorPane anchorPane, AnchorPane resultMenuPane, ArrayList<Ball> connectedBalls,
                             ArrayList<Transition> allAnimations, int number) {
-        Ball ball = new Ball(anchorPane.getPrefWidth() / 2, playerNumber != 2 ? (anchorPane.getPrefHeight() - 2 * Ball.RADIUS - 20) : (2 * Ball.RADIUS + 20) ,
+        Ball ball = new Ball(anchorPane.getPrefWidth() / 2, playerNumber != 2 ? anchorPane.getPrefHeight() - 2 * Ball.RADIUS - 20 : 2 * Ball.RADIUS + 20,
                                 number, playerNumber);
+        System.out.println("ball : " + ball.getNumber() + " " + ball.getPlayerNumber());
         anchorPane.getChildren().add(ball);
         anchorPane.getChildren().add(ball.getNumberText());
-//        ball.requestFocus();
+        ball.requestFocus();
         ball.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
-                if (keyEvent.getCode().equals(playerNumber != 2 ? controller.getGame().getFirstPlayerShoot() :
-                        controller.getGame().getSecondPlayerShoot()))
-                    shoot(anchorPane, resultMenuPane, ball, connectedBalls, allAnimations);
+                if (keyEvent.getCode().equals(controller.getGame().getFirstPlayerShoot())) shoot(anchorPane, resultMenuPane, currentBall1, connectedBalls, allAnimations);
+                else if (keyEvent.getCode().equals(controller.getGame().getSecondPlayerShoot())) shoot(anchorPane, resultMenuPane, currentBall2, connectedBalls, allAnimations);
             }
         });
         return ball;

@@ -3,6 +3,7 @@ package model;
 import javafx.animation.Transition;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.transform.Rotate;
 
 import java.util.ArrayList;
 
@@ -32,8 +33,9 @@ public class Level {
     private int score;
     private boolean isFinished;
     private boolean isWinner;
+    private final Rotate rotate;
 
-    public Level(int difficulty, int numberOfBalls, int numberOfPrimaryBalls, int mapNumber, boolean isSinglePlayer) {
+    public Level(int difficulty, int numberOfBalls, int numberOfPrimaryBalls, int mapNumber, boolean isSinglePlayer, double rotationX, double rotationY) {
         this.difficulty = difficulty;
         this.numberOfBalls = numberOfBalls;
         this.numberOfConnectedBalls1 = 0;
@@ -49,6 +51,7 @@ public class Level {
         this.score = 0;
         this.isFinished = false;
         this.isWinner = false;
+        this.rotate = new Rotate(difficulty, rotationY, rotationY);
     }
 
     public int getDifficulty() {
@@ -206,5 +209,9 @@ public class Level {
 
     public boolean isSinglePlayer() {
         return isSinglePlayer;
+    }
+
+    public Rotate getRotate() {
+        return rotate;
     }
 }

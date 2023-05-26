@@ -10,10 +10,10 @@ public class BallRotation extends Transition {
     private final Ball ball;
     private final Rotate rotate;
 
-    public BallRotation(Ball invisibleCircle, int speed, Ball ball) {
+    public BallRotation(Ball invisibleCircle, int speed, Ball ball, Rotate rotate) {
         this.speed = speed;
         this.ball = ball;
-        this.rotate = new Rotate(speed * 5, invisibleCircle.getX(), invisibleCircle.getY());
+        this.rotate = rotate;
         this.setCycleDuration(Duration.millis(1000));
         this.setCycleCount(-1);
     }
