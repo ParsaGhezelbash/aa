@@ -18,7 +18,7 @@ public class Level {
     private final int numberOfPrimaryBalls;
     private final int mapNumber;
     private final boolean isSinglePlayer;
-    private int icingMode;
+    private double icingMode;
     private boolean isInIcingMode;
     private Scene lastScene;
     private AnchorPane lastGamePane;
@@ -33,7 +33,9 @@ public class Level {
     private int score;
     private boolean isFinished;
     private boolean isWinner;
-    private final Rotate rotate;
+    private Rotate rotate;
+    private double phase;
+    private int wind;
 
     public Level(int difficulty, int numberOfBalls, int numberOfPrimaryBalls, int mapNumber, boolean isSinglePlayer, double rotationX, double rotationY) {
         this.difficulty = difficulty;
@@ -51,7 +53,9 @@ public class Level {
         this.score = 0;
         this.isFinished = false;
         this.isWinner = false;
-        this.rotate = new Rotate(difficulty, rotationY, rotationY);
+        this.rotate = new Rotate(difficulty * 2, rotationX, rotationY);
+        this.phase = 0;
+        this.wind = 0;
     }
 
     public int getDifficulty() {
@@ -86,11 +90,11 @@ public class Level {
         return mapNumber;
     }
 
-    public int getIcingMode() {
+    public double getIcingMode() {
         return icingMode;
     }
 
-    public void setIcingMode(int icingMode) {
+    public void setIcingMode(double icingMode) {
         this.icingMode = icingMode;
     }
 
@@ -213,5 +217,25 @@ public class Level {
 
     public Rotate getRotate() {
         return rotate;
+    }
+
+    public void setRotate(Rotate rotate) {
+        this.rotate = rotate;
+    }
+
+    public double getPhase() {
+        return phase;
+    }
+
+    public void setPhase(double phase) {
+        this.phase = phase;
+    }
+
+    public int getWind() {
+        return wind;
+    }
+
+    public void setWind(int wind) {
+        this.wind = wind;
     }
 }

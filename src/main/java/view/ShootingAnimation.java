@@ -1,5 +1,6 @@
 package view;
 
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.Transition;
@@ -26,7 +27,9 @@ public class ShootingAnimation extends Transition {
     private final ArrayList<Transition> allAnimations;
     private final Ball ball;
     private final Label label1, label2, scoreLabel, resultLabel, resultScoreLabel, resultTimeLabel;
-    private final Timeline ballCountTimeline, changeDirectionTimeLine, changeBallSizeTimeLine;
+    private static Timeline changeDirectionTimeLine, changeBallSizeTimeLine, ballsVisiblityTimeLine, windTimeLine;
+    private final Timeline ballCountTimeline;
+    private static double windEffect;
 
     public ShootingAnimation(AnchorPane anchorPane, AnchorPane resultMenuPane, Level level, Ball ball, Ball invisibleCircle, Ball mainCircle,
                              ArrayList<Ball> connectedBalls, ArrayList<Transition> allAnimations, Label label1, Label label2,
@@ -47,18 +50,62 @@ public class ShootingAnimation extends Transition {
         this.resultScoreLabel = resultScoreLabel;
         this.resultTimeLabel = resultTimeLabel;
 
-        this.changeDirectionTimeLine = new Timeline(new KeyFrame(Duration.millis(4000), actionEvent -> {
+        changeDirectionTimeLine = new Timeline(new KeyFrame(Duration.millis(4000), actionEvent -> {
             level.getRotate().setAngle(-level.getRotate().getAngle());
             this.setCycleDuration(Duration.millis((new Random().nextInt(10) + 4) * 1000));
         }));
-        this.changeDirectionTimeLine.setCycleCount(-1);
+        changeDirectionTimeLine.setCycleCount(-1);
 
-        this.changeBallSizeTimeLine = new Timeline(new KeyFrame(Duration.millis(1000), actionEvent -> {
+        ballsVisiblityTimeLine = new Timeline(new KeyFrame(Duration.millis(1000), actionEvent -> {
+            boolean areVisible = connectedBalls.get(0).isVisible();
+            for (Ball connectedBall : connectedBalls) {
+                if (areVisible) {
+                    connectedBall.setVisible(false);
+                    connectedBall.getStick().setVisible(false);
+                    connectedBall.getNumberText().setVisible(false);
+                } else {
+                    connectedBall.setVisible(true);
+                    connectedBall.getStick().setVisible(true);
+                    connectedBall.getNumberText().setVisible(true);
+                }
+            }
+        }));
+        ballsVisiblityTimeLine.setCycleCount(-1);
+
+        windTimeLine = new Timeline(new KeyFrame(Duration.millis(5000), actionEvent -> {
+            level.setWind(new Random().nextInt(-15, 15));
+            this.setCycleDuration(Duration.millis((new Random().nextInt(6) + 4) * 1000));
+        }));
+        windTimeLine.setCycleCount(-1);
+
+        changeBallSizeTimeLine = new Timeline(new KeyFrame(Duration.millis(1000), actionEvent -> {
             for (Ball connectedBall : connectedBalls) {
                 if (connectedBall.getRadius() > Ball.RADIUS) connectedBall.setRadius(Ball.RADIUS);
                 else connectedBall.setRadius(connectedBall.getRadius() * (100 + new Random().nextInt(5, 10)) / 100);
+                if (checkConnectedBalls()) {
+                    changeDirectionTimeLine.stop();
+                    ballsVisiblityTimeLine.stop();
+                    stopChangeBallSizeTimeLine();
+                    windTimeLine.stop();
+                    level.setFinished(true);
+                    level.setWinner(false);
+                    ballCountTimeline.stop();
+                    for (Transition allAnimation : allAnimations) {
+                        allAnimation.stop();
+                    }
+                    anchorPane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+                    invisibleCircle.setFill(Color.RED);
+                    resultLabel.setText("You Lost!");
+                    resultLabel.setTextFill(Color.RED);
+                    resultScoreLabel.setText("Score : " + level.getScore());
+                    resultTimeLabel.setText("Time : " + level.getMinutes() + " : " + level.getSeconds());
+                    resultMenuPane.setVisible(true);
+                    resultMenuPane.toFront();
+                    resultMenuPane.requestFocus();
+                }
             }
         }));
+        changeBallSizeTimeLine.setCycleCount(-1);
 
         this.setCycleDuration(Duration.millis(1000));
         this.setCycleCount(-1);
@@ -67,12 +114,17 @@ public class ShootingAnimation extends Transition {
     @Override
     protected void interpolate(double v) {
         double y = ball.getY() + (ball.getPlayerNumber() != 2 ? -1 : 1) * 20;
+        double x = ball.getX() + level.getWind();
+        System.out.println("windeffect" + windEffect);
+
         boolean failed = isConnectedToBalls(connectedBalls);
         boolean isFinished = failed || (level.getNumberOfConnectedBalls1() == level.getNumberOfBalls()) ||
                 (level.getNumberOfConnectedBalls2() == level.getNumberOfBalls() && !level.isSinglePlayer()) || (level.getMinutes() == Level.GAME_TIME);
         boolean lost = failed || (level.getMinutes() == Level.GAME_TIME);
         if (isConnectedToMainBall() && !failed) {
             updatePhase();
+            level.setIcingMode(level.getIcingMode() + 0.4);
+            System.out.println("icing mode" + level.getIcingMode());
             if (ball.getPlayerNumber() != 2) {
                 level.setNumberOfConnectedBalls1(level.getNumberOfConnectedBalls1() + 1);
             } else {
@@ -113,6 +165,11 @@ public class ShootingAnimation extends Transition {
         }
 
         if (isFinished) {
+            System.out.println(failed + " " + (level.getNumberOfConnectedBalls1() == level.getNumberOfBalls()) + " " + (level.getMinutes() == Level.GAME_TIME));
+            changeDirectionTimeLine.stop();
+            changeBallSizeTimeLine.stop();
+            ballsVisiblityTimeLine.stop();
+            // TODO
             System.out.println("Finished");
             level.setFinished(true);
             level.setWinner(!failed);
@@ -140,18 +197,26 @@ public class ShootingAnimation extends Transition {
 
         ball.setY(y);
         ball.getNumberText().setY(y + ball.getNumberText().getLayoutBounds().getHeight() / 4);
+        ball.setX(x);
+        ball.getNumberText().setX(x - ball.getNumberText().getLayoutBounds().getWidth() / 2);
+    }
+
+    public void stopChangeBallSizeTimeLine() {
+        changeBallSizeTimeLine.stop();
     }
 
     public void updatePhase() {
         int totalConnectedBalls = level.isSinglePlayer() ? level.getNumberOfConnectedBalls1() : Math.max(level.getNumberOfConnectedBalls1(), level.getNumberOfConnectedBalls2());
         double phase = (double) totalConnectedBalls / level.getNumberOfBalls();
-        if (phase >= 0.25 && phase < 0.5) {
+        level.setPhase(phase);
+        if (phase >= 0.25 && phase < 0.5 && !changeDirectionTimeLine.getStatus().equals(Animation.Status.RUNNING)) {
             changeDirectionTimeLine.play();
             changeBallSizeTimeLine.play();
-        } else if (phase >= 0.5 && phase < 0.75) {
-
-        } else if (phase >= 0.75 && phase <= 1) {
-
+        } else if (phase >= 0.5 && phase < 0.75 && !ballsVisiblityTimeLine.getStatus().equals(Animation.Status.RUNNING)) {
+            ballsVisiblityTimeLine.play();
+        } else if (phase >= 0.75 && phase <= 1 && !windTimeLine.getStatus().equals(Animation.Status.RUNNING)) {
+            System.out.println("wind");
+            windTimeLine.play();
         }
     }
 
@@ -182,5 +247,17 @@ public class ShootingAnimation extends Transition {
     private boolean areConnected(Ball ball1, Ball ball2) {
         double distance = Math.sqrt(Math.pow(ball1.getCenterX() - ball2.getCenterX(), 2) + Math.pow(ball1.getCenterY() - ball2.getCenterY(), 2));
         return distance <= (ball1.getRadius() + ball2.getRadius());
+    }
+
+    private boolean checkConnectedBalls() {
+        for (int i = 0; i < connectedBalls.size(); i++) {
+            for (int j = i + 1; j < connectedBalls.size(); j++) {
+                if (connectedBalls.get(i).getBoundsInParent().intersects(connectedBalls.get(j).getBoundsInParent())) {
+                    System.out.println(connectedBalls.get(i).getNumber() + " " + connectedBalls.get(j).getNumber());
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

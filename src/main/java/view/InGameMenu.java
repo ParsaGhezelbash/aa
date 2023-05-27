@@ -22,6 +22,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Ball;
@@ -38,7 +39,7 @@ public class InGameMenu extends Application {
     private Level level;
     private Ball currentBall1, currentBall2;
     private Ball mainCircle, invisibleCircle;
-    private Label usernameLabel, scoreLabel, ballCountLabel1, ballCountLabel2, timerLabel, difficultyLabel;
+    private Label usernameLabel, scoreLabel, ballCountLabel1, ballCountLabel2, timerLabel, difficultyLabel, windLabel;
     private Label resultLabel, resultTimeLabel, resultScoreLabel;
     private Timeline timeline;
     private ProgressBar icingModeProgressBar;
@@ -84,7 +85,10 @@ public class InGameMenu extends Application {
 
         setMainCircleCounter(inGameMenuPane);
 
-        Button pauseButton = (Button) inGameMenuPane.getChildren().get(10);
+        windLabel = (Label) inGameMenuPane.getChildren().get(10);
+        windLabel.setText("Wind : " + level.getWind());
+
+        Button pauseButton = (Button) inGameMenuPane.getChildren().get(11);
         setPauseButton(pauseMenuPane, pauseButton, allAnimations);
 
         if (level.isSinglePlayer()) {
@@ -255,11 +259,11 @@ public class InGameMenu extends Application {
         freezeMode.setBackground(Background.fill(Color.WHITE));
 
         moveRightLabel = (Label) keyboardMenuPane.getChildren().get(3);
-        moveRightLabel.setText("Move Right : " + controller.getGame().getMoveRight().getName());
+        moveRightLabel.setText("Move Right : " + controller.getGame().getMoveRight1().getName());
         moveRightLabel.setBackground(Background.fill(Color.WHITE));
 
         moveLeftLabel = (Label) keyboardMenuPane.getChildren().get(4);
-        moveLeftLabel.setText("Move Left : " + controller.getGame().getMoveLeft().getName());
+        moveLeftLabel.setText("Move Left : " + controller.getGame().getMoveLeft1().getName());
         moveLeftLabel.setBackground(Background.fill(Color.WHITE));
 
         Button backButton = (Button) keyboardMenuPane.getChildren().get(5);
@@ -321,7 +325,7 @@ public class InGameMenu extends Application {
             ballCountLabel2.setText(String.valueOf((level.getNumberOfBalls() - level.getNumberOfConnectedBalls1())));
         } else {
             ballCountLabel2.setText((level.getNumberOfBalls() - level.getNumberOfConnectedBalls1()) +
-                            " | " + (level.getNumberOfBalls() - level.getNumberOfConnectedBalls2()));
+                    " | " + (level.getNumberOfBalls() - level.getNumberOfConnectedBalls2()));
         }
         ballCountLabel2.setAlignment(Pos.CENTER);
         if (level.getLastGamePane() == null) inGameMenuPane.getChildren().add(9, ballCountLabel2);
@@ -370,6 +374,7 @@ public class InGameMenu extends Application {
                         }
                     }
                     timerLabel.setText((Level.GAME_TIME - level.getMinutes() - 1) + " : " + (60 - level.getSeconds()));
+                    windLabel.setText("Wind : " + level.getWind());
                 }));
         timeline.setCycleCount(-1);
         timeline.play();
@@ -394,7 +399,7 @@ public class InGameMenu extends Application {
     private Ball createBall(int playerNumber, AnchorPane anchorPane, AnchorPane resultMenuPane, ArrayList<Ball> connectedBalls,
                             ArrayList<Transition> allAnimations, int number) {
         Ball ball = new Ball(anchorPane.getPrefWidth() / 2, playerNumber != 2 ? anchorPane.getPrefHeight() - 2 * Ball.RADIUS - 20 : 2 * Ball.RADIUS + 20,
-                                number, playerNumber);
+                number, playerNumber);
         System.out.println("ball : " + ball.getNumber() + " " + ball.getPlayerNumber());
         anchorPane.getChildren().add(ball);
         anchorPane.getChildren().add(ball.getNumberText());
@@ -402,8 +407,41 @@ public class InGameMenu extends Application {
         ball.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
-                if (keyEvent.getCode().equals(controller.getGame().getFirstPlayerShoot())) shoot(anchorPane, resultMenuPane, currentBall1, connectedBalls, allAnimations);
-                else if (keyEvent.getCode().equals(controller.getGame().getSecondPlayerShoot())) shoot(anchorPane, resultMenuPane, currentBall2, connectedBalls, allAnimations);
+                if (keyEvent.getCode().equals(controller.getGame().getFirstPlayerShoot()))
+                    shoot(anchorPane, resultMenuPane, currentBall1, connectedBalls, allAnimations);
+                else if (keyEvent.getCode().equals(controller.getGame().getSecondPlayerShoot()))
+                    shoot(anchorPane, resultMenuPane, currentBall2, connectedBalls, allAnimations);
+                else if (level.getPhase() >= 0.75 && keyEvent.getCode().equals(controller.getGame().getMoveRight1())) {
+                    currentBall1.setX(currentBall1.getX() + 10);
+                    currentBall1.getNumberText().setX(currentBall1.getX() - currentBall1.getNumberText().getLayoutBounds().getWidth() / 2);
+                } else if (level.getPhase() >= 0.75 && keyEvent.getCode().equals(controller.getGame().getMoveLeft1())) {
+                    currentBall1.setX(currentBall1.getX() - 10);
+                    currentBall1.getNumberText().setX(currentBall1.getX() - currentBall1.getNumberText().getLayoutBounds().getWidth() / 2);
+                } else if (level.getPhase() >= 0.75 && keyEvent.getCode().equals(controller.getGame().getMoveRight2())) {
+                    currentBall2.setX(currentBall2.getX() + 10);
+                    currentBall2.getNumberText().setX(currentBall2.getX() - currentBall2.getNumberText().getLayoutBounds().getWidth() / 2);
+                } else if (level.getPhase() >= 0.75 && keyEvent.getCode().equals(controller.getGame().getMoveLeft2())) {
+                    currentBall2.setX(currentBall2.getX() - 10);
+                    currentBall2.getNumberText().setX(currentBall2.getX() - currentBall2.getNumberText().getLayoutBounds().getWidth() / 2);
+                } else if (level.getIcingMode() >= 1 && keyEvent.getCode().equals(controller.getGame().getFreezeMode())) {
+                    System.out.println("freeze");
+                    Rotate temporaryRotate = new Rotate(1, anchorPane.getPrefWidth() / 2, anchorPane.getPrefHeight() / 2);
+                    Rotate rotate = level.getRotate();
+                    level.setRotate(temporaryRotate);
+                    for (Transition animation : allAnimations) {
+                        ((BallRotation) animation).setRotate(temporaryRotate);
+                    }
+                    Timeline timeline = new Timeline(new KeyFrame(Duration.millis((9 - level.getDifficulty() * 2) * 1000), actionEvent -> {
+                        level.setIcingMode(0);
+                        for (Transition animation : allAnimations) {
+                            ((BallRotation) animation).setRotate(rotate);
+                        }
+                        level.setRotate(rotate);
+                        System.out.println("unfreeze");
+                    }));
+                    timeline.setCycleCount(1);
+                    timeline.play();
+                }
             }
         });
         return ball;

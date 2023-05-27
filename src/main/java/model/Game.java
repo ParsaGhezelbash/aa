@@ -19,7 +19,7 @@ public class Game {
     private final LinkedList<User> scoreBoard;
     private User currentUser;
     private boolean isSoundMuted = false;
-    private KeyCode firstPlayerShoot, secondPlayerShoot, freezeMode, moveRight, moveLeft;
+    private KeyCode firstPlayerShoot, secondPlayerShoot, freezeMode, moveRight1, moveLeft1, moveRight2, moveLeft2;
     private final MediaPlayer music1, music2, music3;
 
 
@@ -28,13 +28,15 @@ public class Game {
         this.scoreBoard = new LinkedList<>();
         this.currentUser = null;
         this.difficulty = 2;
-        this.numberOfBalls = 10;
+        this.numberOfBalls = 12;
         this.numberOfPrimaryBalls = 0;
         this.firstPlayerShoot = KeyCode.SPACE;
         this.secondPlayerShoot = KeyCode.ENTER;
-        this.freezeMode = KeyCode.TAB;
-        this.moveRight = KeyCode.RIGHT;
-        this.moveLeft = KeyCode.LEFT;
+        this.freezeMode = KeyCode.M;
+        this.moveRight1 = KeyCode.V;
+        this.moveLeft1 = KeyCode.Z;
+        this.moveRight2 = KeyCode.D;
+        this.moveLeft2 = KeyCode.A;
         this.music1 = new MediaPlayer(new Media(getClass().getResource("/sound/Music1.mp3").toString()));
         music1.setCycleCount(MediaPlayer.INDEFINITE);
         music1.setVolume(0.1);
@@ -151,20 +153,36 @@ public class Game {
         this.freezeMode = freezeMode;
     }
 
-    public KeyCode getMoveRight() {
-        return moveRight;
+    public KeyCode getMoveRight1() {
+        return moveRight1;
     }
 
-    public void setMoveRight(KeyCode moveRight) {
-        this.moveRight = moveRight;
+    public void setMoveRight1(KeyCode moveRight1) {
+        this.moveRight1 = moveRight1;
     }
 
-    public KeyCode getMoveLeft() {
-        return moveLeft;
+    public KeyCode getMoveLeft1() {
+        return moveLeft1;
     }
 
-    public void setMoveLeft(KeyCode moveLeft) {
-        this.moveLeft = moveLeft;
+    public void setMoveLeft1(KeyCode moveLeft1) {
+        this.moveLeft1 = moveLeft1;
+    }
+
+    public KeyCode getMoveRight2() {
+        return moveRight2;
+    }
+
+    public void setMoveRight2(KeyCode moveRight2) {
+        this.moveRight2 = moveRight2;
+    }
+
+    public KeyCode getMoveLeft2() {
+        return moveLeft2;
+    }
+
+    public void setMoveLeft2(KeyCode moveLeft2) {
+        this.moveLeft2 = moveLeft2;
     }
 
     public MediaPlayer getMusic1() {

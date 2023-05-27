@@ -61,7 +61,7 @@ public class MainMenu extends Application {
                 Game game = controller.getGame();
                 InGameMenu inGameMenu = controller.getInGameMenuController().getInGameMenu();
                 inGameMenu.setLevel(new Level(game.getDifficulty(), game.getNumberOfBalls(), game.getNumberOfPrimaryBalls(),
-                        game.getMapNumber(), true));
+                        game.getMapNumber(), true, 300, 300));
                 this.stop();
                 inGameMenu.start(stage);
             } catch (Exception e) {
@@ -75,7 +75,7 @@ public class MainMenu extends Application {
                 Game game = controller.getGame();
                 InGameMenu inGameMenu = controller.getInGameMenuController().getInGameMenu();
                 inGameMenu.setLevel(new Level(game.getDifficulty(), game.getNumberOfBalls(), game.getNumberOfPrimaryBalls(),
-                        game.getMapNumber(), false));
+                        game.getMapNumber(), false, 300, 300));
                 this.stop();
                 inGameMenu.start(stage);
             } catch (Exception e) {

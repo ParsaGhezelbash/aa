@@ -11,6 +11,7 @@
       <Label alignment="CENTER" layoutY="60.0" prefHeight="30.0" prefWidth="100.0" textAlignment="CENTER" />
       <Label alignment="CENTER" layoutY="90.0" prefHeight="30.0" prefWidth="100.0" textAlignment="CENTER" />
       <Label alignment="CENTER" layoutY="120.0" prefHeight="30.0" prefWidth="100.0" textAlignment="CENTER" />
+      <Label alignment="CENTER" layoutY="150.0" prefHeight="30.0" prefWidth="100.0" textAlignment="CENTER" />
       <Button layoutX="500.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Pause" />
    </children>
 </AnchorPane>

@@ -9,7 +9,7 @@ import javafx.scene.text.*;
 
 public class Ball extends Circle {
     public static final Color[] COLORS = {Color.BLACK, Color.DARKGRAY, Color.DARKGOLDENROD};
-    public static final double RADIUS = 16;
+    public static final double RADIUS = 14;
     public static final double STICK_WIDTH = 4;
     public static final double STICK_HEIGHT = 180 - RADIUS;
     private final int number;

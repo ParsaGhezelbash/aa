@@ -8,7 +8,7 @@ import model.Ball;
 public class BallRotation extends Transition {
     private final int speed;
     private final Ball ball;
-    private final Rotate rotate;
+    private Rotate rotate;
 
     public BallRotation(Ball invisibleCircle, int speed, Ball ball, Rotate rotate) {
         this.speed = speed;
@@ -23,5 +23,13 @@ public class BallRotation extends Transition {
         ball.getTransforms().add(rotate);
         ball.getStick().getTransforms().add(rotate);
         ball.getNumberText().getTransforms().add(rotate);
+    }
+
+    public void changeCycleDuration(Duration duration) {
+        this.setCycleDuration(duration);
+    }
+
+    public void setRotate(Rotate rotate) {
+        this.rotate = rotate;
     }
 }
