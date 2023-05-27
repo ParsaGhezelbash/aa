@@ -1,17 +1,18 @@
 package model;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import javafx.scene.input.KeyCode;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.FormatFlagsConversionMismatchException;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Game {
-    private final int[] rotationSpeed = {5, 10, 15};
-    private final double[] windSpeed = {1.2, 1.5, 1.8};
-    private final int[] icingTime = {7, 5, 3};
     private int difficulty;
     private int numberOfBalls;
     private int numberOfPrimaryBalls;
@@ -24,8 +25,19 @@ public class Game {
     private final MediaPlayer music1, music2, music3;
 
 
-    public Game() {
-        this.users = new ArrayList<>();
+    public Game() throws IOException {
+        File usersFile = new File("Users.json");
+        if (usersFile.exists()) {
+            BufferedReader fileReader = new BufferedReader(new FileReader(usersFile));
+            users = new Gson().fromJson(fileReader, new TypeToken<ArrayList<User>>() {
+            }.getType());
+            fileReader.close();
+        } else {
+            users = new ArrayList<>();
+            FileWriter fileWriter = new FileWriter(usersFile);
+            fileWriter.close();
+        }
+
         this.scoreBoard1 = new LinkedList<>();
         this.scoreBoard2 = new LinkedList<>();
         this.scoreBoard3 = new LinkedList<>();
@@ -91,8 +103,12 @@ public class Game {
         return null;
     }
 
-    public void addUser(User user) {
+    public void addUser(User user) throws IOException {
         users.add(user);
+        Gson gson = new Gson();
+        FileWriter fileWriter = new FileWriter("Users.json");
+        fileWriter.write(gson.toJson(users));
+        fileWriter.close();
         refreshScoreBoard(scoreBoard1, user);
         refreshScoreBoard(scoreBoard2, user);
         refreshScoreBoard(scoreBoard3, user);
@@ -208,5 +224,9 @@ public class Game {
 
     public MediaPlayer getMusic3() {
         return music3;
+    }
+
+    public ArrayList<User> getUsers() {
+        return users;
     }
 }

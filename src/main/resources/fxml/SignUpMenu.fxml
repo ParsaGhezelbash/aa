@@ -34,6 +34,11 @@
                <VBox.margin>
                   <Insets left="57.0" />
                </VBox.margin></Button>
+            <Button mnemonicParsing="false" text="exit">
+               <VBox.margin>
+                  <Insets left="84.0" />
+               </VBox.margin>
+            </Button>
          </children>
       </VBox>
    </children>

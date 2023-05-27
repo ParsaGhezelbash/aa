@@ -6,6 +6,8 @@ import model.ProfilePicture;
 import model.User;
 import view.SignUpMenu;
 
+import java.io.IOException;
+
 public class SignUpMenuController {
     private final Controller controller;
     private final SignUpMenu signUpMenu;
@@ -16,7 +18,7 @@ public class SignUpMenuController {
         this.signUpMenu.setController(controller);
     }
 
-    public String signUp(String username, String password, ImagePattern avatar) {
+    public String signUp(String username, String password, ImagePattern avatar) throws IOException {
         if (controller.getGame().getUserByUsername(username) != null)
             return "User with username " + username + " already exists!";
 

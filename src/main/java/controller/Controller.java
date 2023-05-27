@@ -3,6 +3,7 @@ package controller;
 import javafx.scene.media.MediaPlayer;
 import model.Game;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 public class Controller {
@@ -18,7 +19,7 @@ public class Controller {
 
     private final Game game;
 
-    public Controller() throws MalformedURLException {
+    public Controller() throws IOException {
         game = new Game();
         loginMenuController = new LoginMenuController(this);
         signUpMenuController = new SignUpMenuController(this);

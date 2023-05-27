@@ -1,5 +1,6 @@
 package view;
 
+import com.google.gson.Gson;
 import controller.Controller;
 import javafx.application.Application;
 import javafx.event.Event;
@@ -22,6 +23,7 @@ import model.Game;
 import model.ProfilePicture;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -83,6 +85,19 @@ public class SignUpMenu extends Application {
                 errorLabel.setVisible(false);
                 controller.getSignUpMenuController().enterAsGuest(selectedProfilePicture.getImagePattern());
                 controller.getMainMenuController().getMainMenu().start(stage);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        Button exitButton = (Button) vBox.getChildren().get(8);
+        exitButton.setOnMouseClicked(event -> {
+            try {
+                Gson gson = new Gson();
+                FileWriter fileWriter = new FileWriter("Users.json");
+                fileWriter.write(gson.toJson(controller.getGame().getUsers()));
+                fileWriter.close();
+                stage.close();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
