@@ -23,6 +23,17 @@
                      </children>
                   </HBox>
                   <Separator prefHeight="20.0" prefWidth="200.0" />
+                  <HBox prefHeight="20.0" prefWidth="200.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="100.0" text="Primary Balls" />
+                        <ChoiceBox prefHeight="20.0" prefWidth="100.0" />
+                     </children>
+                  </HBox>
+                  <Separator prefHeight="20.0" prefWidth="200.0" />
+                  <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="200.0" text="Music 1" />
+                  <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="200.0" text="Music 2" />
+                  <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="200.0" text="Music 3" />
+                  <Separator prefHeight="20.0" prefWidth="200.0" />
                   <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="200.0" text="Back" />
                </children>
             </VBox>
