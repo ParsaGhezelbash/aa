@@ -68,7 +68,8 @@ public class ProfileMenu extends Application {
         });
 
         Label scoreLabel = (Label) leftVBox.getChildren().get(0);
-        scoreLabel.setText("High Score: " + controller.getGame().getCurrentUser().getHighScore());
+        scoreLabel.setText("Time: " + controller.getGame().getCurrentUser().getSec1() + " sec | " +
+                controller.getGame().getCurrentUser().getSec2() + " sec | " + controller.getGame().getCurrentUser().getSec3() + " sec");
 
         usernameLabel = (Label) leftVBox.getChildren().get(2);
         usernameLabel.setText("Username: " + controller.getGame().getCurrentUser().getUsername());

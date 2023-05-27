@@ -1,7 +1,6 @@
 package model;
 
 
-import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
 public class User {
@@ -9,7 +8,7 @@ public class User {
     private String password;
     private ImagePattern avatar;
     private Level lastLevel;
-    private int highScore;
+    private int sec1, sec2, sec3;
 
 
     public User(String username, String password, ImagePattern avatar) {
@@ -17,7 +16,9 @@ public class User {
         this.password = password;
         this.avatar = avatar;
         this.lastLevel = null;
-        this.highScore = 0;
+        this.sec1 = 0;
+        this.sec2 = 0;
+        this.sec3 = 0;
     }
 
     public User(String username, String password) {
@@ -58,7 +59,27 @@ public class User {
         this.lastLevel = lastLevel;
     }
 
-    public int getHighScore() {
-        return highScore;
+    public int getSec1() {
+        return sec1;
+    }
+
+    public void setSec1(int sec1) {
+        this.sec1 = sec1;
+    }
+
+    public int getSec2() {
+        return sec2;
+    }
+
+    public void setSec2(int sec2) {
+        this.sec2 = sec2;
+    }
+
+    public int getSec3() {
+        return sec3;
+    }
+
+    public void setSec3(int sec3) {
+        this.sec3 = sec3;
     }
 }

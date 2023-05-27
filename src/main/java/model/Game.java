@@ -6,6 +6,7 @@ import javafx.scene.media.MediaPlayer;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Game {
     private final int[] rotationSpeed = {5, 10, 15};
@@ -16,7 +17,7 @@ public class Game {
     private int numberOfPrimaryBalls;
     private int mapNumber;
     private final ArrayList<User> users;
-    private final LinkedList<User> scoreBoard;
+    private final LinkedList<User> scoreBoard1, scoreBoard2, scoreBoard3;
     private User currentUser;
     private boolean isSoundMuted = false;
     private KeyCode firstPlayerShoot, secondPlayerShoot, freezeMode, moveRight1, moveLeft1, moveRight2, moveLeft2;
@@ -25,11 +26,13 @@ public class Game {
 
     public Game() {
         this.users = new ArrayList<>();
-        this.scoreBoard = new LinkedList<>();
+        this.scoreBoard1 = new LinkedList<>();
+        this.scoreBoard2 = new LinkedList<>();
+        this.scoreBoard3 = new LinkedList<>();
         this.currentUser = null;
         this.difficulty = 2;
         this.numberOfBalls = 12;
-        this.numberOfPrimaryBalls = 0;
+        this.numberOfPrimaryBalls = 1;
         this.firstPlayerShoot = KeyCode.SPACE;
         this.secondPlayerShoot = KeyCode.ENTER;
         this.freezeMode = KeyCode.M;
@@ -90,13 +93,15 @@ public class Game {
 
     public void addUser(User user) {
         users.add(user);
-        refreshScoreBoard(user);
+        refreshScoreBoard(scoreBoard1, user);
+        refreshScoreBoard(scoreBoard2, user);
+        refreshScoreBoard(scoreBoard3, user);
     }
 
-    private void refreshScoreBoard(User user) {
+    public void refreshScoreBoard(LinkedList<User> scoreBoard, User user) {
         if (scoreBoard.contains(user)) scoreBoard.remove(user);
         for (int i = 0; i < scoreBoard.size(); i++) {
-            if (user.getHighScore() > scoreBoard.get(i).getHighScore()) {
+            if (user.getSec1() < scoreBoard.get(i).getSec1()) {
                 scoreBoard.add(i + 1, user);
                 break;
             }
@@ -109,8 +114,16 @@ public class Game {
         users.remove(user);
     }
 
-    public LinkedList<User> getScoreBoard() {
-        return scoreBoard;
+    public LinkedList<User> getScoreBoard1() {
+        return scoreBoard1;
+    }
+
+    public LinkedList<User> getScoreBoard2() {
+        return scoreBoard2;
+    }
+
+    public LinkedList<User> getScoreBoard3() {
+        return scoreBoard3;
     }
 
     public User getCurrentUser() {
@@ -196,6 +209,4 @@ public class Game {
     public MediaPlayer getMusic3() {
         return music3;
     }
-
-
 }

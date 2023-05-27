@@ -1,11 +1,13 @@
 package view;
 
 import controller.Controller;
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.Transition;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -19,6 +21,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -91,6 +94,27 @@ public class InGameMenu extends Application {
         Button pauseButton = (Button) inGameMenuPane.getChildren().get(11);
         setPauseButton(pauseMenuPane, pauseButton, allAnimations);
 
+        icingModeProgressBar = (ProgressBar) inGameMenuPane.getChildren().get(12);
+        icingModeProgressBar.setProgress(level.getIcingMode());
+
+        if (level.getNumberOfPrimaryBalls() != 0) {
+            Timeline primaryBalls = new Timeline(new KeyFrame(Duration.millis((int) (1000 / level.getNumberOfPrimaryBalls())), event -> {
+                Ball ball = new Ball(invisibleCircle.getX(), invisibleCircle.getY() + invisibleCircle.getRadius() - Ball.RADIUS);
+                Rectangle stick = new Rectangle(invisibleCircle.getX() - Ball.STICK_WIDTH / 2,
+                        mainCircle.getY() + mainCircle.getRadius(), Ball.STICK_WIDTH, ball.getY() - ball.getRadius() - mainCircle.getY() - mainCircle.getRadius());
+                stick.setFill(ball.getFill());
+                ball.setStick(stick);
+                inGameMenuPane.getChildren().add(ball);
+                inGameMenuPane.getChildren().add(stick);
+                BallRotation ballRotation = new BallRotation(ball, level.getRotate());
+                allAnimations.add(ballRotation);
+                connectedBalls.add(ball);
+                ballRotation.play();
+            }));
+            primaryBalls.setCycleCount(level.getNumberOfPrimaryBalls());
+            primaryBalls.play();
+        }
+
         if (level.isSinglePlayer()) {
             currentBall1 = createBall(0, inGameMenuPane, resultMenuPane, connectedBalls, allAnimations, 1);
         } else {
@@ -137,6 +161,19 @@ public class InGameMenu extends Application {
         Button enterMainMenu = (Button) resultMenuPane.getChildren().get(3);
         enterMainMenu.setOnMouseClicked(mouseEvent -> {
             try {
+                System.out.println(level.isWinner() + " " + level.getDifficulty() + " " + level.getMinutes() + " " + level.getSeconds());
+                if (level.isWinner() && level.getDifficulty() == 1) {
+                    controller.getGame().getCurrentUser().setSec1(level.getMinutes() * 60 + level.getSeconds());
+                    controller.getGame().refreshScoreBoard(controller.getGame().getScoreBoard1(), controller.getGame().getCurrentUser());
+                }
+                else if (level.isWinner() && level.getDifficulty() == 2) {
+                    controller.getGame().getCurrentUser().setSec2(level.getMinutes() * 60 + level.getSeconds());
+                    controller.getGame().refreshScoreBoard(controller.getGame().getScoreBoard2(), controller.getGame().getCurrentUser());
+                }
+                else if (level.isWinner() && level.getDifficulty() == 3) {
+                    controller.getGame().getCurrentUser().setSec3(level.getMinutes() * 60 + level.getSeconds());
+                    controller.getGame().refreshScoreBoard(controller.getGame().getScoreBoard3(), controller.getGame().getCurrentUser());
+                }
                 controller.getGame().getCurrentUser().setLastLevel(null);
                 controller.getMainMenuController().getMainMenu().start(stage);
             } catch (Exception e) {
@@ -384,7 +421,7 @@ public class InGameMenu extends Application {
                        ArrayList<Transition> allAnimations) {
         ShootingAnimation shootingAnimation = new ShootingAnimation(anchorPane, resultMenuPane, level, shootingBall,
                 invisibleCircle, mainCircle, connectedBalls, allAnimations, ballCountLabel1, ballCountLabel2, scoreLabel,
-                timeline, resultLabel, resultTimeLabel, resultScoreLabel);
+                timeline, resultLabel, resultTimeLabel, resultScoreLabel, icingModeProgressBar);
         allAnimations.add(shootingAnimation);
         shootingAnimation.play();
         if (shootingBall.getPlayerNumber() != 2) {
@@ -400,7 +437,6 @@ public class InGameMenu extends Application {
                             ArrayList<Transition> allAnimations, int number) {
         Ball ball = new Ball(anchorPane.getPrefWidth() / 2, playerNumber != 2 ? anchorPane.getPrefHeight() - 2 * Ball.RADIUS - 20 : 2 * Ball.RADIUS + 20,
                 number, playerNumber);
-        System.out.println("ball : " + ball.getNumber() + " " + ball.getPlayerNumber());
         anchorPane.getChildren().add(ball);
         anchorPane.getChildren().add(ball.getNumberText());
         ball.requestFocus();
@@ -433,6 +469,7 @@ public class InGameMenu extends Application {
                     }
                     Timeline timeline = new Timeline(new KeyFrame(Duration.millis((9 - level.getDifficulty() * 2) * 1000), actionEvent -> {
                         level.setIcingMode(0);
+                        icingModeProgressBar.setProgress(0);
                         for (Transition animation : allAnimations) {
                             ((BallRotation) animation).setRotate(rotate);
                         }

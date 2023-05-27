@@ -6,12 +6,10 @@ import javafx.util.Duration;
 import model.Ball;
 
 public class BallRotation extends Transition {
-    private final int speed;
     private final Ball ball;
     private Rotate rotate;
 
-    public BallRotation(Ball invisibleCircle, int speed, Ball ball, Rotate rotate) {
-        this.speed = speed;
+    public BallRotation(Ball ball, Rotate rotate) {
         this.ball = ball;
         this.rotate = rotate;
         this.setCycleDuration(Duration.millis(1000));
@@ -22,11 +20,7 @@ public class BallRotation extends Transition {
     protected void interpolate(double v) {
         ball.getTransforms().add(rotate);
         ball.getStick().getTransforms().add(rotate);
-        ball.getNumberText().getTransforms().add(rotate);
-    }
-
-    public void changeCycleDuration(Duration duration) {
-        this.setCycleDuration(duration);
+        if (ball.getNumberText() != null) ball.getNumberText().getTransforms().add(rotate);
     }
 
     public void setRotate(Rotate rotate) {

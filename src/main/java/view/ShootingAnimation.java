@@ -6,6 +6,7 @@ import javafx.animation.Timeline;
 import javafx.animation.Transition;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -29,11 +30,13 @@ public class ShootingAnimation extends Transition {
     private final Label label1, label2, scoreLabel, resultLabel, resultScoreLabel, resultTimeLabel;
     private static Timeline changeDirectionTimeLine, changeBallSizeTimeLine, ballsVisiblityTimeLine, windTimeLine;
     private final Timeline ballCountTimeline;
+    private final ProgressBar icingModeProgressBar;
     private static double windEffect;
 
     public ShootingAnimation(AnchorPane anchorPane, AnchorPane resultMenuPane, Level level, Ball ball, Ball invisibleCircle, Ball mainCircle,
                              ArrayList<Ball> connectedBalls, ArrayList<Transition> allAnimations, Label label1, Label label2,
-                             Label scoreLabel, Timeline timeline, Label resultLabel, Label resultScoreLabel, Label resultTimeLabel) {
+                             Label scoreLabel, Timeline timeline, Label resultLabel, Label resultScoreLabel, Label resultTimeLabel,
+                             ProgressBar icingModeProgressBar) {
         this.anchorPane = anchorPane;
         this.resultMenuPane = resultMenuPane;
         this.level = level;
@@ -49,63 +52,70 @@ public class ShootingAnimation extends Transition {
         this.resultLabel = resultLabel;
         this.resultScoreLabel = resultScoreLabel;
         this.resultTimeLabel = resultTimeLabel;
+        this.icingModeProgressBar = icingModeProgressBar;
 
-        changeDirectionTimeLine = new Timeline(new KeyFrame(Duration.millis(4000), actionEvent -> {
-            level.getRotate().setAngle(-level.getRotate().getAngle());
-            this.setCycleDuration(Duration.millis((new Random().nextInt(10) + 4) * 1000));
-        }));
-        changeDirectionTimeLine.setCycleCount(-1);
+        if (changeDirectionTimeLine == null) {
+            changeDirectionTimeLine = new Timeline(new KeyFrame(Duration.millis(4000), actionEvent -> {
+                level.getRotate().setAngle(-level.getRotate().getAngle());
+                this.setCycleDuration(Duration.millis((new Random().nextInt(10) + 4) * 1000));
+            }));
+            changeDirectionTimeLine.setCycleCount(-1);
 
-        ballsVisiblityTimeLine = new Timeline(new KeyFrame(Duration.millis(1000), actionEvent -> {
-            boolean areVisible = connectedBalls.get(0).isVisible();
-            for (Ball connectedBall : connectedBalls) {
-                if (areVisible) {
-                    connectedBall.setVisible(false);
-                    connectedBall.getStick().setVisible(false);
-                    connectedBall.getNumberText().setVisible(false);
-                } else {
-                    connectedBall.setVisible(true);
-                    connectedBall.getStick().setVisible(true);
-                    connectedBall.getNumberText().setVisible(true);
-                }
-            }
-        }));
-        ballsVisiblityTimeLine.setCycleCount(-1);
-
-        windTimeLine = new Timeline(new KeyFrame(Duration.millis(5000), actionEvent -> {
-            level.setWind(new Random().nextInt(-15, 15));
-            this.setCycleDuration(Duration.millis((new Random().nextInt(6) + 4) * 1000));
-        }));
-        windTimeLine.setCycleCount(-1);
-
-        changeBallSizeTimeLine = new Timeline(new KeyFrame(Duration.millis(1000), actionEvent -> {
-            for (Ball connectedBall : connectedBalls) {
-                if (connectedBall.getRadius() > Ball.RADIUS) connectedBall.setRadius(Ball.RADIUS);
-                else connectedBall.setRadius(connectedBall.getRadius() * (100 + new Random().nextInt(5, 10)) / 100);
-                if (checkConnectedBalls()) {
-                    changeDirectionTimeLine.stop();
-                    ballsVisiblityTimeLine.stop();
-                    stopChangeBallSizeTimeLine();
-                    windTimeLine.stop();
-                    level.setFinished(true);
-                    level.setWinner(false);
-                    ballCountTimeline.stop();
-                    for (Transition allAnimation : allAnimations) {
-                        allAnimation.stop();
+            ballsVisiblityTimeLine = new Timeline(new KeyFrame(Duration.millis(1000), actionEvent -> {
+                boolean areVisible = connectedBalls.get(0).isVisible();
+                for (Ball connectedBall : connectedBalls) {
+                    if (areVisible) {
+                        connectedBall.setVisible(false);
+                        connectedBall.getStick().setVisible(false);
+                        if (connectedBall.getNumberText() != null) connectedBall.getNumberText().setVisible(false);
+                    } else {
+                        connectedBall.setVisible(true);
+                        connectedBall.getStick().setVisible(true);
+                        if (connectedBall.getNumberText() != null) connectedBall.getNumberText().setVisible(true);
                     }
-                    anchorPane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-                    invisibleCircle.setFill(Color.RED);
-                    resultLabel.setText("You Lost!");
-                    resultLabel.setTextFill(Color.RED);
-                    resultScoreLabel.setText("Score : " + level.getScore());
-                    resultTimeLabel.setText("Time : " + level.getMinutes() + " : " + level.getSeconds());
-                    resultMenuPane.setVisible(true);
-                    resultMenuPane.toFront();
-                    resultMenuPane.requestFocus();
                 }
-            }
-        }));
-        changeBallSizeTimeLine.setCycleCount(-1);
+            }));
+            ballsVisiblityTimeLine.setCycleCount(-1);
+
+            windTimeLine = new Timeline(new KeyFrame(Duration.millis(5000), actionEvent -> {
+                level.setWind(new Random().nextInt(-15, 15));
+                this.setCycleDuration(Duration.millis((new Random().nextInt(6) + 4) * 1000));
+            }));
+            windTimeLine.setCycleCount(-1);
+
+            changeBallSizeTimeLine = new Timeline(new KeyFrame(Duration.millis(1000), actionEvent -> {
+                for (Ball connectedBall : connectedBalls) {
+                    if (connectedBall.getRadius() > Ball.RADIUS) connectedBall.setRadius(Ball.RADIUS);
+                    else connectedBall.setRadius(connectedBall.getRadius() * (100 + new Random().nextInt(5, 10)) / 100);
+                    if (checkConnectedBalls()) {
+                        changeDirectionTimeLine.stop();
+                        changeDirectionTimeLine = null;
+                        ballsVisiblityTimeLine.stop();
+                        ballsVisiblityTimeLine = null;
+                        stopChangeBallSizeTimeLine();
+                        changeBallSizeTimeLine = null;
+                        windTimeLine.stop();
+                        windTimeLine = null;
+                        level.setFinished(true);
+                        level.setWinner(false);
+                        ballCountTimeline.stop();
+                        for (Transition allAnimation : allAnimations) {
+                            allAnimation.stop();
+                        }
+                        anchorPane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+                        invisibleCircle.setFill(Color.RED);
+                        resultLabel.setText(ball.getPlayerNumber() != 2 ? "You Lost!" : "GuestPlayer Lost!");
+                        resultLabel.setTextFill(Color.RED);
+                        resultScoreLabel.setText("Score : " + level.getScore());
+                        resultTimeLabel.setText("Time : " + level.getMinutes() + " : " + level.getSeconds());
+                        resultMenuPane.setVisible(true);
+                        resultMenuPane.toFront();
+                        resultMenuPane.requestFocus();
+                    }
+                }
+            }));
+            changeBallSizeTimeLine.setCycleCount(-1);
+        }
 
         this.setCycleDuration(Duration.millis(1000));
         this.setCycleCount(-1);
@@ -124,6 +134,7 @@ public class ShootingAnimation extends Transition {
         if (isConnectedToMainBall() && !failed) {
             updatePhase();
             level.setIcingMode(level.getIcingMode() + 0.4);
+            icingModeProgressBar.setProgress(level.getIcingMode());
             System.out.println("icing mode" + level.getIcingMode());
             if (ball.getPlayerNumber() != 2) {
                 level.setNumberOfConnectedBalls1(level.getNumberOfConnectedBalls1() + 1);
@@ -157,7 +168,7 @@ public class ShootingAnimation extends Transition {
             anchorPane.getChildren().add(stick);
             ball.setStick(stick);
 
-            BallRotation ballRotation = new BallRotation(invisibleCircle, 1, ball, level.getRotate());
+            BallRotation ballRotation = new BallRotation(ball, level.getRotate());
             allAnimations.add(ballRotation);
             ballRotation.play();
             allAnimations.remove(this);
@@ -166,27 +177,32 @@ public class ShootingAnimation extends Transition {
 
         if (isFinished) {
             System.out.println(failed + " " + (level.getNumberOfConnectedBalls1() == level.getNumberOfBalls()) + " " + (level.getMinutes() == Level.GAME_TIME));
-            changeDirectionTimeLine.stop();
-            changeBallSizeTimeLine.stop();
-            ballsVisiblityTimeLine.stop();
-            // TODO
             System.out.println("Finished");
             level.setFinished(true);
             level.setWinner(!failed);
             ballCountTimeline.stop();
+            changeDirectionTimeLine.stop();
+            changeDirectionTimeLine = null;
+            changeBallSizeTimeLine.stop();
+            changeBallSizeTimeLine = null;
+            ballsVisiblityTimeLine.stop();
+            ballsVisiblityTimeLine = null;
+            windTimeLine.stop();
+            windTimeLine = null;
             for (Transition allAnimation : allAnimations) {
                 allAnimation.stop();
             }
             if (lost) {
                 anchorPane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
                 invisibleCircle.setFill(Color.RED);
-                resultLabel.setText("You Lost!");
+                resultLabel.setText(ball.getPlayerNumber() != 2 ? "You Lost!" : "GuestPlayer Lost!");
                 resultLabel.setTextFill(Color.RED);
             } else {
                 anchorPane.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
                 invisibleCircle.setFill(Color.GREEN);
-                resultLabel.setText("You Won!");
+                resultLabel.setText(ball.getPlayerNumber() != 2 ? "You Won!" : "GuestPlayer Won!");
                 resultLabel.setTextFill(Color.GREEN);
+                level.setWinner(true);
             }
             resultScoreLabel.setText("Score : " + level.getScore());
             resultTimeLabel.setText("Time : " + level.getMinutes() + " : " + level.getSeconds());
@@ -196,9 +212,11 @@ public class ShootingAnimation extends Transition {
         }
 
         ball.setY(y);
-        ball.getNumberText().setY(y + ball.getNumberText().getLayoutBounds().getHeight() / 4);
         ball.setX(x);
-        ball.getNumberText().setX(x - ball.getNumberText().getLayoutBounds().getWidth() / 2);
+        if (ball.getNumberText() != null) {
+            ball.getNumberText().setY(y + ball.getNumberText().getLayoutBounds().getHeight() / 4);
+            ball.getNumberText().setX(x - ball.getNumberText().getLayoutBounds().getWidth() / 2);
+        }
     }
 
     public void stopChangeBallSizeTimeLine() {
@@ -208,8 +226,10 @@ public class ShootingAnimation extends Transition {
     public void updatePhase() {
         int totalConnectedBalls = level.isSinglePlayer() ? level.getNumberOfConnectedBalls1() : Math.max(level.getNumberOfConnectedBalls1(), level.getNumberOfConnectedBalls2());
         double phase = (double) totalConnectedBalls / level.getNumberOfBalls();
+        System.out.println("phase " + phase);
         level.setPhase(phase);
         if (phase >= 0.25 && phase < 0.5 && !changeDirectionTimeLine.getStatus().equals(Animation.Status.RUNNING)) {
+            System.out.println("change direction");
             changeDirectionTimeLine.play();
             changeBallSizeTimeLine.play();
         } else if (phase >= 0.5 && phase < 0.75 && !ballsVisiblityTimeLine.getStatus().equals(Animation.Status.RUNNING)) {

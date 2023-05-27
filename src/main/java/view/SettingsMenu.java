@@ -47,7 +47,7 @@ public class SettingsMenu extends Application {
 
         Button setNumberOfPrimaryBallsButton = (Button) ((HBox) vBox.getChildren().get(3)).getChildren().get(0);
         ChoiceBox<Integer> numberOfPrimaryBallsChoiceBox = (ChoiceBox<Integer>) ((HBox) vBox.getChildren().get(3)).getChildren().get(1);
-        numberOfPrimaryBallsChoiceBox.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        numberOfPrimaryBallsChoiceBox.getItems().addAll(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         setNumberOfPrimaryBallsButton.setOnMouseClicked(event -> {
             try {
                 controller.getGame().setNumberOfPrimaryBalls(numberOfPrimaryBallsChoiceBox.getValue());
