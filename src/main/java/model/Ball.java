@@ -1,10 +1,8 @@
 package model;
 
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Line;
 import javafx.scene.text.*;
 
 public class Ball extends Circle {
@@ -15,7 +13,8 @@ public class Ball extends Circle {
     private final int number;
     private final int playerNumber;
     private Text numberText;
-    private Rectangle stick;
+    private Line stick;
+    private double angle;
 
     public Ball(double x, double y, int number, int playerNumber) {
         super(x, y, RADIUS);
@@ -45,12 +44,25 @@ public class Ball extends Circle {
         return playerNumber;
     }
 
-    public Rectangle getStick() {
+    public Line getStick() {
         return stick;
     }
 
-    public void setStick(Rectangle stick) {
-        this.stick = stick;
+    public void setStick(Ball mainCircle) {
+        double distance = Math.sqrt(Math.pow(this.getX() - mainCircle.getX(), 2) + Math.pow(this.getY() - mainCircle.getY(), 2));
+        double startX = mainCircle.getX() + (this.getX() - mainCircle.getX()) * mainCircle.getRadius() / distance;
+        double startY = mainCircle.getY() + (this.getY() - mainCircle.getY()) * mainCircle.getRadius() / distance;
+        double endX = this.getX() + (mainCircle.getX() - this.getX()) * this.getRadius() / distance;
+        double endY = this.getY() + (mainCircle.getY() - this.getY()) * this.getRadius() / distance;
+        if (stick == null) {
+            stick = new Line(startX, startY, endX, endY);
+            stick.setFill(Color.BLACK);
+        } else {
+            stick.setStartX(startX);
+            stick.setStartY(startY);
+            stick.setEndX(endX);
+            stick.setEndY(endY);
+        }
     }
 
     public Text getNumberText() {
@@ -69,8 +81,16 @@ public class Ball extends Circle {
     public double getY() {
         return getLayoutY() + getCenterY();
     }
+
     public void setY(double y) {
-//        setLayoutY(y - getCenterY());
         setCenterY(y - getLayoutY());
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    public void setAngle(double angle) {
+        this.angle = angle;
     }
 }

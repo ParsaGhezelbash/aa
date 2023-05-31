@@ -1,10 +1,5 @@
 package model;
 
-import javafx.animation.Transition;
-import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.transform.Rotate;
-
 import java.util.ArrayList;
 
 public class Level {
@@ -15,15 +10,12 @@ public class Level {
     private final int numberOfBalls;
     private int numberOfConnectedBalls1;
     private int numberOfConnectedBalls2;
+    private final ArrayList<double[]> connectedBallsDetails;
     private final int numberOfPrimaryBalls;
     private final int mapNumber;
     private final boolean isSinglePlayer;
     private double icingMode;
     private boolean isInIcingMode;
-    private Scene lastScene;
-    private AnchorPane lastGamePane;
-    private ArrayList<Transition> allAnimations;
-    private ArrayList<Ball> connectedBalls;
     private int resultIndex;
     private int pauseIndex;
     private int keyboardIndex;
@@ -33,27 +25,25 @@ public class Level {
     private int score;
     private boolean isFinished;
     private boolean isWinner;
-    private Rotate rotate;
     private double phase;
     private int wind;
 
-    public Level(int difficulty, int numberOfBalls, int numberOfPrimaryBalls, int mapNumber, boolean isSinglePlayer, double rotationX, double rotationY) {
+    public Level(int difficulty, int numberOfBalls, int numberOfPrimaryBalls, int mapNumber, boolean isSinglePlayer) {
         this.difficulty = difficulty;
         this.numberOfBalls = numberOfBalls;
         this.numberOfConnectedBalls1 = 0;
         this.numberOfConnectedBalls2 = 0;
         this.numberOfPrimaryBalls = numberOfPrimaryBalls;
+        this.connectedBallsDetails = new ArrayList<>();
         this.mapNumber = mapNumber;
         this.isSinglePlayer = isSinglePlayer;
         this.icingMode = 0;
         this.isInIcingMode = false;
-        this.lastGamePane = null;
         this.minutes = 0;
         this.seconds = 0;
         this.score = 0;
         this.isFinished = false;
         this.isWinner = false;
-        this.rotate = new Rotate(difficulty * 2, rotationX, rotationY);
         this.phase = 0;
         this.wind = 0;
     }
@@ -106,14 +96,6 @@ public class Level {
         isInIcingMode = inIcingMode;
     }
 
-    public AnchorPane getLastGamePane() {
-        return lastGamePane;
-    }
-
-    public void setLastGamePane(AnchorPane lastGamePane) {
-        this.lastGamePane = lastGamePane;
-    }
-
     public int getMinutes() {
         return minutes;
     }
@@ -137,10 +119,6 @@ public class Level {
     public void increaseScore() {
         // TODO
         this.score += 10;
-    }
-
-    public boolean isFinished() {
-        return isFinished;
     }
 
     public void setFinished(boolean finished) {
@@ -187,40 +165,8 @@ public class Level {
         this.musicIndex = musicIndex;
     }
 
-    public Scene getLastScene() {
-        return lastScene;
-    }
-
-    public void setLastScene(Scene lastScene) {
-        this.lastScene = lastScene;
-    }
-
-    public ArrayList<Transition> getAllAnimations() {
-        return allAnimations;
-    }
-
-    public void setAllAnimations(ArrayList<Transition> allAnimations) {
-        this.allAnimations = allAnimations;
-    }
-
-    public ArrayList<Ball> getConnectedBalls() {
-        return connectedBalls;
-    }
-
-    public void setConnectedBalls(ArrayList<Ball> connectedBalls) {
-        this.connectedBalls = connectedBalls;
-    }
-
     public boolean isSinglePlayer() {
         return isSinglePlayer;
-    }
-
-    public Rotate getRotate() {
-        return rotate;
-    }
-
-    public void setRotate(Rotate rotate) {
-        this.rotate = rotate;
     }
 
     public double getPhase() {
@@ -237,5 +183,20 @@ public class Level {
 
     public void setWind(int wind) {
         this.wind = wind;
+    }
+
+    public static boolean areConnected(Ball ball1, Ball ball2) {
+        double distance = Math.sqrt(Math.pow(ball1.getCenterX() - ball2.getCenterX(), 2) + Math.pow(ball1.getCenterY() - ball2.getCenterY(), 2));
+        return distance <= (ball1.getRadius() + ball2.getRadius());
+    }
+
+    public void addConnectedBall(Ball ball) {
+        if (ball.getPlayerNumber() == 1) numberOfConnectedBalls1++;
+        if (ball.getPlayerNumber() == 2) numberOfConnectedBalls2++;
+        connectedBallsDetails.add(new double[]{ball.getX(), ball.getY(), ball.getNumber(), ball.getPlayerNumber()});
+    }
+
+    public ArrayList<double[]> getConnectedBallsDetails() {
+        return connectedBallsDetails;
     }
 }

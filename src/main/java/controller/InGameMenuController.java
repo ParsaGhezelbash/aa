@@ -1,10 +1,14 @@
 package controller;
 
+import model.Level;
+import view.Animations;
 import view.InGameMenu;
+import view.TimeLines;
 
 public class InGameMenuController {
-private final Controller controller;
-private final InGameMenu inGameMenu;
+    private final Controller controller;
+    private final InGameMenu inGameMenu;
+    private Level level;
 
     public InGameMenuController(Controller controller) {
         this.controller = controller;
@@ -12,12 +16,15 @@ private final InGameMenu inGameMenu;
         this.inGameMenu.setController(controller);
     }
 
-    public String resumeGame() {
-        // TODO Auto-generated method
-        return null;
-    }
-
     public InGameMenu getInGameMenu() {
         return inGameMenu;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
     }
 }

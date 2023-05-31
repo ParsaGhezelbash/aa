@@ -10,8 +10,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c25c76ce-c857-4f26-9ac7-05ca9fd0b092" name="Changes" comment="? th day">
-      <change afterPath="$PROJECT_DIR$/src/main/java.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/Animations.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/PauseMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/ResultMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/TimeLines.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/InGameMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/InGameMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Ball.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Ball.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Level.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/BallRotation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/BallRotation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/InGameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/InGameMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/ShootingAnimation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ShootingAnimation.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,8 +32,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="module-info" />
-        <option value="Class" />
         <option value="FxmlFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -68,22 +78,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/PG/UN/Term 2/1- AP/4- Kargah/7- Graphic/Graphics2/Graphics2&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "extract.method.default.visibility": "private",
+    "last_opened_file_path": "C:/Users/Parsa/Desktop/New folder",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Application.Start">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="controller.Main" />
@@ -199,6 +209,12 @@
       <workItem from="1685216992596" duration="18000" />
       <workItem from="1685217714927" duration="2523000" />
       <workItem from="1685248652272" duration="805000" />
+      <workItem from="1685341379438" duration="24000" />
+      <workItem from="1685341420994" duration="33000" />
+      <workItem from="1685341526388" duration="903000" />
+      <workItem from="1685444523955" duration="644000" />
+      <workItem from="1685482725893" duration="964000" />
+      <workItem from="1685517137854" duration="27180000" />
     </task>
     <task id="LOCAL-00001" summary="first day">
       <created>1684355122724</created>
@@ -351,7 +367,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>

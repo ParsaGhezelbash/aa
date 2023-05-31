@@ -13,6 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Game {
+    public static final int DISTANCE = 180;
     private int difficulty;
     private int numberOfBalls;
     private int numberOfPrimaryBalls;
