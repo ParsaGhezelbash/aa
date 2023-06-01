@@ -43,7 +43,6 @@ public class ShootingAnimation extends Transition {
         boolean lost = failed || (level.getMinutes() == Level.GAME_TIME);
 
         if (isConnectedToMainBall() && !failed) {
-            inGameMenu.connectBall(ball);
             updateLevel();
             setLabels();
             updatePhase();
@@ -55,6 +54,7 @@ public class ShootingAnimation extends Transition {
         }
 
         if (isFinished) {
+            System.out.println(2);
             inGameMenu.finishGame(!failed, ball.getPlayerNumber());
         }
 
@@ -68,7 +68,7 @@ public class ShootingAnimation extends Transition {
 
     public void updateLevel() {
         level.increaseScore();
-        level.addConnectedBall(ball);
+        inGameMenu.connectBall(ball);
         level.setIcingMode(level.getIcingMode() + 0.4);
     }
 
@@ -106,7 +106,8 @@ public class ShootingAnimation extends Transition {
 
     private boolean isConnectedToBalls() {
         for (Ball connectedBall : inGameMenu.getConnectedBalls()) {
-            if (level.areConnected(ball, connectedBall)) {
+            System.out.println(ball.getX() + " " + connectedBall.getX());
+            if (Level.areConnected(ball, connectedBall)) {
                 return true;
             }
         }

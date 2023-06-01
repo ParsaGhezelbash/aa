@@ -5,12 +5,10 @@ import com.google.gson.reflect.TypeToken;
 import javafx.scene.input.KeyCode;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.ImagePattern;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.FormatFlagsConversionMismatchException;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Game {
     public static final int DISTANCE = 180;

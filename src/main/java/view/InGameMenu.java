@@ -55,18 +55,13 @@ public class InGameMenu extends Application {
         inGameMenuPane = FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/InGameMenu.fxml")).toExternalForm()));
         inGameMenuPane.setBackground(Background.fill(Color.WHITE));
 
-        connectedBalls = new ArrayList<>();
-        setConnectedBalls();
-
-        this.animations = new Animations();
-        animations.startAllAnimations();
-
-        this.timeLines = new TimeLines(this);
-
         resultMenu = new ResultMenu(controller, this);
         pauseMenu = new PauseMenu(controller, this);
 
         setCircles(inGameMenuPane);
+
+        this.animations = new Animations();
+        animations.startAllAnimations();
 
         usernameLabel = (Label) inGameMenuPane.getChildren().get(3);
         usernameLabel.setText("Username : " + controller.getGame().getCurrentUser().getUsername());
@@ -99,11 +94,16 @@ public class InGameMenu extends Application {
         icingModeProgressBar = (ProgressBar) inGameMenuPane.getChildren().get(11);
         icingModeProgressBar.setProgress(level.getIcingMode());
 
+        connectedBalls = new ArrayList<>();
+        setConnectedBalls();
+
+        this.timeLines = new TimeLines(this);
+
         if (level.isSinglePlayer()) {
-            currentBall1 = createBall(0, 1);
+            currentBall1 = createBall(0, level.equals(controller.getGame().getCurrentUser().getLastLevel()) ? level.getNumberOfConnectedBalls1() + 1 : 1);
         } else {
-            currentBall1 = createBall(1, 1);
-            currentBall2 = createBall(2, 1);
+            currentBall1 = createBall(1, level.equals(controller.getGame().getCurrentUser().getLastLevel()) ? level.getNumberOfConnectedBalls1() + 1 : 1);
+            currentBall2 = createBall(2, level.equals(controller.getGame().getCurrentUser().getLastLevel()) ? level.getNumberOfConnectedBalls2() + 1 : 1);
         }
 
         Scene scene = new Scene(inGameMenuPane);
@@ -113,29 +113,32 @@ public class InGameMenu extends Application {
     }
 
     private void setConnectedBalls() {
+        System.out.println("sit " + level.equals(controller.getGame().getCurrentUser().getLastLevel()));
         if (level.equals(controller.getGame().getCurrentUser().getLastLevel())) {
-            for (double[] detail : level.getConnectedBallsDetails()) {
+            System.out.println("resume " + level.getConnectedBallsNumber().size());
+            for (int i = 0; i < level.getConnectedBallsNumber().size(); i++) {
+                System.out.println(level.getConnectedBallsX().get(i) + " " + level.getConnectedBallsY().get(i) + " " + level.getConnectedBallsNumber().get(i));
                 Ball ball;
-                if (detail[2] != -1) {
-                    ball = new Ball(detail[0], detail[1], (int) detail[2], (int) detail[3]);
+                if (level.getConnectedBallsNumber().get(i) != -1) {
+                    ball = new Ball(level.getConnectedBallsX().get(i), level.getConnectedBallsY().get(i), level.getConnectedBallsNumber().get(i),
+                            level.getConnectedBallsPlayerNumber().get(i));
                 } else {
-                    ball = new Ball(detail[0], detail[1]);
+                    ball = new Ball(level.getConnectedBallsX().get(i), level.getConnectedBallsY().get(i));
                 }
                 inGameMenuPane.getChildren().add(ball);
-                inGameMenuPane.getChildren().add(ball.getNumberText());
+                if (ball.getNumberText() != null) inGameMenuPane.getChildren().add(ball.getNumberText());
                 connectBall(ball);
-                level.addConnectedBall(ball);
             }
         } else {
             for (int i = 0; i < level.getNumberOfPrimaryBalls(); i++) {
                 if (level.getNumberOfPrimaryBalls() != 0) {
-                    double angle = (double) (180 / level.getNumberOfPrimaryBalls()) * Math.PI;
-                    Ball ball = new Ball(mainCircle.getX() - Game.DISTANCE * Math.sin(i * angle),
-                                         mainCircle.getY() + Game.DISTANCE * Math.cos(i * angle));
+                    double angle = (double) (360 / level.getNumberOfPrimaryBalls());
+                    Ball ball = new Ball(mainCircle.getX() - (Game.DISTANCE + Ball.RADIUS) * Math.sin(i * Math.toRadians(angle)),
+                            mainCircle.getY() + (Game.DISTANCE + Ball.RADIUS) * Math.cos(i * Math.toRadians(angle)));
+                    System.out.println("new ball " + ball.getX() + " " + ball.getY());
                     inGameMenuPane.getChildren().add(ball);
                     connectBall(ball);
                 }
-
             }
         }
     }
@@ -192,20 +195,9 @@ public class InGameMenu extends Application {
                     } else {
                         level.setSeconds(level.getSeconds() + 1);
                     }
-                    if (level.getMinutes() == Level.GAME_TIME - 1 && level.getSeconds() == 59) {
-                        level.setFinished(true);
-                        level.setWinner(false);
-                        for (Transition allAnimation : animations.getAllAnimations()) {
-                            allAnimation.stop();
-                        }
-                        inGameMenuPane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-                        resultLabel.setText("You Lost!");
-                        resultLabel.setTextFill(Color.RED);
-                        resultScoreLabel.setText("Score : " + level.getScore());
-                        resultTimeLabel.setText("Time : " + level.getMinutes() + " : " + level.getSeconds());
-                        resultMenu.getResultMenuPane().setVisible(true);
-                        resultMenu.getResultMenuPane().toFront();
-                        resultMenu.getResultMenuPane().requestFocus();
+                    if (level.getMinutes() == Level.GAME_TIME && level.getSeconds() == 0) {
+                        System.out.println(1);
+                        finishGame(false, 1);
                         try {
                             timeline.stop();
                         } catch (Exception e) {
@@ -275,6 +267,8 @@ public class InGameMenu extends Application {
     }
 
     public void connectBall(Ball ball) {
+        ball.setAngle(ball.getAngleFromCoordinate(mainCircle.getX(), mainCircle.getY()));
+        connectedBalls.add(ball);
         ball.setStick(mainCircle);
         inGameMenuPane.getChildren().add(ball.getStick());
         BallRotation ballRotation = new BallRotation(mainCircle, ball, level.getDifficulty() * 2);
@@ -282,6 +276,12 @@ public class InGameMenu extends Application {
         ballRotation.play();
     }
 
+    public void saveGame() {
+        for (Ball ball : connectedBalls) {
+            level.addConnectedBall(ball);
+        }
+        controller.getGame().getCurrentUser().setLastLevel(level);
+    }
     public void finishGame(boolean win, int playerNumber) {
         level.setFinished(true);
         level.setWinner(win);

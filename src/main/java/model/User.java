@@ -1,20 +1,25 @@
 package model;
 
 
+import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
+
+import java.net.URL;
+import java.util.Objects;
 
 public class User {
     private String username;
     private String password;
-    private ImagePattern avatar;
+    private String profileAddress;
+//    private ImagePattern avatar;
     private Level lastLevel;
     private int sec1, sec2, sec3;
 
-
-    public User(String username, String password, ImagePattern avatar) {
+    public User(String username, String password, String profileAddress) {
         this.username = username;
         this.password = password;
-        this.avatar = avatar;
+        this.profileAddress = profileAddress;
+//        this.avatar = avatar;
         this.lastLevel = null;
         this.sec1 = 0;
         this.sec2 = 0;
@@ -24,7 +29,8 @@ public class User {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.avatar = null;
+        this.profileAddress = null;
+//        this.avatar = null;
     }
 
     public String getUsername() {
@@ -44,11 +50,11 @@ public class User {
     }
 
     public ImagePattern getAvatar() {
-        return avatar;
+        return new ImagePattern(new Image(profileAddress));
     }
 
-    public void setAvatar(ImagePattern avatar) {
-        this.avatar = avatar;
+    public void setAvatar(String profileAddress) {
+        this.profileAddress = profileAddress;
     }
 
     public Level getLastLevel() {

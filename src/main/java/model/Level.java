@@ -10,7 +10,10 @@ public class Level {
     private final int numberOfBalls;
     private int numberOfConnectedBalls1;
     private int numberOfConnectedBalls2;
-    private final ArrayList<double[]> connectedBallsDetails;
+    private final ArrayList<Double> connectedBallsX;
+    private final ArrayList<Double> connectedBallsY;
+    private final ArrayList<Integer> connectedBallsNumber;
+    private final ArrayList<Integer> connectedBallsPlayerNumber;
     private final int numberOfPrimaryBalls;
     private final int mapNumber;
     private final boolean isSinglePlayer;
@@ -34,7 +37,10 @@ public class Level {
         this.numberOfConnectedBalls1 = 0;
         this.numberOfConnectedBalls2 = 0;
         this.numberOfPrimaryBalls = numberOfPrimaryBalls;
-        this.connectedBallsDetails = new ArrayList<>();
+        this.connectedBallsX = new ArrayList<>();
+        this.connectedBallsY = new ArrayList<>();
+        this.connectedBallsNumber = new ArrayList<>();
+        this.connectedBallsPlayerNumber = new ArrayList<>();
         this.mapNumber = mapNumber;
         this.isSinglePlayer = isSinglePlayer;
         this.icingMode = 0;
@@ -191,12 +197,28 @@ public class Level {
     }
 
     public void addConnectedBall(Ball ball) {
-        if (ball.getPlayerNumber() == 1) numberOfConnectedBalls1++;
-        if (ball.getPlayerNumber() == 2) numberOfConnectedBalls2++;
-        connectedBallsDetails.add(new double[]{ball.getX(), ball.getY(), ball.getNumber(), ball.getPlayerNumber()});
+        System.out.println("player " + ball.getPlayerNumber() + " ball " + ball.getNumber());
+        if (ball.getPlayerNumber() != 2) numberOfConnectedBalls1++;
+        else numberOfConnectedBalls2++;
+        connectedBallsX.add(ball.getX());
+        connectedBallsY.add(ball.getY());
+        connectedBallsNumber.add(ball.getNumber());
+        connectedBallsPlayerNumber.add(ball.getPlayerNumber());
     }
 
-    public ArrayList<double[]> getConnectedBallsDetails() {
-        return connectedBallsDetails;
+    public ArrayList<Double> getConnectedBallsX() {
+        return connectedBallsX;
+    }
+
+    public ArrayList<Double> getConnectedBallsY() {
+        return connectedBallsY;
+    }
+
+    public ArrayList<Integer> getConnectedBallsNumber() {
+        return connectedBallsNumber;
+    }
+
+    public ArrayList<Integer> getConnectedBallsPlayerNumber() {
+        return connectedBallsPlayerNumber;
     }
 }

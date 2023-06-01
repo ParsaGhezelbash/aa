@@ -63,6 +63,7 @@ public class Ball extends Circle {
             stick.setEndX(endX);
             stick.setEndY(endY);
         }
+        stick.setVisible(true);
     }
 
     public Text getNumberText() {
@@ -91,6 +92,23 @@ public class Ball extends Circle {
     }
 
     public void setAngle(double angle) {
-        this.angle = angle;
+        this.angle = angle % 360;
+    }
+
+    public double getAngleFromCoordinate(double mainX, double mainY) {
+        double x = getX() - mainX;
+        double y = getY() - mainY;
+        double z = Math.abs(x / y);
+        if (x >= 0 && y >= 0) {
+            return 360 - Math.toDegrees(Math.atan(z));
+        }
+        if (x <= 0 && y >= 0) {
+            return Math.toDegrees(Math.atan(z));
+        }
+        if (x <= 0 && y <= 0) {
+            return 180 - Math.toDegrees(Math.atan(z));
+        } else {
+            return 180 + Math.toDegrees(Math.atan(z));
+        }
     }
 }

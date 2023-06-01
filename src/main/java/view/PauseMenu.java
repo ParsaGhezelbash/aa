@@ -63,11 +63,12 @@ public class PauseMenu {
 
         saveButton = (Button) pauseMenuPane.getChildren().get(5);
         saveButton.setOnMouseClicked(mouseEvent -> {
-            inGameMenu.getLevel().setResultIndex(inGameMenu.getInGameMenuPane().getChildren().indexOf(inGameMenu.getResultPane()));
-            inGameMenu.getLevel().setPauseIndex(inGameMenu.getInGameMenuPane().getChildren().indexOf(pauseMenuPane));
-            inGameMenu.getLevel().setKeyboardIndex(pauseMenuPane.getChildren().indexOf(keyboardMenuPane));
-            inGameMenu.getLevel().setMusicIndex(pauseMenuPane.getChildren().indexOf(musicMenuPane));
-            controller.getGame().getCurrentUser().setLastLevel(inGameMenu.getLevel());
+//            inGameMenu.getLevel().setResultIndex(inGameMenu.getInGameMenuPane().getChildren().indexOf(inGameMenu.getResultPane()));
+//            inGameMenu.getLevel().setPauseIndex(inGameMenu.getInGameMenuPane().getChildren().indexOf(pauseMenuPane));
+//            inGameMenu.getLevel().setKeyboardIndex(pauseMenuPane.getChildren().indexOf(keyboardMenuPane));
+//            inGameMenu.getLevel().setMusicIndex(pauseMenuPane.getChildren().indexOf(musicMenuPane));
+//            controller.getGame().getCurrentUser().setLastLevel(inGameMenu.getLevel());
+            inGameMenu.saveGame();
         });
 
         restartButton = (Button) pauseMenuPane.getChildren().get(6);

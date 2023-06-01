@@ -14,7 +14,7 @@ public class BallRotation extends Transition {
     public BallRotation(Ball mainCircle, Ball ball, int angle) {
         this.ball = ball;
         this.mainCircle = mainCircle;
-        this.distance = Math.sqrt(Math.pow(ball.getCenterX() - mainCircle.getCenterX(), 2) + Math.pow(ball.getCenterY() - mainCircle.getCenterY(), 2));
+        this.distance = Math.sqrt(Math.pow(ball.getX() - mainCircle.getX(), 2) + Math.pow(ball.getY() - mainCircle.getY(), 2));
         this.angle = angle;
         this.rotate = new Rotate(angle, mainCircle.getCenterX(), mainCircle.getCenterY());
         this.setCycleDuration(Duration.millis(1000));
@@ -23,10 +23,14 @@ public class BallRotation extends Transition {
 
     @Override
     protected void interpolate(double v) {
-        ball.setAngle(ball.getAngle() + angle);
+        ball.setAngle((ball.getAngle() + angle) % 360);
         ball.setX(mainCircle.getX() - distance * Math.sin(Math.toRadians(ball.getAngle())));
         ball.setY(mainCircle.getY() + distance * Math.cos(Math.toRadians(ball.getAngle())));
-        ball.getNumberText().getTransforms().add(new Rotate(angle, mainCircle.getCenterX(), mainCircle.getCenterY()));
+        ball.setStick(mainCircle);
+        if (ball.getNumberText() != null) {
+            ball.getNumberText().setY(ball.getY() + ball.getNumberText().getLayoutBounds().getHeight() / 4);
+            ball.getNumberText().setX(ball.getX() - ball.getNumberText().getLayoutBounds().getWidth() / 2);
+        }
     }
 
     public void setAngle(int angle) {

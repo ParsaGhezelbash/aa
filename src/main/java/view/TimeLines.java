@@ -33,6 +33,7 @@ public class TimeLines {
                 if (areVisible) {
                     connectedBall.setVisible(false);
                     connectedBall.getStick().setVisible(false);
+                    System.out.println("vvv");
                     if (connectedBall.getNumberText() != null) connectedBall.getNumberText().setVisible(false);
                 } else {
                     connectedBall.setVisible(true);
@@ -52,26 +53,7 @@ public class TimeLines {
                 if (connectedBall.getRadius() > Ball.RADIUS) connectedBall.setRadius(Ball.RADIUS);
                 else connectedBall.setRadius(connectedBall.getRadius() * (100 + new Random().nextInt(5, 10)) / 100);
                 if (checkConnectedBalls()) {
-//                    changeDirectionTimeLine.stop();
-//                    changeDirectionTimeLine = null;
-//                    ballsVisibilityTimeLine.stop();
-//                    ballsVisibilityTimeLine = null;
-//                    stopChangeBallSizeTimeLine();
-//                    changeBallSizeTimeLine = null;
-//                    windTimeLine.stop();
-//                    windTimeLine = null;
-//                    inGameMenu.getLevel().setFinished(true);
-//                    inGameMenu.getLevel().setWinner(false);
-//                    ballCountTimeline.stop();
-//                    animations.stopAllAnimations();
-//                    anchorPane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-//                    resultLabel.setText(ball.getPlayerNumber() != 2 ? "You Lost!" : "GuestPlayer Lost!");
-//                    resultLabel.setTextFill(Color.RED);
-//                    resultScoreLabel.setText("Score : " + level.getScore());
-//                    resultTimeLabel.setText("Time : " + level.getMinutes() + " : " + level.getSeconds());
-//                    resultMenuPane.setVisible(true);
-//                    resultMenuPane.toFront();
-//                    resultMenuPane.requestFocus();
+                    inGameMenu.finishGame(false, 1);
                 }
             }
         }));
@@ -80,19 +62,21 @@ public class TimeLines {
 
     private void refreshChangeDirectionTimeLine() {
         KeyFrame keyFrame = new KeyFrame(Duration.millis((new Random().nextInt(10) + 4) * 1000), actionEvent -> {
+            System.out.println(111);
             inGameMenu.getAnimations().getRotation().setAngle(-inGameMenu.getAnimations().getRotation().getAngle());
             refreshChangeDirectionTimeLine();
         });
-        changeDirectionTimeLine.getKeyFrames().remove(0);
+//        changeDirectionTimeLine.getKeyFrames().remove(0);
         changeDirectionTimeLine.getKeyFrames().add(keyFrame);
     }
 
     private void refreshWindTimeLine() {
         KeyFrame keyFrame = new KeyFrame(Duration.millis((new Random().nextInt(6) + 4) * 1000), actionEvent -> {
+            System.out.println(222);
             inGameMenu.getLevel().setWind(new Random().nextInt(-15, 15));
             refreshWindTimeLine();
         });
-        windTimeLine.getKeyFrames().remove(0);
+//        windTimeLine.getKeyFrames().remove(0);
         windTimeLine.getKeyFrames().add(keyFrame);
     }
 
@@ -100,6 +84,8 @@ public class TimeLines {
         for (int i = 0; i < inGameMenu.getConnectedBalls().size(); i++) {
             for (int j = i + 1; j < inGameMenu.getConnectedBalls().size(); j++) {
                 if (Level.areConnected(inGameMenu.getConnectedBalls().get(i), inGameMenu.getConnectedBalls().get(j))) {
+                    System.out.println(inGameMenu.getConnectedBalls().get(i).getX());
+                    System.out.println(inGameMenu.getConnectedBalls().get(j).getX());
                     return true;
                 }
             }

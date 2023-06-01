@@ -22,14 +22,14 @@ public class SignUpMenuController {
         if (controller.getGame().getUserByUsername(username) != null)
             return "User with username " + username + " already exists!";
 
-        User user = new User(username, password, avatar);
+        User user = new User(username, password, avatar.getImage().getUrl());
         controller.getGame().addUser(user);
         controller.getGame().setCurrentUser(user);
         return "User " + username + " created successfully!";
     }
 
     public void enterAsGuest(ImagePattern avatar) {
-        User guest = new User("Guest", "0", avatar);
+        User guest = new User("Guest", "0", avatar.getImage().getUrl());
         controller.getGame().setCurrentUser(guest);
     }
 

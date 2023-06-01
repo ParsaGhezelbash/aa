@@ -34,7 +34,7 @@ public class ProfileMenuController {
     }
 
     public String changeAvatar(ImagePattern avatar) {
-        controller.getGame().getCurrentUser().setAvatar(avatar);
+        controller.getGame().getCurrentUser().setAvatar(avatar.getImage().getUrl());
         return "Avatar changed successfully!";
     }
 
