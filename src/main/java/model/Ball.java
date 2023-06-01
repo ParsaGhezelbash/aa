@@ -63,7 +63,6 @@ public class Ball extends Circle {
             stick.setEndX(endX);
             stick.setEndY(endY);
         }
-        stick.setVisible(true);
     }
 
     public Text getNumberText() {

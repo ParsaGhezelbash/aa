@@ -42,10 +42,9 @@ public class PauseMenu {
         resumeButton = (Button) pauseMenuPane.getChildren().get(2);
         resumeButton.setOnMouseClicked(mouseEvent -> {
             pauseMenuPane.setVisible(false);
-            for (Transition animation : inGameMenu.getAnimations().getAllAnimations()) {
-                animation.play();
-            }
+            inGameMenu.getAnimations().startAllAnimations();
             inGameMenu.getTimeline().play();
+            inGameMenu.getTimeLines().playPausedTimeLines();
             inGameMenu.getCurrentBall1().requestFocus();
         });
 
@@ -113,7 +112,6 @@ public class PauseMenu {
     }
 
     private AnchorPane setKeyboardMenuPane(AnchorPane pauseMenuPane) throws IOException {
-        System.out.println(pauseMenuPane.getChildren().size());
         AnchorPane keyboardMenuPane = FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/KeyboardMenu.fxml")).toExternalForm()));
 
         pauseMenuPane.getChildren().remove(keyboardMenuPane);

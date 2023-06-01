@@ -91,7 +91,6 @@ public class ScoreBoardMenu extends Application {
 
         int scoreBoardSize = Math.min(topUsers.size(), 10);
         for (int i = 0; i < scoreBoardSize; i++) {
-            System.out.println(topUsers.get(i).getUsername() + " " + topUsers.get(i).getSec1());
             tableView.getItems().add(topUsers.get(i));
         }
     }

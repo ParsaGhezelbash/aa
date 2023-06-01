@@ -54,7 +54,6 @@ public class ShootingAnimation extends Transition {
         }
 
         if (isFinished) {
-            System.out.println(2);
             inGameMenu.finishGame(!failed, ball.getPlayerNumber());
         }
 
@@ -69,6 +68,7 @@ public class ShootingAnimation extends Transition {
     public void updateLevel() {
         level.increaseScore();
         inGameMenu.connectBall(ball);
+        level.addConnectedBall(ball);
         level.setIcingMode(level.getIcingMode() + 0.4);
     }
 
@@ -106,7 +106,6 @@ public class ShootingAnimation extends Transition {
 
     private boolean isConnectedToBalls() {
         for (Ball connectedBall : inGameMenu.getConnectedBalls()) {
-            System.out.println(ball.getX() + " " + connectedBall.getX());
             if (Level.areConnected(ball, connectedBall)) {
                 return true;
             }

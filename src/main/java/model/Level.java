@@ -19,10 +19,6 @@ public class Level {
     private final boolean isSinglePlayer;
     private double icingMode;
     private boolean isInIcingMode;
-    private int resultIndex;
-    private int pauseIndex;
-    private int keyboardIndex;
-    private int musicIndex;
     private int minutes;
     private int seconds;
     private int score;
@@ -66,16 +62,8 @@ public class Level {
         return numberOfConnectedBalls1;
     }
 
-    public void setNumberOfConnectedBalls1(int numberOfConnectedBalls1) {
-        this.numberOfConnectedBalls1 = numberOfConnectedBalls1;
-    }
-
     public int getNumberOfConnectedBalls2() {
         return numberOfConnectedBalls2;
-    }
-
-    public void setNumberOfConnectedBalls2(int numberOfConnectedBalls2) {
-        this.numberOfConnectedBalls2 = numberOfConnectedBalls2;
     }
 
     public int getNumberOfPrimaryBalls() {
@@ -139,38 +127,6 @@ public class Level {
         isWinner = winner;
     }
 
-    public int getResultIndex() {
-        return resultIndex;
-    }
-
-    public void setResultIndex(int resultIndex) {
-        this.resultIndex = resultIndex;
-    }
-
-    public int getPauseIndex() {
-        return pauseIndex;
-    }
-
-    public void setPauseIndex(int pauseIndex) {
-        this.pauseIndex = pauseIndex;
-    }
-
-    public int getKeyboardIndex() {
-        return keyboardIndex;
-    }
-
-    public void setKeyboardIndex(int keyboardIndex) {
-        this.keyboardIndex = keyboardIndex;
-    }
-
-    public int getMusicIndex() {
-        return musicIndex;
-    }
-
-    public void setMusicIndex(int musicIndex) {
-        this.musicIndex = musicIndex;
-    }
-
     public boolean isSinglePlayer() {
         return isSinglePlayer;
     }
@@ -197,13 +153,17 @@ public class Level {
     }
 
     public void addConnectedBall(Ball ball) {
-        System.out.println("player " + ball.getPlayerNumber() + " ball " + ball.getNumber());
-        if (ball.getPlayerNumber() != 2) numberOfConnectedBalls1++;
-        else numberOfConnectedBalls2++;
-        connectedBallsX.add(ball.getX());
-        connectedBallsY.add(ball.getY());
-        connectedBallsNumber.add(ball.getNumber());
-        connectedBallsPlayerNumber.add(ball.getPlayerNumber());
+        if (ball.getPlayerNumber() == 1 || ball.getPlayerNumber() == 0) numberOfConnectedBalls1++;
+        else if (ball.getPlayerNumber() == 2) numberOfConnectedBalls2++;
+    }
+
+    public void saveDetails(Ball ball) {
+        if (!connectedBallsNumber.contains(ball.getNumber()) || !connectedBallsPlayerNumber.contains(ball.getPlayerNumber())) {
+            connectedBallsX.add(ball.getX());
+            connectedBallsY.add(ball.getY());
+            connectedBallsNumber.add(ball.getNumber());
+            connectedBallsPlayerNumber.add(ball.getPlayerNumber());
+        }
     }
 
     public ArrayList<Double> getConnectedBallsX() {

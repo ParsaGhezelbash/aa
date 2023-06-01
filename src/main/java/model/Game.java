@@ -11,7 +11,7 @@ import java.io.*;
 import java.util.*;
 
 public class Game {
-    public static final int DISTANCE = 180;
+    public static final int DISTANCE = 160;
     private int difficulty;
     private int numberOfBalls;
     private int numberOfPrimaryBalls;

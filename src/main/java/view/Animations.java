@@ -36,20 +36,19 @@ public class Animations {
         allAnimations.remove(animation);
     }
 
-    public void setRotation(Rotate rotate) {
+    public void setAngleOfRotations(double angele) {
         for (Transition animation : allAnimations) {
             if (animation instanceof BallRotation) {
-                ((BallRotation) animation).setRotate(rotate);
+                ((BallRotation) animation).setAngle(angele);
             }
         }
     }
-
-    public Rotate getRotation() {
+    public double getAngleOfRotations() {
         for (Transition animation : allAnimations) {
             if (animation instanceof BallRotation) {
-                return ((BallRotation) animation).getRotate();
+                return ((BallRotation) animation).getAngle();
             }
         }
-        return null;
+        return 0;
     }
 }

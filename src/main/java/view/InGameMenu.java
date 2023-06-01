@@ -3,7 +3,6 @@ package view;
 import controller.Controller;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.animation.Transition;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +18,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
-import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Ball;
@@ -113,11 +111,8 @@ public class InGameMenu extends Application {
     }
 
     private void setConnectedBalls() {
-        System.out.println("sit " + level.equals(controller.getGame().getCurrentUser().getLastLevel()));
         if (level.equals(controller.getGame().getCurrentUser().getLastLevel())) {
-            System.out.println("resume " + level.getConnectedBallsNumber().size());
             for (int i = 0; i < level.getConnectedBallsNumber().size(); i++) {
-                System.out.println(level.getConnectedBallsX().get(i) + " " + level.getConnectedBallsY().get(i) + " " + level.getConnectedBallsNumber().get(i));
                 Ball ball;
                 if (level.getConnectedBallsNumber().get(i) != -1) {
                     ball = new Ball(level.getConnectedBallsX().get(i), level.getConnectedBallsY().get(i), level.getConnectedBallsNumber().get(i),
@@ -135,9 +130,9 @@ public class InGameMenu extends Application {
                     double angle = (double) (360 / level.getNumberOfPrimaryBalls());
                     Ball ball = new Ball(mainCircle.getX() - (Game.DISTANCE + Ball.RADIUS) * Math.sin(i * Math.toRadians(angle)),
                             mainCircle.getY() + (Game.DISTANCE + Ball.RADIUS) * Math.cos(i * Math.toRadians(angle)));
-                    System.out.println("new ball " + ball.getX() + " " + ball.getY());
                     inGameMenuPane.getChildren().add(ball);
                     connectBall(ball);
+                    level.addConnectedBall(ball);
                 }
             }
         }
@@ -180,6 +175,7 @@ public class InGameMenu extends Application {
         pauseButton.setOnAction(actionEvent -> {
             animations.stopAllAnimations();
             timeline.stop();
+            timeLines.pauseRunningTimeLines();
             pauseMenu.getPauseMenuPane().setVisible(true);
             pauseMenu.getPauseMenuPane().toFront();
             pauseMenu.getPauseMenuPane().requestFocus();
@@ -196,7 +192,6 @@ public class InGameMenu extends Application {
                         level.setSeconds(level.getSeconds() + 1);
                     }
                     if (level.getMinutes() == Level.GAME_TIME && level.getSeconds() == 0) {
-                        System.out.println(1);
                         finishGame(false, 1);
                         try {
                             timeline.stop();
@@ -249,13 +244,11 @@ public class InGameMenu extends Application {
                     currentBall2.getNumberText().setX(currentBall2.getX() - currentBall2.getNumberText().getLayoutBounds().getWidth() / 2);
                 } else if (level.getIcingMode() >= 1 && keyEvent.getCode().equals(controller.getGame().getFreezeMode())) {
                     System.out.println("freeze");
-                    Rotate temporaryRotate = new Rotate(1, mainCircle.getX(), mainCircle.getY());
-                    Rotate rotate = animations.getRotation();
-                    animations.setRotation(temporaryRotate);
+                    animations.setAngleOfRotations(1);
                     Timeline timeline = new Timeline(new KeyFrame(Duration.millis((9 - level.getDifficulty() * 2) * 1000), actionEvent -> {
                         level.setIcingMode(0);
                         icingModeProgressBar.setProgress(0);
-                        animations.setRotation(rotate);
+                        animations.setAngleOfRotations(level.getDifficulty() * 2);
                         System.out.println("unfreeze");
                     }));
                     timeline.setCycleCount(1);
@@ -267,26 +260,29 @@ public class InGameMenu extends Application {
     }
 
     public void connectBall(Ball ball) {
+        System.out.println(connectedBalls.size());
         ball.setAngle(ball.getAngleFromCoordinate(mainCircle.getX(), mainCircle.getY()));
         connectedBalls.add(ball);
         ball.setStick(mainCircle);
         inGameMenuPane.getChildren().add(ball.getStick());
-        BallRotation ballRotation = new BallRotation(mainCircle, ball, level.getDifficulty() * 2);
+        BallRotation ballRotation = new BallRotation(mainCircle, ball, animations.getAngleOfRotations() == 0 ? level.getDifficulty() * 2 : animations.getAngleOfRotations());
         animations.addAnimation(ballRotation);
         ballRotation.play();
     }
 
     public void saveGame() {
         for (Ball ball : connectedBalls) {
-            level.addConnectedBall(ball);
+            level.saveDetails(ball);
         }
         controller.getGame().getCurrentUser().setLastLevel(level);
     }
+
     public void finishGame(boolean win, int playerNumber) {
         level.setFinished(true);
         level.setWinner(win);
         //ballCountTimeline.stop(); // ???
-        timeLines.stopAllTimeLines();
+        timeline.stop();
+        timeLines.pauseRunningTimeLines();
 //            changeDirectionTimeLine.stop();
 //            changeDirectionTimeLine = null;
 //            changeBallSizeTimeLine.stop();

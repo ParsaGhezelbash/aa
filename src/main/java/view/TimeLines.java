@@ -1,17 +1,13 @@
 package view;
 
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.geometry.Insets;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import model.Ball;
 import model.Level;
 
-import java.security.Key;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class TimeLines {
@@ -20,9 +16,11 @@ public class TimeLines {
     private Timeline ballsVisibilityTimeLine;
     private Timeline windTimeLine;
     private Timeline changeBallSizeTimeLine;
+    private ArrayList<Timeline> palyingTimeLines;
 
     public TimeLines(InGameMenu inGameMenu) {
         this.inGameMenu = inGameMenu;
+        this.palyingTimeLines = new ArrayList<>();
         changeDirectionTimeLine = new Timeline();
         refreshChangeDirectionTimeLine();
         changeDirectionTimeLine.setCycleCount(-1);
@@ -33,7 +31,6 @@ public class TimeLines {
                 if (areVisible) {
                     connectedBall.setVisible(false);
                     connectedBall.getStick().setVisible(false);
-                    System.out.println("vvv");
                     if (connectedBall.getNumberText() != null) connectedBall.getNumberText().setVisible(false);
                 } else {
                     connectedBall.setVisible(true);
@@ -62,17 +59,14 @@ public class TimeLines {
 
     private void refreshChangeDirectionTimeLine() {
         KeyFrame keyFrame = new KeyFrame(Duration.millis((new Random().nextInt(10) + 4) * 1000), actionEvent -> {
-            System.out.println(111);
-            inGameMenu.getAnimations().getRotation().setAngle(-inGameMenu.getAnimations().getRotation().getAngle());
+            inGameMenu.getAnimations().setAngleOfRotations(-inGameMenu.getAnimations().getAngleOfRotations());
             refreshChangeDirectionTimeLine();
         });
-//        changeDirectionTimeLine.getKeyFrames().remove(0);
         changeDirectionTimeLine.getKeyFrames().add(keyFrame);
     }
 
     private void refreshWindTimeLine() {
         KeyFrame keyFrame = new KeyFrame(Duration.millis((new Random().nextInt(6) + 4) * 1000), actionEvent -> {
-            System.out.println(222);
             inGameMenu.getLevel().setWind(new Random().nextInt(-15, 15));
             refreshWindTimeLine();
         });
@@ -84,8 +78,6 @@ public class TimeLines {
         for (int i = 0; i < inGameMenu.getConnectedBalls().size(); i++) {
             for (int j = i + 1; j < inGameMenu.getConnectedBalls().size(); j++) {
                 if (Level.areConnected(inGameMenu.getConnectedBalls().get(i), inGameMenu.getConnectedBalls().get(j))) {
-                    System.out.println(inGameMenu.getConnectedBalls().get(i).getX());
-                    System.out.println(inGameMenu.getConnectedBalls().get(j).getX());
                     return true;
                 }
             }
@@ -97,16 +89,8 @@ public class TimeLines {
         return changeDirectionTimeLine;
     }
 
-    public void stopChangeDirectionTimeLine() {
-        changeDirectionTimeLine.stop();
-    }
-
     public Timeline getBallsVisibilityTimeLine() {
         return ballsVisibilityTimeLine;
-    }
-
-    public void stopBallsVisibilityTimeLine() {
-        ballsVisibilityTimeLine.stop();
     }
 
 
@@ -114,22 +98,29 @@ public class TimeLines {
         return windTimeLine;
     }
 
-    public void stopGetWindTimeLine() {
-        windTimeLine.stop();
-    }
-
     public Timeline getChangeBallSizeTimeLine() {
         return changeBallSizeTimeLine;
     }
 
-    public void stopChangeBallSizeTimeLine() {
-        changeBallSizeTimeLine.stop();
+    public void pauseRunningTimeLines() {
+        if (changeDirectionTimeLine.getStatus().equals(Animation.Status.RUNNING))
+            changeDirectionTimeLine.pause();
+        if (ballsVisibilityTimeLine.getStatus().equals(Animation.Status.RUNNING))
+            ballsVisibilityTimeLine.pause();
+        if (changeBallSizeTimeLine.getStatus().equals(Animation.Status.RUNNING))
+            changeBallSizeTimeLine.pause();
+        if (windTimeLine.getStatus().equals(Animation.Status.RUNNING))
+            windTimeLine.pause();
     }
 
-    public void stopAllTimeLines() {
-        changeDirectionTimeLine.stop();
-        ballsVisibilityTimeLine.stop();
-        changeBallSizeTimeLine.stop();
-        windTimeLine.stop();
+    public void playPausedTimeLines() {
+        if (changeDirectionTimeLine.getStatus().equals(Animation.Status.PAUSED))
+            changeDirectionTimeLine.play();
+        if (ballsVisibilityTimeLine.getStatus().equals(Animation.Status.PAUSED))
+            ballsVisibilityTimeLine.play();
+        if (changeBallSizeTimeLine.getStatus().equals(Animation.Status.PAUSED))
+            changeBallSizeTimeLine.play();
+        if (windTimeLine.getStatus().equals(Animation.Status.PAUSED))
+            windTimeLine.play();
     }
 }
