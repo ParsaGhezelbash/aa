@@ -9,19 +9,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c25c76ce-c857-4f26-9ac7-05ca9fd0b092" name="Changes" comment="final commits">
+    <list default="true" id="c25c76ce-c857-4f26-9ac7-05ca9fd0b092" name="Changes" comment="final commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Users.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Ball.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Ball.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Level.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/Animations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/Animations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/BallRotation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/BallRotation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/InGameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/InGameMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/PauseMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/PauseMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/ScoreBoardMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ScoreBoardMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/ShootingAnimation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ShootingAnimation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/TimeLines.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/TimeLines.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -215,7 +204,11 @@
       <workItem from="1685444523955" duration="644000" />
       <workItem from="1685482725893" duration="964000" />
       <workItem from="1685517137854" duration="27180000" />
-      <workItem from="1685598457108" duration="13404000" />
+      <workItem from="1685598457108" duration="14095000" />
+      <workItem from="1685638042645" duration="600000" />
+      <workItem from="1685693918006" duration="304000" />
+      <workItem from="1685694813554" duration="2077000" />
+      <workItem from="1686047833297" duration="866000" />
     </task>
     <task id="LOCAL-00001" summary="first day">
       <created>1684355122724</created>
@@ -364,7 +357,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685614191985</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="final commit">
+      <created>1685619028501</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1685619028501</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -406,7 +406,8 @@
     <MESSAGE value="n+2 th day" />
     <MESSAGE value="? th day" />
     <MESSAGE value="final commits" />
-    <option name="LAST_COMMIT_MESSAGE" value="final commits" />
+    <MESSAGE value="final commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="final commit" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
