@@ -50,7 +50,9 @@ public class SettingsMenu extends Application {
     }
 
     private void setVBox1() {
-        Button deleteAccountButton = (Button) vBox1.getChildren().get(0);
+        Button changeColor = (Button) vBox1.getChildren().get(0);
+        Button changeLanguage = (Button) vBox1.getChildren().get(1);
+        Button deleteAccountButton = (Button) vBox1.getChildren().get(2);
         deleteAccountButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {

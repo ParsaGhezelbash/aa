@@ -17,9 +17,15 @@
          <children>
             <VBox prefHeight="400.0" prefWidth="200.0">
                <children>
+                  <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="200.0" text="Color">
+                     <VBox.margin>
+                        <Insets top="96.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="200.0" text="Language" />
                   <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="200.0" text="Delete Account" textFill="RED">
                      <VBox.margin>
-                        <Insets top="336.0" />
+                        <Insets top="190.0" />
                      </VBox.margin>
                   </Button>
                </children></VBox>

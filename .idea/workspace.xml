@@ -10,12 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c25c76ce-c857-4f26-9ac7-05ca9fd0b092" name="Changes" comment="final commit">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icon/icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/profile pictures/8.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/GHW_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/GHW_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/Start.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/Start.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/SettingsMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/SettingsMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/SettingsMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/SettingsMenu.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,8 +80,8 @@
     &quot;last_opened_file_path&quot;: &quot;C:/Users/Parsa/Desktop/New folder&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
 }</component>
@@ -214,7 +211,8 @@
       <workItem from="1685693918006" duration="304000" />
       <workItem from="1685694813554" duration="2077000" />
       <workItem from="1686047833297" duration="866000" />
-      <workItem from="1686373897262" duration="8245000" />
+      <workItem from="1686373897262" duration="8427000" />
+      <workItem from="1686382747240" duration="116000" />
     </task>
     <task id="LOCAL-00001" summary="first day">
       <created>1684355122724</created>
@@ -391,7 +389,21 @@
       <option name="project" value="LOCAL" />
       <updated>1686381394870</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="final commit">
+      <created>1686382469179</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1686382469179</updated>
+    </task>
+    <task id="LOCAL-00027" summary="final commit">
+      <created>1686382499152</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1686382499152</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
