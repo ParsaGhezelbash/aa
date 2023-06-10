@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -31,6 +32,7 @@ public class MainMenu extends Application {
         this.stage = stage;
         AnchorPane mainMenuPane = FXMLLoader.load(new URL(Objects.requireNonNull(Game.class.getResource("/fxml/MainMenu.fxml")).toExternalForm()));
         mainMenuPane.setBackground(Background.fill(Color.WHITE));
+        mainMenuPane.setBackground(Background.fill(new ImagePattern(new Image(Objects.requireNonNull(getClass().getResource("/background/background.jpg")).toExternalForm()))));
 
         VBox vBox = (VBox) ((HBox) mainMenuPane.getChildren().get(0)).getChildren().get(1);
 
@@ -38,6 +40,8 @@ public class MainMenu extends Application {
         profilePane.getChildren().add(new ProfilePicture(profilePane.getPrefWidth() / 2, profilePane.getPrefHeight() / 2, controller.getGame().getCurrentUser().getAvatar()));
 
         ((Label) vBox.getChildren().get(2)).setText(controller.getGame().getCurrentUser().getUsername());
+
+        ((Label) vBox.getChildren().get(2)).setTextFill(Color.GREEN);
 
         Button resumeButton = (Button) vBox.getChildren().get(3);
         EventHandler<Event> resumeButtonEvent = event -> {
