@@ -4,9 +4,6 @@ package model;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
-import java.net.URL;
-import java.util.Objects;
-
 public class User {
     private String username;
     private String password;

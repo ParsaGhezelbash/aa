@@ -110,9 +110,8 @@ public class Level {
         return score;
     }
 
-    public void increaseScore() {
-        // TODO
-        this.score += 10;
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public void setFinished(boolean finished) {

@@ -10,6 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import model.Ball;
@@ -66,7 +67,7 @@ public class ShootingAnimation extends Transition {
     }
 
     public void updateLevel() {
-        level.increaseScore();
+        level.setScore(level.getSeconds() + level.getMinutes() * 60);
         inGameMenu.connectBall(ball);
         level.addConnectedBall(ball);
         level.setIcingMode(level.getIcingMode() + 0.4);
@@ -87,6 +88,7 @@ public class ShootingAnimation extends Transition {
     }
 
     private void setLabels() {
+        inGameMenu.getScoreLabel().setText("Score: " + level.getSeconds() + level.getMinutes() * 60);
         if (level.isSinglePlayer()) {
             inGameMenu.getBallCountLabel1().setText("Ball Count : " + (level.getNumberOfBalls() - level.getNumberOfConnectedBalls1()));
             inGameMenu.getBallCountLabel2().setText(String.valueOf(level.getNumberOfBalls() - level.getNumberOfConnectedBalls1()));
@@ -96,6 +98,10 @@ public class ShootingAnimation extends Transition {
             inGameMenu.getBallCountLabel2().setText((level.getNumberOfBalls() - level.getNumberOfConnectedBalls1()) +
                     " | " + (level.getNumberOfBalls() - level.getNumberOfConnectedBalls2()));
         }
+        double d = (double) level.getNumberOfConnectedBalls1() / level.getNumberOfBalls();
+        if (d > 0 && d < 0.5) inGameMenu.getBallCountLabel1().setTextFill(Color.BLACK);
+        else if (d >= 0.5 &&  d < 0.75) inGameMenu.getBallCountLabel1().setTextFill(Color.YELLOW);
+        else inGameMenu.getBallCountLabel1().setTextFill(Color.RED);
         inGameMenu.getIcingModeProgressBar().setProgress(level.getIcingMode());
     }
 

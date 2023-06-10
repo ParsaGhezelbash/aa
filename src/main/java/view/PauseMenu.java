@@ -131,14 +131,22 @@ public class PauseMenu {
         freezeMode.setBackground(Background.fill(Color.WHITE));
 
         moveRightLabel = (Label) keyboardMenuPane.getChildren().get(3);
-        moveRightLabel.setText("Move Right : " + controller.getGame().getMoveRight1().getName());
+        moveRightLabel.setText("Move Right1 : " + controller.getGame().getMoveRight1().getName());
         moveRightLabel.setBackground(Background.fill(Color.WHITE));
 
         moveLeftLabel = (Label) keyboardMenuPane.getChildren().get(4);
-        moveLeftLabel.setText("Move Left : " + controller.getGame().getMoveLeft1().getName());
+        moveLeftLabel.setText("Move Left1 : " + controller.getGame().getMoveLeft1().getName());
         moveLeftLabel.setBackground(Background.fill(Color.WHITE));
 
-        Button backButton = (Button) keyboardMenuPane.getChildren().get(5);
+        moveRightLabel = (Label) keyboardMenuPane.getChildren().get(5);
+        moveRightLabel.setText("Move Right2 : " + controller.getGame().getMoveRight2().getName());
+        moveRightLabel.setBackground(Background.fill(Color.WHITE));
+
+        moveLeftLabel = (Label) keyboardMenuPane.getChildren().get(6);
+        moveLeftLabel.setText("Move Left2 : " + controller.getGame().getMoveLeft2().getName());
+        moveLeftLabel.setBackground(Background.fill(Color.WHITE));
+
+        Button backButton = (Button) keyboardMenuPane.getChildren().get(7);
         backButton.setOnMouseClicked(mouseEvent -> {
             keyboardMenuPane.setVisible(false);
         });

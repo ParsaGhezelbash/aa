@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -12,7 +15,14 @@
    <children>
       <HBox prefHeight="400.0" prefWidth="600.0">
          <children>
-            <VBox prefHeight="400.0" prefWidth="200.0" />
+            <VBox prefHeight="400.0" prefWidth="200.0">
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="200.0" text="Delete Account" textFill="RED">
+                     <VBox.margin>
+                        <Insets top="336.0" />
+                     </VBox.margin>
+                  </Button>
+               </children></VBox>
             <VBox prefHeight="400.0" prefWidth="200.0">
                <children>
                   <Pane prefHeight="150.0" prefWidth="200.0" />
@@ -37,7 +47,79 @@
                   <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="200.0" text="Back" />
                </children>
             </VBox>
-            <VBox prefHeight="400.0" prefWidth="200.0" />
+            <VBox prefHeight="400.0" prefWidth="200.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="20.0" prefWidth="200.0" text="First Player Shoot">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <TextField alignment="CENTER" prefHeight="20.0" prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </TextField>
+                  <Label alignment="CENTER" prefHeight="20.0" prefWidth="200.0" text="Second Player Shoot">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <TextField alignment="CENTER" prefHeight="20.0" prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </TextField>
+                  <Label alignment="CENTER" prefHeight="20.0" prefWidth="200.0" text="Freeze Mode">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <TextField alignment="CENTER" prefHeight="20.0" prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </TextField>
+                  <Label alignment="CENTER" prefHeight="20.0" prefWidth="200.0" text="Firest Player Move Right">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <TextField alignment="CENTER" prefHeight="20.0" prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </TextField>
+                  <Label alignment="CENTER" prefHeight="20.0" prefWidth="200.0" text="Firest Player Move Left">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <TextField alignment="CENTER" prefHeight="20.0" prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </TextField>
+                  <Label alignment="CENTER" prefHeight="20.0" prefWidth="200.0" text="Second Player Move Right">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <TextField alignment="CENTER" prefHeight="20.0" prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </TextField>
+                  <Label alignment="CENTER" prefHeight="20.0" prefWidth="200.0" text="Second Player Move Left">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <TextField alignment="CENTER" prefHeight="20.0" prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </TextField>
+               </children></VBox>
          </children>
       </HBox>
    </children>

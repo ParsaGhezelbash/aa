@@ -56,7 +56,7 @@ public class InGameMenu extends Application {
         resultMenu = new ResultMenu(controller, this);
         pauseMenu = new PauseMenu(controller, this);
 
-        setCircles(inGameMenuPane);
+        setCircles();
 
         this.animations = new Animations();
         animations.startAllAnimations();
@@ -81,7 +81,7 @@ public class InGameMenu extends Application {
         difficultyLabel = (Label) inGameMenuPane.getChildren().get(7);
         difficultyLabel.setText("Difficulty : " + level.getDifficulty());
 
-        setMainCircleCounter(inGameMenuPane);
+        setMainCircleCounter();
 
         windLabel = (Label) inGameMenuPane.getChildren().get(9);
         windLabel.setText("Wind : " + level.getWind());
@@ -106,7 +106,7 @@ public class InGameMenu extends Application {
 
         Scene scene = new Scene(inGameMenuPane);
         stage.setScene(scene);
-        currentBall1.requestFocus();
+        inGameMenuPane.requestFocus();
         stage.show();
     }
 
@@ -138,12 +138,45 @@ public class InGameMenu extends Application {
         }
     }
 
-    private void setCircles(AnchorPane inGameMenuPane) {
+    private void setCircles() {
         mainCircle = new Ball(Level.LEVEL_X, Level.LEVEL_Y);
         mainCircle.setRadius(40);
         mainCircle.setFill(Color.BLACK);
         mainCircle.setStroke(null);
         inGameMenuPane.getChildren().add(2, mainCircle);
+        inGameMenuPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode().equals(controller.getGame().getFirstPlayerShoot()))
+                    shoot(currentBall1);
+                else if (keyEvent.getCode().equals(controller.getGame().getSecondPlayerShoot()))
+                    shoot(currentBall2);
+                else if (level.getPhase() >= 0.75 && keyEvent.getCode().equals(controller.getGame().getMoveRight1())) {
+                    currentBall1.setX(currentBall1.getX() + 10);
+                    currentBall1.getNumberText().setX(currentBall1.getX() - currentBall1.getNumberText().getLayoutBounds().getWidth() / 2);
+                } else if (level.getPhase() >= 0.75 && keyEvent.getCode().equals(controller.getGame().getMoveLeft1())) {
+                    currentBall1.setX(currentBall1.getX() - 10);
+                    currentBall1.getNumberText().setX(currentBall1.getX() - currentBall1.getNumberText().getLayoutBounds().getWidth() / 2);
+                } else if (level.getPhase() >= 0.75 && keyEvent.getCode().equals(controller.getGame().getMoveRight2())) {
+                    currentBall2.setX(currentBall2.getX() + 10);
+                    currentBall2.getNumberText().setX(currentBall2.getX() - currentBall2.getNumberText().getLayoutBounds().getWidth() / 2);
+                } else if (level.getPhase() >= 0.75 && keyEvent.getCode().equals(controller.getGame().getMoveLeft2())) {
+                    currentBall2.setX(currentBall2.getX() - 10);
+                    currentBall2.getNumberText().setX(currentBall2.getX() - currentBall2.getNumberText().getLayoutBounds().getWidth() / 2);
+                } else if (level.getIcingMode() >= 1 && keyEvent.getCode().equals(controller.getGame().getFreezeMode())) {
+                    System.out.println("freeze");
+                    animations.setAngleOfRotations(1);
+                    Timeline timeline = new Timeline(new KeyFrame(Duration.millis((9 - level.getDifficulty() * 2) * 1000), actionEvent -> {
+                        level.setIcingMode(0);
+                        icingModeProgressBar.setProgress(0);
+                        animations.setAngleOfRotations(level.getDifficulty() * 2);
+                        System.out.println("unfreeze");
+                    }));
+                    timeline.setCycleCount(1);
+                    timeline.play();
+                }
+            }
+        });
     }
 
     public void addPaneToPane(Pane pane, Pane paneToAdd, int index) {
@@ -153,7 +186,7 @@ public class InGameMenu extends Application {
         pane.getChildren().add(index, paneToAdd);
     }
 
-    private void setMainCircleCounter(AnchorPane inGameMenuPane) {
+    private void setMainCircleCounter() {
         ballCountLabel2 = new Label();
         ballCountLabel2.setPrefWidth(60);
         ballCountLabel2.setPrefHeight(60);
@@ -207,6 +240,7 @@ public class InGameMenu extends Application {
     }
 
     private void shoot(Ball shootingBall) {
+        controller.getGame().getShootSound().play();
         ShootingAnimation shootingAnimation = new ShootingAnimation(this, shootingBall);
         animations.addAnimation(shootingAnimation);
         shootingAnimation.play();
@@ -222,40 +256,7 @@ public class InGameMenu extends Application {
                 number, playerNumber);
         inGameMenuPane.getChildren().add(ball);
         inGameMenuPane.getChildren().add(ball.getNumberText());
-        ball.requestFocus();
-        ball.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                if (keyEvent.getCode().equals(controller.getGame().getFirstPlayerShoot()))
-                    shoot(currentBall1);
-                else if (keyEvent.getCode().equals(controller.getGame().getSecondPlayerShoot()))
-                    shoot(currentBall2);
-                else if (level.getPhase() >= 0.75 && keyEvent.getCode().equals(controller.getGame().getMoveRight1())) {
-                    currentBall1.setX(currentBall1.getX() + 10);
-                    currentBall1.getNumberText().setX(currentBall1.getX() - currentBall1.getNumberText().getLayoutBounds().getWidth() / 2);
-                } else if (level.getPhase() >= 0.75 && keyEvent.getCode().equals(controller.getGame().getMoveLeft1())) {
-                    currentBall1.setX(currentBall1.getX() - 10);
-                    currentBall1.getNumberText().setX(currentBall1.getX() - currentBall1.getNumberText().getLayoutBounds().getWidth() / 2);
-                } else if (level.getPhase() >= 0.75 && keyEvent.getCode().equals(controller.getGame().getMoveRight2())) {
-                    currentBall2.setX(currentBall2.getX() + 10);
-                    currentBall2.getNumberText().setX(currentBall2.getX() - currentBall2.getNumberText().getLayoutBounds().getWidth() / 2);
-                } else if (level.getPhase() >= 0.75 && keyEvent.getCode().equals(controller.getGame().getMoveLeft2())) {
-                    currentBall2.setX(currentBall2.getX() - 10);
-                    currentBall2.getNumberText().setX(currentBall2.getX() - currentBall2.getNumberText().getLayoutBounds().getWidth() / 2);
-                } else if (level.getIcingMode() >= 1 && keyEvent.getCode().equals(controller.getGame().getFreezeMode())) {
-                    System.out.println("freeze");
-                    animations.setAngleOfRotations(1);
-                    Timeline timeline = new Timeline(new KeyFrame(Duration.millis((9 - level.getDifficulty() * 2) * 1000), actionEvent -> {
-                        level.setIcingMode(0);
-                        icingModeProgressBar.setProgress(0);
-                        animations.setAngleOfRotations(level.getDifficulty() * 2);
-                        System.out.println("unfreeze");
-                    }));
-                    timeline.setCycleCount(1);
-                    timeline.play();
-                }
-            }
-        });
+        inGameMenuPane.requestFocus();
         return ball;
     }
 
@@ -293,10 +294,12 @@ public class InGameMenu extends Application {
 //            windTimeLine = null;
         animations.stopAllAnimations();
         if (win) {
+            level.setScore(level.getSeconds() + level.getMinutes() * 60);
             inGameMenuPane.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
             resultMenu.getResultLabel().setText(playerNumber != 2 ? "You Won!" : "GuestPlayer Won!");
             resultMenu.getResultLabel().setTextFill(Color.GREEN);
         } else {
+            level.setScore(0);
             inGameMenuPane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
             resultMenu.getResultLabel().setText(playerNumber != 2 ? "You Lost!" : "GuestPlayer Lost!");
             resultMenu.getResultLabel().setTextFill(Color.RED);
@@ -334,6 +337,10 @@ public class InGameMenu extends Application {
 
     public Label getBallCountLabel2() {
         return ballCountLabel2;
+    }
+
+    public Label getScoreLabel() {
+        return scoreLabel;
     }
 
     public AnchorPane getInGameMenuPane() {

@@ -21,7 +21,7 @@ public class Game {
     private User currentUser;
     private boolean isSoundMuted = false;
     private KeyCode firstPlayerShoot, secondPlayerShoot, freezeMode, moveRight1, moveLeft1, moveRight2, moveLeft2;
-    private final MediaPlayer music1, music2, music3;
+    private final MediaPlayer music1, music2, music3, shootSound;
 
 
     public Game() throws IOException {
@@ -60,6 +60,8 @@ public class Game {
         this.music3 = new MediaPlayer(new Media(getClass().getResource("/sound/Music3.mp3").toString()));
         music3.setCycleCount(MediaPlayer.INDEFINITE);
         music3.setVolume(0.1);
+        this.shootSound = new MediaPlayer(new Media(getClass().getResource("/sound/Shoot.mp3").toString()));
+        music3.setVolume(0.7);
     }
 
     public int getDifficulty() {
@@ -127,6 +129,9 @@ public class Game {
 
     public void removeUser(User user) {
         users.remove(user);
+        scoreBoard1.remove(user);
+        scoreBoard2.remove(user);
+        scoreBoard3.remove(user);
     }
 
     public LinkedList<User> getScoreBoard1() {
@@ -223,6 +228,10 @@ public class Game {
 
     public MediaPlayer getMusic3() {
         return music3;
+    }
+
+    public MediaPlayer getShootSound() {
+        return shootSound;
     }
 
     public ArrayList<User> getUsers() {
